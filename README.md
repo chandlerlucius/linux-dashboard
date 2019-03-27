@@ -1,4 +1,7 @@
 # server-analytics
+
+--Work In Progress--
+
 Bash scripting project to generate linux server analytics with a Java Websocket wrapper
 
 This is bash script written to get basic server analytic data and put it in a json format.
