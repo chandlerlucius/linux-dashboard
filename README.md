@@ -12,3 +12,18 @@ Once downloaded and extracted it can be run like so:
 mvn clean install -DskipTests; java -jar target/dashboard-0.0.1-SNAPSHOT.jar
 
 The jar is also supplied if you just want to run it in: java -jar target/dashboard-0.0.1-SNAPSHOT.jar
+
+Tech Stack:
+* Bash
+* Java
+* HTML5
+* CSS3
+* JS
+
+Frameworks:
+* Spring / Spring Boot (Embedded tomcat for fast deployment)
+* Java WebSocket API (Constant pushing for continuous results)
+* Materialize (Responsive web design framework)
+
+Live Example:  
+www.linuxdashboard.com
