@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="Chandler Lucius">
+    <meta name="description" content="Server Statistics Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="../css/main.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../js/websocket.js" type="text/javascript"></script>
+    <script src="../js/echarts.simple.min.js" type="text/javascript"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+        }
+
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* header,
+        main,
+        footer {
+            padding-left: 300px;
+        }
+
+        @media only screen and (max-width : 992px) {
+
+            header,
+            main,
+            footer {
+                padding-left: 0;
+            }
+        } */
+
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .search-table {
+            font-size: .85em;
+            overflow-y: scroll;
+            height: 325px;
+        }
+
+        .progress {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 33%;
+        }
+
+        .card-chart {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+</head>
+
+<body class="grey darken-4">
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
+
+    <header>
+        <!-- <ul id="slide-out" class="sidenav sidenav-fixed">
+            <li><a href="#!">First Sidebar Link</a></li>
+            <li><a href="#!">Second Sidebar Link</a></li>
+        </ul>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+
+        <div class="navbar-fixed">
+            <nav class="nav-extended teal accent-4">
+                <div class="nav-content">
+                    <ul id="tab-title-list" class="tabs tabs-transparent"></ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- <ul id="slide-out" class="sidenav">
+            <li>
+                <div class="user-view">
+                    <div class="background">
+                        <img src="images/office.jpg">
+                    </div>
+                    <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+                    <a href="#name"><span class="white-text name">John Doe</span></a>
+                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                </div>
+            </li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+    </header>
+
+    <main>
+
+    </main>
+
+    <template id="tab-title-template">
+        <li class="tab"><a></a></li>
+    </template>
+
+    <template id="tab-container-template">
+        <div class="row"></div>
+    </template>
+
+    <template id="tab-content-template">
+        <div class="col s12 m6 l4">
+            <div class="card small grey darken-3">
+                <div class="card-content">
+                    <span class="card-title white-text"></span>
+                    <div class="card-chart" style="display: none;"></div>
+                    <nav class="card-search teal accent-4" style="display: none;">
+                        <div class="nav-wrapper">
+                            <form>
+                                <div class="input-field">
+                                    <input class="search" type="search" onkeyup="search(this);" placeholder="Search">
+                                    <label class="label-icon">
+                                        <i class="material-icons">search</i>
+                                    </label>
+                                    <i class="material-icons" onclick="clearSearch(this);">close</i>
+                                </div>
+                            </form>
+                        </div>
+                    </nav>
+                    <div class="card-detail">
+                        <table class="teal-text text-accent-4"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tab-detail-template">
+        <tr>
+            <td><b></b></td>
+            <td><span></span></td>
+        </tr>
+    </template>
+
+</body>
