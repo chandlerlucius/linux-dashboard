@@ -102,7 +102,7 @@ public class DashboardWebSocket {
                     while ((length = is.read(buffer)) != -1) {
                         result.write(buffer, 0, length);
                     }
-                    results = result.toString(StandardCharsets.UTF_8);
+                    results = result.toString(StandardCharsets.UTF_8.name());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
