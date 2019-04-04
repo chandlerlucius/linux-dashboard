@@ -12,7 +12,6 @@ CONVERT=1048576
 SSL_CHECK_URL="https://api.ssllabs.com/api/v3/analyze?host=$HOST_URL&publish=off&ignoreMismatch=on&all=done"
 
 #Define all files
-JQ="./jq-linux64"
 THRESHOLDS_FILE="./thresholds.txt"
 
 #Define necessary variables
