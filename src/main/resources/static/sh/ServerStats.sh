@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# PS4='+ $(date "+%s.%N")\011 '
+# exec 3>&2 2>/tmp/bashstart.$$.log
+# set -x
+ 
 #Set maximum virtual memory for this script
 ulimit -Sv 2194304
 
@@ -15,7 +19,6 @@ SSL_CHECK_URL="https://api.ssllabs.com/api/v3/analyze?host=$HOST_URL&publish=off
 THRESHOLDS_FILE="./thresholds.txt"
 
 #Define necessary variables
-declare -A TOP_ARRAY
 export LC_ALL=C
 
 #Define functions
@@ -34,11 +37,10 @@ function makeOrAddToValues() {
     TITLE=$(echo "$1")
     TYPE=$(echo "$2")
     VALUE=$(echo "$3")
-    DISPLAY=$(echo "$4")
-    OBJECT="{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"value\" : \"$VALUE\" , \"display\" : \"$DISPLAY\" }"
-    if [[ "$5" != "" ]]
+    OBJECT="{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"value\" : \"$VALUE\" }"
+    if [[ "$4" != "" ]]
     then
-        echo "$5,$OBJECT"
+        echo "$4,$OBJECT"
     else
         echo "$OBJECT"
     fi
@@ -106,29 +108,25 @@ CPU_USED_PCENT=$(echo "$CPU" | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk 
 TITLE="Used"
 VALUE="$CPU_USED_PCENT"
 TYPE="chart"
-DISPLAY="$CPU_USED_PCENT%"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #CPU Name
 TITLE="Name"
 VALUE=$(cat /proc/cpuinfo | grep -i 'model name' | tr -d '\t' | tail -1 | sed 's/model name: //g')
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #CPU Cores
 TITLE="Cores"
 VALUE=$(nproc --all)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #CPU Used
 TITLE="Used"
 VALUE="$CPU_USED_PCENT%"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #CPU Group
 TITLE="CPU"
@@ -146,23 +144,20 @@ MEM_USED_PCENT=$(echo "$MEM" | awk '{printf "%0.1f", $3 / $2 * 100}')
 TITLE="Memory Used"
 VALUE="$MEM_USED_PCENT"
 TYPE="chart"
-DISPLAY="$MEM_USED GB ($MEM_USED_PCENT%)"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Memory Total
 MEM_TOTAL=$(echo "$MEM" | awk -v v1=$CONVERT '{printf "%0.1f", $2 / v1}')
 TITLE="Total"
 VALUE="$MEM_TOTAL GB"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Memory Used
 TITLE="Used"
 VALUE="$MEM_USED GB ($MEM_USED_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Memory Free
 MEM_FREE=$(echo "$MEM" | awk -v v1=$CONVERT '{printf "%0.1f", $4 / v1}')
@@ -170,8 +165,7 @@ MEM_FREE_PCENT=$(echo "$MEM" | awk '{printf "%0.1f", $4 / $2 * 100}')
 TITLE="Free"
 VALUE="$MEM_FREE GB ($MEM_FREE_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Memory Cache
 MEM_CACHE=$(echo "$MEM" | awk -v v1=$CONVERT '{printf "%0.1f", $6 / v1}')
@@ -179,8 +173,7 @@ MEM_CACHE_PCENT=$(echo "$MEM" | awk '{printf "%0.1f", $6 / $2 * 100}')
 TITLE="Cache"
 VALUE="$MEM_CACHE GB ($MEM_CACHE_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Memory Group
 TITLE="Memory"
@@ -198,23 +191,20 @@ SWAP_USED_PCENT=$(echo "$SWAP" | awk '{printf "%0.1f", $3 / $2 * 100}')
 TITLE="Swap Used"
 VALUE="$SWAP_USED_PCENT"
 TYPE="chart"
-DISPLAY="$SWAP_USED GB ($SWAP_USED_PCENT%)"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Swap Total
 SWAP_TOTAL=$(echo "$SWAP" | awk -v v1=$CONVERT '{printf "%0.1f", $2 / v1}')
 TITLE="Total"
 VALUE="$SWAP_TOTAL GB"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Swap Used
 TITLE="Used"
 VALUE="$SWAP_USED GB ($SWAP_USED_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Swap Free
 SWAP_FREE=$(echo "$SWAP" | awk -v v1=$CONVERT '{printf "%0.1f", $4 / v1}')
@@ -222,8 +212,7 @@ SWAP_FREE_PCENT=$(echo "$SWAP" | awk '{printf "%0.1f", $4 / $2 * 100}')
 TITLE="Free"
 VALUE="$SWAP_FREE GB ($SWAP_FREE_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Swap Group
 TITLE="Swap"
@@ -238,8 +227,7 @@ DATA=""
 TITLE="CPU Processes"
 VALUE="$CPU_PROCESSES"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #CPU Proccesses Group
 TITLE="CPU Proccesses"
@@ -254,8 +242,7 @@ DATA=""
 TITLE="MEM Processes"
 VALUE="$MEM_PROCESSES"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #MEM Proccesses Group
 TITLE="MEM Proccesses"
@@ -276,22 +263,19 @@ DATA=""
 TITLE="Name"
 VALUE=$(cat /etc/*release | grep ^NAME= | awk -F '=' '{print $2}' | tr -d '"')
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #OS Version
 TITLE="Version"
 VALUE=$(cat /etc/*release | grep ^VERSION= | awk -F '=' '{print $2}' | tr -d '"')
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #OS Arch
 TITLE="Arch"
 VALUE=$(uname -m)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #OS Group
 TITLE="Operating System"
@@ -306,22 +290,19 @@ DATA=""
 TITLE="Name"
 VALUE=$(uname -s)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Kernel Release
 TITLE="Release"
 VALUE=$(uname -r)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Kernel Version
 TITLE="Version"
 VALUE=$(uname -v)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Kernel Group
 TITLE="Kernel"
@@ -336,15 +317,13 @@ DATA=""
 TITLE="Server Time"
 VALUE=$(date)
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Up Time
 TITLE="Uptime"
 VALUE="$UPTIME"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Time Group
 TITLE="Time"
@@ -359,8 +338,7 @@ DATA=""
 TITLE="Users"
 VALUE="$USERS"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Users Group
 TITLE="Users"
@@ -375,8 +353,7 @@ DATA=""
 TITLE="Groups"
 VALUE="$GRPS"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Groups Group
 TITLE="Groups"
@@ -391,8 +368,7 @@ DATA=""
 TITLE="Logins"
 VALUE="$LOGINS"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Logins Group
 TITLE="Logins"
@@ -413,36 +389,31 @@ DATA=""
 TITLE="Host Name"
 VALUE="$HOSTNAME"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Computer URL
 TITLE="URL"
 VALUE="$FQDN"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Computer Public IP
 TITLE="Public IP"
 VALUE="$PUBLIC_IP"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Computer Private IP
 TITLE="Private IP"
 VALUE="$PRIVATE_IP"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Computer Location
 # TITLE="Location"
 # VALUE="$LOCATION"
 # TYPE="detail"
-# DISPLAY="$VALUE"
-# DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+# DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Computer Group
 TITLE="Computer"
@@ -457,8 +428,7 @@ DATA=""
 TITLE="IP List"
 VALUE="${CONNECTION_INFO}7131|23.228.172.13|[client-request]#443|72.182.66.65|[hidden]#"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Connection Group
 TITLE="Connections"
@@ -480,23 +450,20 @@ DISK_ACTIVITY_PCENT=$(echo "$CPU" | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' |
 TITLE="Disk Activity"
 VALUE="$DISK_ACTIVITY_PCENT"
 TYPE="chart"
-DISPLAY="$DISK_ACTIVITY_PCENT%"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Type
 TITLE="Type"
 VALUE=$(echo "$DF_ROOT" | awk '{print $2}')
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Total
 DISK_TOTAL=$(echo "$DF_ROOT" | awk -v v1=$CONVERT '{printf "%0.1f", $3 / v1}')
 TITLE="Total"
 VALUE="$DISK_TOTAL GB"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Used
 DISK_USED=$(echo "$DF_ROOT" | awk -v v1=$CONVERT '{printf "%0.1f", $4 / v1}')
@@ -504,8 +471,7 @@ DISK_USED_PCENT=$(echo "$DF_ROOT" | awk '{printf "%0.1f", $4 / $3 * 100}')
 TITLE="Used"
 VALUE="$DISK_USED GB ($DISK_USED_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Free
 DISK_FREE=$(echo "$DF_ROOT" | awk -v v1=$CONVERT '{printf "%0.1f", $5 / v1}')
@@ -513,16 +479,14 @@ DISK_FREE_PCENT=$(echo "$DF_ROOT" | awk '{printf "%0.1f", $5 / $3 * 100}')
 TITLE="Free"
 VALUE="$DISK_FREE GB ($DISK_FREE_PCENT%)"
 TYPE="detail"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 # #Disk Write Speed
 # DISK_WRITE_SPEED=$(echo "$DD" | awk -F ',' '{print $4}' | sed 's/^[ ]//')
 # TITLE="Write Speed"
 # VALUE="$DISK_WRITE_SPEED"
 # TYPE="detail"
-# DISPLAY="$VALUE"
-# DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+# DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Group
 TITLE="Root Disk"
@@ -537,8 +501,7 @@ DATA=""
 TITLE="Disk Partitions"
 VALUE="$DF"
 TYPE="search"
-DISPLAY="$VALUE"
-DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DISPLAY" "$DATA")
+DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$VALUE" "$DATA")
 
 #Disk Partitions Group
 TITLE="Disk Partitions"
@@ -561,7 +524,9 @@ GROUP=""
 
 #Put all the group data together
 echo "{ \"results\" : [ $TAB ] }"
-#$JQ -Rn ".results |= $GROUP"
+
+# set +x
+# exec 2>&3 3>&-
 exit
 
 # RESULTS=$($JQ -s . <<< "$RESULTS")
