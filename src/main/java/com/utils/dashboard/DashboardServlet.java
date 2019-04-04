@@ -29,7 +29,7 @@ public class DashboardServlet extends HttpServlet {
             while ((length = indexIS.read(buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
-            output = result.toString(StandardCharsets.UTF_8);
+            output = result.toString(StandardCharsets.UTF_8.name());
         } catch (Exception e) {
             e.printStackTrace();
         }
