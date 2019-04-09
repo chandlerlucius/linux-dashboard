@@ -1,6 +1,9 @@
 //Handle reconnecting websocket
 var timerID = 0;
 
+//Handle initiliazation features
+var init = false;
+
 //Handle resizing charts with window
 var chartMap = new Map();
 
@@ -193,13 +196,10 @@ function start(websocketServerLocation) {
                 }
             }
 
-            //Initialize materialize js features
-            var el = document.querySelectorAll('.tabs');
-            M.Tabs.init(el, {});
-
-            //Hide progress bar
-            document.getElementsByClassName("progress")[0].style.display = "none";
-
+            //Initialize materialize js features every time
+            var tabs = document.querySelectorAll('.tabs');
+            M.Tabs.init(tabs, {});
+    
             //Set event listener on tabs to resize charts
             document.querySelectorAll(".tab a").forEach(element => {
                 element.addEventListener('click', function () {
@@ -208,6 +208,16 @@ function start(websocketServerLocation) {
                     }, 10);
                 });
             });
+
+            if(!init) {
+                //Initialize materialize js features once
+                var navs = document.querySelectorAll('.sidenav');
+                M.Sidenav.init(navs, {});
+    
+                //Hide progress bar
+                document.getElementsByClassName("progress")[0].style.display = "none";
+            }
+            init = true;
         }
     }
 }
