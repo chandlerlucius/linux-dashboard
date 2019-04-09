@@ -54,13 +54,15 @@ HOSTNAME=$(hostname)
 PRIVATE_IP=$(hostname -i)
 FQDN=$(hostname -f)
 
-#Run top command to get cpu & time info
-TOP=$(top -b -n2 -d1 | grep "top -\|Task\|Cpu\|Mem\|Swap" | tail -5)
-CPU=$(echo "$TOP" | head -n 3 | tail -n 1)
-UPTIME=$(echo "$TOP" | head -1 | grep -oP '(?<=up ).*?,.*?,' | sed 's/:/ hours, /g' | sed -r 's/(.*),/\1 minutes/')
+#Run top command to get cpu info
+TOP=$(top -b -n2 -d1 -o %CPU | awk '/^top/{i++}i==2')
+CPU=$(echo "$TOP" | sed -n -e 3p)
+CPU_PROCESSES=$(echo "$TOP" | tail -n +7 | awk '{print $1"|"$2"|"$9"|"$10"|"$12"|"$11}' | tr '\n' '#')
+
+#Run uptime command to get up time info
+UPTIME=$(uptime -p)
 
 #Run ps command to get processes info
-CPU_PROCESSES=$(ps axo "%p|%U|%C|" o "pmem" o "|%c|" o "rss" --sort=-pcpu | tr '\n' '#' | tr -d ' ' | sed -r 's/(.*)#/\1/')
 MEM_PROCESSES=$(ps axo "%p|%U|%C|" o "pmem" o "|%c|" o "rss" --sort=-pmem | tr '\n' '#' | tr -d ' ' | sed -r 's/(.*)#/\1/')
 
 #Run df command to get all disk info
