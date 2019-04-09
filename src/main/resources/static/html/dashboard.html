@@ -13,58 +13,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="../js/websocket.js" type="text/javascript"></script>
-    <script src="../js/echarts.simple.min.js" type="text/javascript"></script>
-    <style>
-        html,
-        body {
-            height: 100%;
-            min-height: 100%;
-        }
-
-        * {
-            font-family: 'Roboto', sans-serif;
-        }
-
-        /* header,
-        main,
-        footer {
-            padding-left: 300px;
-        }
-
-        @media only screen and (max-width : 992px) {
-
-            header,
-            main,
-            footer {
-                padding-left: 0;
-            }
-        } */
-
-        tr:hover {
-            background-color: rgba(0, 0, 0, 0.12);
-        }
-
-        .search-table {
-            font-size: .85em;
-            overflow-y: scroll;
-            height: 325px;
-        }
-
-        .progress {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 33%;
-        }
-
-        .card-chart {
-            width: 100%;
-            min-height: 200px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="../js/echarts.simple.min.js"></script>
+    <script type="text/javascript" src="../js/websocket.js"></script>
 </head>
 
 <body class="grey darken-4">
@@ -73,29 +25,26 @@
     </div>
 
     <header>
-        <!-- <ul id="slide-out" class="sidenav sidenav-fixed">
-            <li><a href="#!">First Sidebar Link</a></li>
-            <li><a href="#!">Second Sidebar Link</a></li>
-        </ul>
-        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
-
         <div class="navbar-fixed">
             <nav class="nav-extended teal accent-4">
                 <div class="nav-content">
-                    <ul id="tab-title-list" class="tabs tabs-transparent"></ul>
+                    <ul id="tab-title-list" class="tabs tabs-transparent">
+                        <li id="sidenav-trigger">
+                            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">
+                                <i class="material-icons">menu</i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
 
-        <!-- <ul id="slide-out" class="sidenav">
+        <ul id="slide-out" class="sidenav">
             <li>
                 <div class="user-view">
                     <div class="background">
                         <img src="images/office.jpg">
                     </div>
-                    <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-                    <a href="#name"><span class="white-text name">John Doe</span></a>
-                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
                 </div>
             </li>
             <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
@@ -106,7 +55,6 @@
             <li><a class="subheader">Subheader</a></li>
             <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
         </ul>
-        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
     </header>
 
     <main>
