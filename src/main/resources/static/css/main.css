@@ -34,4 +34,25 @@ tr:hover {
 #sidenav-trigger * {
     margin: 0;
     line-height: 200%;
+    height: 100%;
+}
+
+.tab a {
+    font-weight: bold;
+}
+
+#toast-container {
+    top: 0 !important;
+}
+
+#toast-container span {
+    margin-right: 10px;
+}
+
+.modal {
+    max-height: 75% !important;
+}
+
+.modal .btn {
+    margin: 6px !important;
 }
