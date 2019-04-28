@@ -40,7 +40,7 @@ self.addEventListener('message', function (e) {
             // };
             // xhr.open("POST", "https://api.sendinblue.com/v3/smtp/email");
             // xhr.setRequestHeader("Content-Type", "application/json");
-            // xhr.setRequestHeader("api-key", "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");
+            // xhr.setRequestHeader("api-key", "");
             // xhr.send(content);
     
             self.postMessage({'key' : data.key + "-notified-date"});
