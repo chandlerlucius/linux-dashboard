@@ -2,10 +2,16 @@
 var timerID = 0;
 
 //Handle initiliazation features
-var init = false;
+var initialized = false;
 
 //Handle resizing charts with window
 var chartMap = new Map();
+
+//Run web worker to handle notifications
+var worker = new Worker('js/notifications.js');
+worker.addEventListener('message', function (e) {
+    localStorage.setItem(e.data.key, new Date());
+}, false);
 
 window.addEventListener('DOMContentLoaded', (event) => {
     //Start websocket connection 
@@ -16,6 +22,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
     window.onresize = function () {
         resizeCharts();
     };
+
+    //Handle menu saving
+    document.querySelector("#menu-save").addEventListener('click', function () {
+        var notificationInputs = document.querySelectorAll("#menu #notifications input");
+        notificationInputs.forEach(function (input) {
+            if (input.type === "checkbox") {
+                localStorage.setItem(input.id, input.checked);
+            } else {
+                localStorage.setItem(input.id, input.value);
+            }
+        });
+    });
 });
 
 function start(websocketServerLocation) {
@@ -87,6 +105,110 @@ function start(websocketServerLocation) {
                 var groupValues = groupResult.values;
                 for (var k = 0; k < groupValues.length; k++) {
                     var tabDetailResult = groupValues[k];
+
+                    //Handle toasts for thresholds
+                    var key = tabDetailResult.title.toLowerCase().replace(/ /g, "_");
+                    var thresholdKey = key + "-threshold";
+                    var threshold = localStorage.getItem(thresholdKey);
+
+                    if (tabDetailResult.threshold !== "" && threshold === null) {
+                        threshold = tabDetailResult.threshold;
+                        localStorage.setItem(thresholdKey, threshold);
+                    }
+                    if (threshold !== null) {
+                        //Setup notifications tab and values
+                        if (!initialized || document.querySelector("#menu").style.display === "none") {
+                            var notificationTabId = "notifications-tab-" + i + "-" + j + "-" + k;
+                            var notificationTab = document.querySelector("#" + notificationTabId);
+                            if (notificationTab === null) {
+                                var notificationTabTemplate = document.querySelector("#notification-tab-template").content.cloneNode(true);
+                                notificationTabTemplate.querySelector("div").id = notificationTabId;
+                                document.querySelector("#notifications form").appendChild(notificationTabTemplate);
+                                notificationTab = document.querySelector("#" + notificationTabId);
+                            }
+
+                            //Set local storage values dealing with notifications
+                            notificationTab.querySelector("#notification-title").innerHTML = tabDetailResult.title;
+
+                            var title = "threshold";
+                            var thresholdId = key + "-" + title;
+                            var thresholdElement = notificationTab.querySelector("input." + title);
+                            thresholdElement.id = thresholdId;
+                            thresholdElement.value = threshold;
+                            thresholdElement.parentElement.querySelector("label." + title).htmlFor = thresholdId;
+
+                            var title = "frequency";
+                            var id = key + "-" + title;
+                            var val = localStorage.getItem(id);
+                            if (val === null) {
+                                localStorage.setItem(id, "15");
+                            }
+                            val = localStorage.getItem(id);
+                            var element = notificationTab.querySelector("input." + title);
+                            element.id = id;
+                            element.value = val;
+                            element.parentElement.querySelector("label." + title).htmlFor = id;
+
+                            var title = "snooze";
+                            var id = key + "-" + title;
+                            var val = localStorage.getItem(id);
+                            if (val === null) {
+                                localStorage.setItem(id, "0");
+                            }
+                            val = localStorage.getItem(id);
+                            var element = notificationTab.querySelector("input." + title);
+                            element.id = id;
+                            element.value = val;
+                            element.parentElement.querySelector("label." + title).htmlFor = id;
+
+                            var notifications = ["toast", "email", "sms", "chat", "notification"];
+                            notifications.forEach(function (title) {
+                                var id = key + "-" + title;
+                                var val = localStorage.getItem(id);
+                                if (val === null) {
+                                    localStorage.setItem(id, "true");
+                                }
+                                val = localStorage.getItem(id);
+                                if (val === "true") {
+                                    var element = notificationTab.querySelector("input." + title);
+                                    element.id = id;
+                                    element.checked = "checked";
+                                }
+                            });
+                        }
+
+                        var exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
+                        if (exceededThreshold) {
+                            worker.postMessage({
+                                'key': key, 'title': tabDetailResult.title, 'value': tabDetailResult.value,
+                                'frequency': localStorage.getItem(key + "-frequency"), 'notifiedDate': localStorage.getItem(key + "-notified-date"),
+                                'toast': localStorage.getItem(key + "-toast"), 'email': localStorage.getItem(key + "-email"),
+                                'sms': localStorage.getItem(key + "-sms"), 'chat': localStorage.getItem(key + "-chat"),
+                                'notification': localStorage.getItem(key + "-notification")
+                            });
+                        }
+
+                        var toastTitleElement = document.querySelector("#" + thresholdKey + "_title");
+                        var toastValueElement = document.querySelector("#" + thresholdKey + "_value");
+                        var toastTitle = "High " + tabDetailResult.title;
+                        var toastValue = tabDetailResult.value + "%";
+                        + "<br>" + new Date().toLocaleString();
+                        if (toastTitleElement === null && exceededThreshold) {
+                            var toastHTML =
+                                '<span id="' + thresholdKey + '_title">' + toastTitle + '</span>' +
+                                '<span id="' + thresholdKey + '_value" class="lime-text accent-2-text">' + toastValue + '</span>' +
+                                '<button class=\"btn-flat toast-action modal-trigger\" href=\"#menu\">Edit</button>';
+                            M.toast({ html: toastHTML, displayLength: Infinity });
+                        } else if (exceededThreshold) {
+                            toastTitleElement.innerHTML = toastTitle;
+                            toastValueElement.innerHTML = toastValue;
+                        } else if (toastTitleElement !== null) {
+                            var toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
+                            toastInstance.dismiss();
+                        }
+                    }
+
+                    //Handle tab details
                     if (tabDetailResult.type === "detail") {
                         //Update table with detail data
                         var tabDetailId = "tab-detail-" + i + "-" + j + "-" + k;
@@ -132,7 +254,7 @@ function start(websocketServerLocation) {
                                     tabSearchTd.id = tabSearchTdId;
                                     if (col === "[hidden]") {
                                         populateHidden(tabSearchTd);
-                                    } else if(col === "[client-request]") {
+                                    } else if (col === "[client-request]") {
                                         populateRow(tabSearchTd);
                                     }
                                 }
@@ -196,10 +318,13 @@ function start(websocketServerLocation) {
                 }
             }
 
-            //Initialize materialize js features every time
+            //Initialize materialize js tabs features every time
             var tabs = document.querySelectorAll('.tabs');
             M.Tabs.init(tabs, {});
-    
+
+            //Updated materialize js text fields every time
+            M.updateTextFields();
+
             //Set event listener on tabs to resize charts
             document.querySelectorAll(".tab a").forEach(element => {
                 element.addEventListener('click', function () {
@@ -209,15 +334,19 @@ function start(websocketServerLocation) {
                 });
             });
 
-            if(!init) {
-                //Initialize materialize js features once
+            if (!initialized) {
+                //Initialize materialize js sidenavs features once
                 var navs = document.querySelectorAll('.sidenav');
                 M.Sidenav.init(navs, {});
-    
+
+                //Initialize materialize js modals features every time
+                var elems = document.querySelectorAll('.modal');
+                M.Modal.init(elems, {});
+
                 //Hide progress bar
                 document.getElementsByClassName("progress")[0].style.display = "none";
             }
-            init = true;
+            initialized = true;
         }
     }
 }
@@ -323,7 +452,7 @@ function populateRow(element) {
                 var json = JSON.parse(xhr.responseText);
                 var array = [json.city, json.region, json.country, json.postal];
                 element.innerHTML = json.org;
-                for(var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++) {
                     var td = tr.insertCell(i + 3);
                     td.innerHTML = array[i];
                 }

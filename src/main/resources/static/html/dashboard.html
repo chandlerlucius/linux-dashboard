@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>Linux Dashboard</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Chandler Lucius">
-    <meta name="description" content="Server Statistics Dashboard">
+    <meta name="description" content="Linux Dashboard">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#ffffff">
 
@@ -14,23 +14,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="../css/main.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+    </script>
     <script type="text/javascript" src="../js/echarts.simple.min.js"></script>
     <script type="text/javascript" src="../js/websocket.js"></script>
 </head>
 
-<body class="grey darken-4">
-    <div class="progress">
-        <div class="indeterminate"></div>
-    </div>
+<body class="black">
 
     <header>
+
         <div class="navbar-fixed">
             <nav class="nav-extended teal accent-4">
                 <div class="nav-content">
                     <ul id="tab-title-list" class="tabs tabs-transparent">
                         <li id="sidenav-trigger">
-                            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">
+                            <a class="waves-effect waves-light btn modal-trigger teal accent-4" href="#menu">
                                 <i class="material-icons">menu</i>
                             </a>
                         </li>
@@ -39,27 +38,33 @@
             </nav>
         </div>
 
-        <ul id="slide-out" class="sidenav">
-            <li>
-                <div class="user-view">
-                    <div class="background">
-                        <img src="images/office.jpg">
-                    </div>
-                </div>
-            </li>
-            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-            <li><a href="#!">Second Link</a></li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li><a class="subheader">Subheader</a></li>
-            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-        </ul>
     </header>
 
     <main>
 
+        <div id="menu" class="modal modal-fixed-footer bottom-sheet">
+            <div>
+                <ul class="tabs tabs-transparent teal accent-4">
+                    <li class="tab col s3"><a href="#notifications">Notifications</a></li>
+                </ul>
+            </div>
+            <div class="modal-content grey darken-4">
+                <div id="notifications">
+                    <form class="col s12">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer grey darken-4">
+                <a id="menu-save" href="#!" class="modal-close waves-effect waves-green btn left">Save</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn left">Cancel</a>
+            </div>
+        </div>
+
     </main>
+
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
 
     <template id="tab-title-template">
         <li class="tab"><a></a></li>
@@ -71,7 +76,7 @@
 
     <template id="tab-content-template">
         <div class="col s12 m6 l4">
-            <div class="card small grey darken-3">
+            <div class="card small grey darken-4">
                 <div class="card-content">
                     <span class="card-title white-text"></span>
                     <div class="card-chart" style="display: none;"></div>
@@ -101,6 +106,61 @@
             <td><b></b></td>
             <td><span></span></td>
         </tr>
+    </template>
+
+    <template id="notification-tab-template">
+        <div class="row">
+            <h5 id="notification-title" class="col s12 white-text"></h5>
+            <div class="input-field col s4">
+                <input type="number" class="threshold white-text" min="0" max="100">
+                <label class="threshold">Threshold</label>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">Between
+                    0 - 100%</span>
+            </div>
+            <div class="input-field col s4">
+                <input type="number" class="frequency white-text">
+                <label class="frequency">Frequency</label>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">In
+                    Minutes</span>
+            </div>
+            <div class="input-field col s4">
+                <input type="number" class="snooze white-text">
+                <label class="snooze">Snooze</label>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">In
+                    Minutes</span>
+            </div>
+            <p class="col s2">
+                <label>
+                    <input class="toast" type="checkbox" />
+                    <span>Toast</span>
+                </label>
+            </p>
+            <p class="col s2">
+                <label>
+                    <input class="email" type="checkbox" />
+                    <span>Email</span>
+                </label>
+            </p>
+            <p class="col s2">
+                <label>
+                    <input class="sms" type="checkbox" />
+                    <span>SMS</span>
+                </label>
+            </p>
+            <p class="col s2">
+                <label>
+                    <input class="chat" type="checkbox" />
+                    <span>Chat</span>
+                </label>
+            </p>
+            <p class="col s2">
+                <label>
+                    <input class="notification" type="checkbox" />
+                    <span>Notification</span>
+                </label>
+            </p>
+        </div>
+        <div class="divider teal accent-4"></div>
     </template>
 
 </body>
