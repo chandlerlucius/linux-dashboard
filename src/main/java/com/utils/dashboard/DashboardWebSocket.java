@@ -68,7 +68,7 @@ public class DashboardWebSocket {
             @Override
             public void run() {
                 String message = runServerScript();
-                System.out.println(message);
+                //System.out.println(message);
                 sessionSet.forEach(session -> {
                     synchronized (session) {
                         try {
