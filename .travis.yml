@@ -3,7 +3,7 @@ language:
 
 addons:
   sonarcloud:
-    organization: "linux-dashboard"
+    organization: "chandlerlucius-github"
 
 script:
   - sonar-scanner
