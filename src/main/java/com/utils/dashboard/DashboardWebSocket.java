@@ -19,15 +19,23 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value="/websocket")
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@ServerEndpoint(value = "/websocket")
 public class DashboardWebSocket {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DashboardWebSocket.class);
 
     Set<Session> sessionSet = new HashSet<>();
     ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
 
     public DashboardWebSocket() {
-        copyScriptToTempDir();
+        copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
         startSocketTransmission();
+    }
+
+    public DashboardWebSocket(boolean withoutArguments) {
     }
 
     @OnOpen
@@ -38,31 +46,32 @@ public class DashboardWebSocket {
     @OnClose
     public void close(Session session) {
         sessionSet.remove(session);
-        if(sessionSet.isEmpty()) {
+        if (sessionSet.isEmpty()) {
             ses.shutdownNow();
         }
     }
-    
+
     @OnMessage
     public void handleMessage(String message, Session session) {
-        System.out.println("message");
+        LOG.info("Message from websocket connection: ", message);
     }
 
     @OnError
-    public void onError(Throwable error) {
-        System.err.println(error);
+    public void onError(Throwable e) {
+        LOG.error("Issue with websocket connection: ", e);
     }
 
-    private void copyScriptToTempDir() {
-        try (InputStream serverStatsIS = this.getClass().getResourceAsStream("/sh/ServerStats.sh")) {
-            // Write server stats script to temp directory
+    public File copyExecScriptToTempDir(String inputFilePath, String outputFileName) {
+        File tempFile = null;
+        try (InputStream is = this.getClass().getResourceAsStream(inputFilePath)) {
             String tempDirectory = System.getProperty("java.io.tmpdir");
-            File serverStatsTempFile = new File(tempDirectory + "/ServerStats.sh");
-            Files.copy(serverStatsIS, serverStatsTempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            serverStatsTempFile.setExecutable(true);
+            tempFile = new File(tempDirectory + "/" + outputFileName);
+            Files.copy(is, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            tempFile.setExecutable(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Issue copying file to temp directory: ", e);
         }
+        return tempFile;
     }
 
     private void startSocketTransmission() {
@@ -70,13 +79,13 @@ public class DashboardWebSocket {
             @Override
             public void run() {
                 String message = runServerScript();
-                //System.out.println(message);
+                // System.out.println(message);
                 sessionSet.forEach(session -> {
                     synchronized (session) {
                         try {
                             session.getBasicRemote().sendText(message);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            LOG.error("Issue sending remote message: ", e);
                         }
                     }
                 });
@@ -96,21 +105,19 @@ public class DashboardWebSocket {
             process.waitFor();
 
             // Get output from script
-            if (process.getInputStream() != null) {
-                try (InputStream is = process.getInputStream()) {
-                    ByteArrayOutputStream result = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = is.read(buffer)) != -1) {
-                        result.write(buffer, 0, length);
-                    }
-                    results = result.toString(StandardCharsets.UTF_8.name());
-                } catch (Exception e) {
-                    e.printStackTrace();
+            try (InputStream is = process.getInputStream()) {
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = is.read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
                 }
+                results = result.toString(StandardCharsets.UTF_8.name());
+            } catch (Exception e) {
+                LOG.error("Issue getting output from script: ", e);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Issue running script: ", e);
         }
         return results;
     }
