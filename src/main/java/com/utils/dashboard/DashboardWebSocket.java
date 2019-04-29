@@ -26,17 +26,7 @@ public class DashboardWebSocket {
     ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
 
     public DashboardWebSocket() {
-        try (InputStream serverStatsIS = this.getClass().getResourceAsStream("/static/sh/ServerStats.sh");
-                InputStream jqLinuxIS = this.getClass().getResourceAsStream("/static/sh/jq-linux64");) {
-
-            // Write server stats script to temp directory
-            String tempDirectory = System.getProperty("java.io.tmpdir");
-            File serverStatsTempFile = new File(tempDirectory + "/ServerStats.sh");
-            Files.copy(serverStatsIS, serverStatsTempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            serverStatsTempFile.setExecutable(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        copyScriptToTempDir();
         startSocketTransmission();
     }
 
@@ -61,6 +51,18 @@ public class DashboardWebSocket {
     @OnError
     public void onError(Throwable error) {
         System.err.println(error);
+    }
+
+    private void copyScriptToTempDir() {
+        try (InputStream serverStatsIS = this.getClass().getResourceAsStream("/sh/ServerStats.sh")) {
+            // Write server stats script to temp directory
+            String tempDirectory = System.getProperty("java.io.tmpdir");
+            File serverStatsTempFile = new File(tempDirectory + "/ServerStats.sh");
+            Files.copy(serverStatsIS, serverStatsTempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            serverStatsTempFile.setExecutable(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startSocketTransmission() {
