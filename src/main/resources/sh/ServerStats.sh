@@ -13,15 +13,15 @@ SECONDS=$(date -d "$DATE" +%s)
 CONVERT=1048576
 
 #Commands and Urls
-SSL_CHECK_URL="https://api.ssllabs.com/api/v3/analyze?host=$HOST_URL&publish=off&ignoreMismatch=on&all=done"
+#SSL_CHECK_URL="https://api.ssllabs.com/api/v3/analyze?host=$HOST_URL&publish=off&ignoreMismatch=on&all=done"
 
 #Define necessary variables
 export LC_ALL=C
 
 #Define functions
 function makeOrAddToGroup() {
-    TITLE=$(echo "$1")
-    TYPE=$(echo "$2")
+    TITLE="$1"
+    TYPE="$2"
     OBJECT="{ \"title\" : \"$TITLE\", \"type\" : \"$TYPE\", \"values\" : [$3] }"
     if [[ "$4" != "" ]]
     then
@@ -31,10 +31,10 @@ function makeOrAddToGroup() {
     fi
 }
 function makeOrAddToValues() {
-    TITLE=$(echo "$1")
-    TYPE=$(echo "$2")
-    THRESHOLD=$(echo "$3")
-    VALUE=$(echo "$4")
+    TITLE="$1"
+    TYPE="$2"
+    THRESHOLD="$3"
+    VALUE="$4"
     OBJECT="{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"threshold\" : \"$THRESHOLD\" , \"value\" : \"$VALUE\" }"
     if [[ "$5" != "" ]]
     then
@@ -73,13 +73,13 @@ FREE=$(free | tail -n 2)
 DF_ROOT=$(df -PT / | tail -n 1)
 
 #Run dd command to get write info
-DD=$(dd if=/dev/zero of=/tmp/output bs=8k count=10k 2>&1 | tail -n 1; rm -f /tmp/output;);
+#DD=$(dd if=/dev/zero of=/tmp/output bs=8k count=10k 2>&1 | tail -n 1; rm -f /tmp/output;);
 
 #Parse /etc/passwd for user info
 USERS=$(printf "USERNAME|UID|GID|FULL NAME|HOME#" && cat /etc/passwd | awk -F ':' '{print $1"|"$3"|"$4"|"$5"|"$6}' | tr '\n' '#')
 
 #Parse /etc/group for group info
-GRPS=$(printf "NAME|GID|USERS#" && cat /etc/group | awk -F ':' '{print $1"|"$3"|"$4}' | tr '\n' '#')
+GRPS=$(printf "NAME|GID|USERS#" && awk -F ':' '{print $1"|"$3"|"$4}' /etc/group | tr '\n' '#')
 
 #Run last command to get last login info
 LOGINS=$(printf "USER|IP|LOGIN - LOGOUT|LENGTH" && last -di | grep -v reboot | awk '{ printf $1"|"$3"|"; s = ""; for (i = 4; i <= NF; i++) s = s $i " "; print s }' | sed 's/ (/|/g' | tr -d ')' | sed '$d' | sed '$d' | tr '\n' '#')
@@ -95,7 +95,7 @@ then
     CONNECTIONS=$(ss -tu | awk '/EST/{print $5"|"$6}')
 fi
 CONNECTION_HEADER=$(printf "PORT|IP|ORG|CITY|REGION|COUNTRY|POSTAL#")
-CONNECTION_INFO=$(printf "$CONNECTION_HEADER"; echo "$CONNECTIONS" | sed "s/$PRIVATE_IP://g" | grep -v "^127.\|^:" | grep -Po ".*(?=:)" | tr '\n' '#')
+CONNECTION_INFO=$(printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | sed "s/$PRIVATE_IP://g" | grep -v "^127.\|^:" | grep -Po ".*(?=:)" | tr '\n' '#')
 
 
 ##Build json objects
@@ -115,7 +115,7 @@ DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 TITLE="Name"
 TYPE="detail"
 THRESHOLD=""
-VALUE=$(cat /proc/cpuinfo | grep -i 'model name' | tr -d '\t' | tail -1 | sed 's/model name: //g')
+VALUE=$(grep -i 'model name' /proc/cpuinfo | tr -d '\t' | tail -1 | sed 's/model name: //g')
 DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
 #CPU Cores
