@@ -1,1 +1,9 @@
-language: java
+language: 
+  - java
+
+addons:
+  sonarcloud:
+    organization: "linux-dashboard"
+
+script:
+  - sonar-scanner
