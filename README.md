@@ -3,6 +3,9 @@
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 [![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
 [![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
+[![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg?branch=master)](https://coveralls.io/github/chandlerlucius/linux-dashboard?branch=master)
+<a href="https://codeclimate.com/github/chandlerlucius/linux-dashboard/maintainability"><img src="https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/maintainability" /></a>
+
 
 --Work In Progress--
 
