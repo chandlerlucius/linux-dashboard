@@ -76,7 +76,7 @@ DF_ROOT=$(df -PT / | tail -n 1)
 #DD=$(dd if=/dev/zero of=/tmp/output bs=8k count=10k 2>&1 | tail -n 1; rm -f /tmp/output;);
 
 #Parse /etc/passwd for user info
-USERS=$(printf "USERNAME|UID|GID|FULL NAME|HOME#" && cat /etc/passwd | awk -F ':' '{print $1"|"$3"|"$4"|"$5"|"$6}' | tr '\n' '#')
+USERS=$(printf "USERNAME|UID|GID|FULL NAME|HOME#" && awk -F ':' '{print $1"|"$3"|"$4"|"$5"|"$6}' /etc/passwd | tr '\n' '#')
 
 #Parse /etc/group for group info
 GRPS=$(printf "NAME|GID|USERS#" && awk -F ':' '{print $1"|"$3"|"$4}' /etc/group | tr '\n' '#')
