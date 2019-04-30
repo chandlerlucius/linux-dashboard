@@ -4,6 +4,7 @@ language:
 env:
   global:
     - CC_TEST_REPORTER_ID=48b84ade0675d3921d11804450f23981df9157179bc1407cc9a7abba6f18916f
+    - JACOCO_SOURCE_PATH=src/main/java
 
 addons:
   sonarcloud:
@@ -19,4 +20,5 @@ script:
   - sonar-scanner
 
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco
+  - ./cc-test-reporter upload-coverage
