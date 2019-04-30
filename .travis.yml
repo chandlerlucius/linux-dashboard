@@ -6,4 +6,5 @@ addons:
     organization: "chandlerlucius-github"
 
 script:
+  - ./mvnw test -B
   - sonar-scanner
