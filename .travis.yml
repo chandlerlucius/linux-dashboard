@@ -17,7 +17,6 @@ before_script:
 script:
   - ./mvnw test -B
   - sonar-scanner
-  - bundle exec rspec
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
