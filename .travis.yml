@@ -1,10 +1,23 @@
 language: 
   - java
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=48b84ade0675d3921d11804450f23981df9157179bc1407cc9a7abba6f18916f
+
 addons:
   sonarcloud:
     organization: "chandlerlucius-github"
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
 script:
   - ./mvnw test -B
   - sonar-scanner
+  - bundle exec rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
