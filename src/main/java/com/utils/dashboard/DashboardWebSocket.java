@@ -35,16 +35,16 @@ public class DashboardWebSocket {
         startSocketTransmission();
     }
 
-    public DashboardWebSocket(boolean withoutArguments) {
+    public DashboardWebSocket(final boolean withoutArguments) {
     }
 
     @OnOpen
-    public void open(Session session) {
+    public void open(final Session session) {
         sessionSet.add(session);
     }
 
     @OnClose
-    public void close(Session session) {
+    public void close(final Session session) {
         sessionSet.remove(session);
         if (sessionSet.isEmpty()) {
             ses.shutdownNow();
@@ -52,33 +52,38 @@ public class DashboardWebSocket {
     }
 
     @OnMessage
-    public void handleMessage(String message, Session session) {
+    public void handleMessage(final String message, final Session session) {
         LOG.info("Message from websocket connection: ", message);
     }
 
+    /**
+    * Log error if one occurs
+    *
+    * @author clucius
+    */
     @OnError
-    public void onError(Throwable e) {
+    public void onError(final Throwable e) {
         LOG.error("Issue with websocket connection: ", e);
     }
 
-    public File copyExecScriptToTempDir(String inputFilePath, String outputFileName) {
-        File tempFile = null;
+    public File copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
         try (InputStream is = this.getClass().getResourceAsStream(inputFilePath)) {
-            String tempDirectory = System.getProperty("java.io.tmpdir");
-            tempFile = new File(tempDirectory + "/" + outputFileName);
+            final String tempDirectory = System.getProperty("java.io.tmpdir");
+            final File tempFile = new File(tempDirectory + "/" + outputFileName);
             Files.copy(is, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             tempFile.setExecutable(true);
+            return tempFile;
         } catch (Exception e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
-        return tempFile;
+        return new File("");
     }
 
     private void startSocketTransmission() {
         ses.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                String message = runServerScript();
+                final String message = runServerScript();
                 // System.out.println(message);
                 sessionSet.forEach(session -> {
                     synchronized (session) {
@@ -97,19 +102,19 @@ public class DashboardWebSocket {
         String results = "";
         try {
             // Run server stats script
-            String tempDirectory = System.getProperty("java.io.tmpdir");
-            File serverStatsTempFile = new File(tempDirectory + "/ServerStats.sh");
-            ProcessBuilder processBuilder = new ProcessBuilder("./" + serverStatsTempFile.getName());
+            final String tempDirectory = System.getProperty("java.io.tmpdir");
+            final File tempFile = new File(tempDirectory + "/ServerStats.sh");
+            final ProcessBuilder processBuilder = new ProcessBuilder("./" + tempFile.getName());
             processBuilder.directory(new File(tempDirectory));
-            Process process = processBuilder.start();
+            final Process process = processBuilder.start();
             process.waitFor();
 
             // Get output from script
-            try (InputStream is = process.getInputStream()) {
-                ByteArrayOutputStream result = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
+            try (InputStream inputStream = process.getInputStream()) {
+                final ByteArrayOutputStream result = new ByteArrayOutputStream();
+                final byte[] buffer = new byte[1024];
                 int length;
-                while ((length = is.read(buffer)) != -1) {
+                while ((length = inputStream.read(buffer)) != -1) {
                     result.write(buffer, 0, length);
                 }
                 results = result.toString(StandardCharsets.UTF_8.name());

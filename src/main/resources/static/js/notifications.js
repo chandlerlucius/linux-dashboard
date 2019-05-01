@@ -3,8 +3,8 @@ self.showNotification('Hello', {body : 'hey!'});
 
 self.addEventListener('message', function (e) {
     var data = e.data;
-    var text = 'High ' + data.title + ' - ' + data.value;
-    var frequency = Number.isInteger(parseInt(data.frequency)) ? parseInt(data.frequency) : 15;
+    // var text = 'High ' + data.title + ' - ' + data.value;
+    var frequency = Number.isInteger(parseInt(data.frequency), 10) ? parseInt(data.frequency, 10) : 15;
     var elaspedMinutes = (Math.abs(new Date() - new Date(data.notifiedDate)) / 1000) / 60;
     if(frequency < elaspedMinutes) {
         if (data.email) {
