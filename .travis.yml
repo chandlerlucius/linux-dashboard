@@ -11,14 +11,37 @@ addons:
     organization: "chandlerlucius-github"
 
 before_script:
+  - #Install bats for running Bash Automated Testing System
+  - git clone https://github.com/bats-core/bats-core.git
+  - cd bats-core
+  - sudo ./install.sh /usr/local
+  - cd ../../
+  - #Install kcov dependencies and make/install kcov
+  - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make
+  - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
+  - tar xzf master.tar.gz
+  - cd kcov-master
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make install
+  - #
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - LATEST_VERSION="$(curl -Ls https://api.bintray.com/packages/codacy/Binaries/codacy-coverage-reporter/versions/_latest | jq -r .name)"
+  - curl -Ls -o codacy-coverage-reporter "https://dl.bintray.com/codacy/Binaries/${LATEST_VERSION}/codacy-coverage-reporter-linux"
+  - chmod +x codacy-coverage-reporter
 
 script:
   - ./mvnw test -B
+  - bats src/test/bash/ServerStats.bats
+  - kcov target/kconv/ src/main/resources/sh/*
   - sonar-scanner
 
 after_script:
+  - ./codacy-coverage-reporter report -l Java -r target/site/jacoco/jacoco.xml
+  - ./codacy-coverage-reporter report -l Shell -r target/kconv/ServerStats.bash.93a81905c04a4d47/cobertura.xml 
   - ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco
   - ./cc-test-reporter upload-coverage
