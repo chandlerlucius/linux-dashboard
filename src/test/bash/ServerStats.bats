@@ -2,7 +2,7 @@
 
 . src/main/resources/sh/ServerStats.sh "TEST"
 
-@test "Run makeOrAddToValues with one dataset" {
+@test "Test Creating Values Array and JSON with 1 Dataset - makeOrAddToValues()" {
     #Test 1
     DATA=""
     TITLE="TEST TITLE 1"
@@ -17,7 +17,7 @@
     [ "$output" = "{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"threshold\" : \"$THRESHOLD\" , \"value\" : \"$VALUE\" }" ]
 }
 
-@test "Test makeOrAddToValues method with two datasets" {
+@test "Test Creating Values Array and JSON with 2 Datasets - makeOrAddToValues()" {
     #Test 1
     DATA=""
     TITLE="TEST TITLE 1"
