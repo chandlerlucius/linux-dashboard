@@ -1,11 +1,6 @@
 language: 
   - java
 
-env:
-  global:
-    - CC_TEST_REPORTER_ID=48b84ade0675d3921d11804450f23981df9157179bc1407cc9a7abba6f18916f
-    - JACOCO_SOURCE_PATH=src/main/java
-
 addons:
   sonarcloud:
     organization: "chandlerlucius-github"
