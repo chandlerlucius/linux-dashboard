@@ -77,7 +77,7 @@
 
     [ "$status" -eq 0 ]
     LINE=$(echo "$output" | sed '1q;d')
-    [[ "$LINE" =~ ^top.+?[0-9]+[\ ]users,[\ ]+load[\ ]average:[\ ][0-9.]+,[\ ][0-9.]+,[\ ][0-9.]+$ ]]
+    [[ "$LINE" =~ ^top.+?[0-9]+[\ ](user|users),[\ ]+load[\ ]average:[\ ][0-9.]+,[\ ][0-9.]+,[\ ][0-9.]+$ ]]
     LINE=$(echo "$output" | sed '2q;d')
     [[ "$LINE" =~ ^Tasks:.+?[0-9]+.+?total,.+?[0-9]+.+?running,.+?[0-9]+.+?sleeping,.+?[0-9]+.+?stopped,.+?[0-9]+.+?zombie$ ]]
     LINE=$(echo "$output" | sed '3q;d')
