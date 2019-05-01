@@ -36,6 +36,7 @@ before_script:
 script:
   - ./mvnw test -B
   - bats src/test/bash/ServerStats.bats
+  - man kcov
   - kcov --bash-dont-parse-binary-dir --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
   - sonar-scanner
 
