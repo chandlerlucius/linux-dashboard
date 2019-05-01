@@ -31,7 +31,7 @@ public class DashboardWebSocket {
     ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
 
     public DashboardWebSocket() {
-        copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        copyExecScriptToTempDir("/sh/ServerStats.bash", "ServerStats.sh");
         startSocketTransmission();
     }
 
