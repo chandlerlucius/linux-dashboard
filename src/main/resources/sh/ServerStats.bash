@@ -565,7 +565,6 @@ echo "{ \"results\" : [ $TAB ] }"
 
 # set +x
 # exec 2>&3 3>&-
-exit
 
 # RESULTS=$($JQ -s . <<< "$RESULTS")
 
@@ -734,5 +733,5 @@ exit
 
 #$JQ ".problems |= $PROBLEMS" <<< "$DATA_INFO"
 
-RESULTS=$($JQ -s . <<< "$RESULTS")
-$JQ -Rn ".results |= $RESULTS"
+#RESULTS=$($JQ -s . <<< "$RESULTS")
+#$JQ -Rn ".results |= $RESULTS"
