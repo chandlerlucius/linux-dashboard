@@ -16,6 +16,7 @@ before_script:
   - cd bats-core
   - sudo ./install.sh /usr/local
   - cd ../
+  - rm -rf bats-core
   - #Install kcov dependencies and make/install kcov
   - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make
   - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
@@ -27,6 +28,7 @@ before_script:
   - make
   - sudo make install
   - cd ../../
+  - rm -rf kcov-master
   - #
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
