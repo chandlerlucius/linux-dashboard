@@ -13,54 +13,85 @@ worker.addEventListener('message', function (e) {
     localStorage.setItem(e.data.key, new Date());
 }, false);
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    //Start websocket connection 
-    var host = window.location.host;
-    start('ws://' + host + '/websocket');
+//Helper methods
 
-    //Handle resizing charts when window is resized
-    window.onresize = function () {
-        resizeCharts();
-    };
-
-    //Handle menu saving
-    document.querySelector('#menu-save').addEventListener('click', function () {
-        var notificationInputs = document.querySelectorAll('#menu #notifications input');
-        notificationInputs.forEach(function (input) {
-            if (input.type === 'checkbox') {
-                localStorage.setItem(input.id, input.checked);
-            } else {
-                localStorage.setItem(input.id, input.value);
-            }
-        });
+function resizeCharts() {
+    chartMap.forEach(function (value, key, map) {
+        if (value.closest('.row').style.display !== 'none') {
+            window.echarts.getInstanceByDom(value).resize();
+        }
     });
-});
-
-function start(websocketServerLocation) {
-    var socket = new WebSocket(websocketServerLocation);
-
-    socket.onopen = function (event) {
-        if (window.timerID) {
-            window.clearInterval(window.timerID);
-            window.timerID = 0;
-        }
-    }
-
-    socket.onclose = function (event) {
-        if (!window.timerID) {
-            window.timerID = setInterval(function () {
-                start(websocketServerLocation)
-            }, 5000);
-        }
-    }
-
-    socket.onmessage = function (event) {
-        console.log(new Date());
-        var json = JSON.parse(event.data);
-        parseJsonResults(json);
-    }
 }
 
+function search(element) {
+    var filter = element.value.toUpperCase();
+    var table = element.closest('.card').querySelector('table');
+    var trs = table.getElementsByTagName('tr');
+
+    for (var i = 1; i < trs.length; i++) {
+        var found = false;
+        var tr = trs[i];
+        var tds = tr.getElementsByTagName('td');
+        for (var j = 0; j < tds.length; j++) {
+            var td = tds[j];
+            if (td) {
+                var text = td.textContent || td.innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                }
+            }
+        }
+        if (found) {
+            tr.style.display = '';
+        } else {
+            tr.style.display = 'none';
+        }
+    }
+};
+
+function clearSearch(element) {
+    var parentElement = element.parentElement;
+    var searchElement = parentElement.querySelector('.search');
+    searchElement.value = '';
+    search(searchElement);
+};
+
+function populateHidden(element) {
+    element.innerHTML = '<a class="waves-effect waves-light btn-small" onclick="populateRow(this.parentElement);">Click to Populate -></a>';
+};
+
+function populateRow(element) {
+    var title = element.closest('.card').querySelector('.card-title').innerHTML;
+    var tr = element.closest('tr');
+    if (title === 'Connections') {
+        var ip = element.previousSibling.innerHTML;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                var array = [json.city, json.region, json.country, json.postal];
+                element.innerHTML = json.org;
+                for (var i = 0; i < 4; i++) {
+                    var td = tr.insertCell(i + 3);
+                    td.innerHTML = array[i];
+                }
+            }
+        };
+        xhr.open('GET', 'https://ipapi.co/' + ip + '/json/ ', true);
+        xhr.send();
+    }
+};
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+};
+
+//Parse json method
 function parseJsonResults(json) {
     for (var i = 0; i < json.results.length; i++) {
         var tabResult = json.results[i];
@@ -352,7 +383,55 @@ function parseJsonResults(json) {
         }
         initialized = true;
     }
-}
+};
+
+function start(websocketServerLocation) {
+    var socket = new WebSocket(websocketServerLocation);
+
+    socket.onopen = function () {
+        if (window.timerID) {
+            window.clearInterval(window.timerID);
+            window.timerID = 0;
+        }
+    };
+
+    socket.onclose = function () {
+        if (!window.timerID) {
+            window.timerID = setInterval(function () {
+                start(websocketServerLocation)
+            }, 5000);
+        }
+    };
+
+    socket.onmessage = function (event) {
+        console.log(new Date());
+        var json = JSON.parse(event.data);
+        parseJsonResults(json);
+    };
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    //Start websocket connection 
+    var host = window.location.host;
+    start('ws://' + host + '/websocket');
+
+    //Handle resizing charts when window is resized
+    window.onresize = function () {
+        resizeCharts();
+    };
+
+    //Handle menu saving
+    document.querySelector('#menu-save').addEventListener('click', function () {
+        var notificationInputs = document.querySelectorAll('#menu #notifications input');
+        notificationInputs.forEach(function (input) {
+            if (input.type === 'checkbox') {
+                localStorage.setItem(input.id, input.checked);
+            } else {
+                localStorage.setItem(input.id, input.value);
+            }
+        });
+    });
+});
 
 function drawChart(chart, xAxisData, data) {
     chart.setOption({
@@ -397,80 +476,4 @@ function drawChart(chart, xAxisData, data) {
             areaStyle: {}
         }]
     });
-}
-
-function resizeCharts() {
-    chartMap.forEach(function (value, key, map) {
-        if (value.closest('.row').style.display !== 'none') {
-            window.echarts.getInstanceByDom(value).resize();
-        }
-    });
-}
-
-function search(element) {
-    var filter = element.value.toUpperCase();
-    var table = element.closest('.card').querySelector('table');
-    var trs = table.getElementsByTagName('tr');
-
-    for (var i = 1; i < trs.length; i++) {
-        var found = false;
-        var tr = trs[i];
-        var tds = tr.getElementsByTagName('td');
-        for (var j = 0; j < tds.length; j++) {
-            var td = tds[j];
-            if (td) {
-                var text = td.textContent || td.innerText;
-                if (text.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-                }
-            }
-        }
-        if (found) {
-            tr.style.display = '';
-        } else {
-            tr.style.display = 'none';
-        }
-    }
-}
-
-function clearSearch(element) {
-    var parentElement = element.parentElement;
-    var searchElement = parentElement.querySelector('.search');
-    searchElement.value = '';
-    search(searchElement);
-}
-
-function populateHidden(element) {
-    element.innerHTML = '<a class="waves-effect waves-light btn-small" onclick="populateRow(this.parentElement);">Click to Populate -></a>';
-}
-
-function populateRow(element) {
-    var title = element.closest('.card').querySelector('.card-title').innerHTML;
-    var tr = element.closest('tr');
-    if (title === 'Connections') {
-        var ip = element.previousSibling.innerHTML;
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var json = JSON.parse(xhr.responseText);
-                var array = [json.city, json.region, json.country, json.postal];
-                element.innerHTML = json.org;
-                for (var i = 0; i < 4; i++) {
-                    var td = tr.insertCell(i + 3);
-                    td.innerHTML = array[i];
-                }
-            }
-        };
-        xhr.open('GET', 'https://ipapi.co/' + ip + '/json/ ', true);
-        xhr.send();
-    }
-}
-
-function escapeHtml(unsafe) {
-    return unsafe
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
 }
