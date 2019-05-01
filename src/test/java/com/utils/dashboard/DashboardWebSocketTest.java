@@ -9,7 +9,7 @@ public class DashboardWebSocketTest {
     @Test
     public void copyExecScriptToTempDir_ValidInputOutputPath_FileExistsAndExecutable() {
         DashboardWebSocket dashboardWebSocket = new DashboardWebSocket(true);
-        File tempFile = dashboardWebSocket.copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        File tempFile = dashboardWebSocket.copyExecScriptToTempDir("/sh/ServerStats.bash", "ServerStats.sh");
         Assert.assertTrue("Expected file to have been copied to temp directory.", tempFile.exists());
         Assert.assertTrue("Expected file to be executable.", tempFile.canExecute());
     }
