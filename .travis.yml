@@ -6,6 +6,9 @@ addons:
     organization: "chandlerlucius-github"
 
 before_script:
+  - #Add repos and update
+  - sudo add-apt-repository ppa:duggan/bats
+  - sudo apt-get update
   - #Install shellcheck, checkbashisms, and bats
   - sudo apt-get install shellcheck devscripts bats
   - #Install kcov dependencies, make/install kcov, remove uneeded directories
