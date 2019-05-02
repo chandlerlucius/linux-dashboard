@@ -10,6 +10,10 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
 public class EndpointConfig {
 
+    public EndpointConfig() {
+        // This constructor is intentionally empty. Nothing special is needed here.
+    }
+
     @Bean
     public DashboardWebSocket dashboardWebSocket() {
         return new DashboardWebSocket();
