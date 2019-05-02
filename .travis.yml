@@ -7,12 +7,12 @@ addons:
 
 before_script:
   - #Add repos and update
-  - sudo add-apt-repository ppa:duggan/bats
-  - sudo apt-get update
+  - sudo add-apt-repository ppa:duggan/bats -y
+  - sudo apt-get update -y
   - #Install shellcheck, checkbashisms, and bats
-  - sudo apt-get install shellcheck devscripts bats
+  - sudo apt-get install shellcheck devscripts bats -y
   - #Install kcov dependencies, make/install kcov, remove uneeded directories
-  - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make
+  - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make -y
   - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
   - tar xzf master.tar.gz
   - cd kcov-master
