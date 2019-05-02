@@ -13,14 +13,10 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg)](https://coveralls.io/github/chandlerlucius/linux-dashboard)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&utm_medium=referral&utm_content=chandlerlucius/linux-dashboard&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade)
-
-[![Test Coverage](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/test_coverage)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/maintainability)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/maintainability)
-
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=coverage)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
+
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
