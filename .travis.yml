@@ -35,13 +35,12 @@ before_script:
 
 script:
   - #Run java unit tests
-  - ./mvnw test -B
   - #Collect jacoco java code coverage and report to coveralls
-  - ./mvnw jacoco:report coveralls:report
+  - ./mvnw test -B jacoco:report coveralls:report
   - #Run bats on shell scripts
   - bats src/test/bash/ServerStats.bats
   - #Run kcov to collect bash code coverage and report to coveralls
-  - kcov --bash-dont-parse-binary-dir --coveralls-id=${COVERALLS_TOKEN} --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
+  - kcov --bash-dont-parse-binary-dir --coveralls-id=$TRAVIS_JOB_ID --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
   - #Scan code with sonarcloud
   - sonar-scanner
 
