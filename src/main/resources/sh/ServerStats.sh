@@ -4,9 +4,6 @@
 # exec 3>&2 2>/tmp/bashstart.$$.log
 # set -x
 
-#Set maximum virtual memory for this script
-ulimit -Sv 2194304
-
 #Define all basic variables
 DATE=$(date)
 SECONDS=$(date -d "$DATE" +%s)
@@ -19,11 +16,11 @@ CONVERT=1048576
 export LC_ALL=C
 
 #Define common functions
-function makeOrAddToGroup() {
+makeOrAddToGroup() {
     TITLE="$1"
     TYPE="$2"
     OBJECT="{ \"title\" : \"$TITLE\", \"type\" : \"$TYPE\", \"values\" : [$3] }"
-    if [[ "$4" != "" ]]
+    if [ "$4" != "" ]
     then
         echo "$4,$OBJECT"
     else
@@ -31,13 +28,13 @@ function makeOrAddToGroup() {
     fi
 }
 
-function makeOrAddToValues() {
+makeOrAddToValues() {
     TITLE="$1"
     TYPE="$2"
     THRESHOLD="$3"
     VALUE="$4"
     OBJECT="{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"threshold\" : \"$THRESHOLD\" , \"value\" : \"$VALUE\" }"
-    if [[ "$5" != "" ]]
+    if [ "$5" != "" ]
     then
         echo "$5,$OBJECT"
     else
@@ -46,36 +43,36 @@ function makeOrAddToValues() {
 }
 
 #Public IP Command
-function getPublicIP() {
+getPublicIP() {
     curl -sS -m 1 https://ipinfo.io/ip
 }
 
 #Private IP Command
-function getPrivateIP() {
+getPrivateIP() {
     hostname -i
 }
 
 #Hostname Command
-function getHostname() {
+getHostname() {
     hostname
 }
 
 #Fully Qualified Domain Name Command
-function getFQDN() {
+getFQDN() {
     hostname -f
 }
 
 #Top Command
-function getTop() {
+getTop() {
     top -b -n2 -d1 -o %CPU | awk '/^top/{i++}i==2'
 }
 
 #Uptime Command
-function getUptime() {
+getUptime() {
     uptime -p
 }
 
-if [[ "$1" != "TEST" ]] 
+if [ "$1" != "TEST" ] 
 then
     #Run curl command to get IP info
     PUBLIC_IP=$(curl -sS -m 1 https://ipinfo.io/ip)
@@ -118,12 +115,12 @@ then
     LOGINS=$(printf "USER|IP|LOGIN - LOGOUT|LENGTH" && last -di | grep -v reboot | awk '{ printf $1"|"$3"|"; s = ""; for (i = 4; i <= NF; i++) s = s $i " "; print s }' | sed 's/ (/|/g' | tr -d ')' | sed '$d' | sed '$d' | tr '\n' '#')
 
     #Run netstat or ss command to get connection info
-    NETSTAT=$(netstat &>/dev/null | sed 1d; echo $?);
-    SS=$(ss &>/dev/null | sed 1d; echo $?);
-    if [[ $NETSTAT == 0 ]]
+    NETSTAT=$(netstat >/dev/null 2>&1 | sed 1d; echo $?);
+    SS=$(ss >/dev/null 2>&1 | sed 1d; echo $?);
+    if [ $NETSTAT -eq 0 ]
     then
         CONNECTIONS=$(netstat -tu --numeric-hosts | awk '/EST/{print $4"|"$5}')
-    elif [[ $SS == 0 ]]
+    elif [ $SS -eq 0 ]
     then
         CONNECTIONS=$(ss -tu | awk '/EST/{print $5"|"$6}')
     fi
@@ -449,7 +446,7 @@ then
     TITLE="Host Name"
     TYPE="detail"
     THRESHOLD=""
-    VALUE="$HOSTNAME"
+    VALUE=$(getHostname)
     DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
     #Computer URL
