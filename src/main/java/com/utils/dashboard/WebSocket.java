@@ -62,12 +62,14 @@ public class WebSocket {
     public String copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
         String retVal = "";
         try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
-            final String tempDirectory = System.getProperty("java.io.tmpdir");
-            final File tempFile = new File(tempDirectory + "/" + outputFileName);
-            Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            tempFile.setExecutable(true);
-            retVal = tempFile.getPath();
-        } catch (IOException | NullPointerException e) {
+            if(inputStream != null) {
+                final String tempDirectory = System.getProperty("java.io.tmpdir");
+                final File tempFile = new File(tempDirectory + "/" + outputFileName);
+                Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                tempFile.setExecutable(true);
+                retVal = tempFile.getPath();
+            }
+        } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
         return retVal;
