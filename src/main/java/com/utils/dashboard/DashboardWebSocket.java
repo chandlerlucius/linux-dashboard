@@ -37,7 +37,7 @@ public class DashboardWebSocket {
     }
 
     public DashboardWebSocket(final boolean withoutArguments) {
-        // This constructor is intentionally empty for testing. Nothing special is needed here.
+        // This constructor is intentionally empty. Nothing special is needed here.
     }
 
     @OnOpen
