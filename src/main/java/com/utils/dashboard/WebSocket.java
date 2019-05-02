@@ -68,7 +68,7 @@ public class WebSocket {
             Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             tempFile.setExecutable(true);
             retVal = tempFile.getPath();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
         return retVal;
