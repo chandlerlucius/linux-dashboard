@@ -63,7 +63,7 @@ Tech Stack:
 
 Frameworks:
 * Spring / Spring Boot (Embedded tomcat for fast deployment)
-* Java WebSocket API (Constant server -> client pushing for continuous results)
+* Java WebSocket API (Constant server -> client push for continuous results)
 * Materialize (Responsive web design framework)
 
 Live Example:  
