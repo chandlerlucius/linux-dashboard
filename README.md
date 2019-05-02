@@ -54,14 +54,16 @@ Meaning you can port it to your existing project by doing the following:
 2. Copy src/main/java/com/utils/dashboard/DashboardWebSocket.java 
 (Handles exposing the /websocket endpoint and the web socket code)
 
-Tech Stack:
+Tech Stack: 
+
 * Bash
 * Javascript
 * Java
 * HTML5
 * CSS3
 
-Frameworks:
+Frameworks: 
+
 * Spring / Spring Boot (Embedded tomcat for fast deployment)
 * Java WebSocket API (Constant server -> client push for continuous results)
 * Materialize (Responsive web design framework)
