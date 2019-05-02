@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -24,32 +26,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ServerEndpoint("/websocket")
-public class DashboardWebSocket {
+public class WebSocket {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DashboardWebSocket.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebSocket.class);
+    private static final Set<Session> SESSION_SET = Collections.synchronizedSet(new HashSet<>());
+    private static final ScheduledExecutorService SES = Executors.newSingleThreadScheduledExecutor();
 
-    private static final Set<Session> sessionSet = new HashSet<>();
-    private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-
-    public DashboardWebSocket() {
+    public WebSocket() {
         copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
         startSocketTransmission();
     }
 
-    public DashboardWebSocket(final boolean withoutArguments) {
-        // This constructor is intentionally empty. Nothing special is needed here.
-    }
-
     @OnOpen
     public void open(final Session session) {
-        sessionSet.add(session);
+        SESSION_SET.add(session);
     }
 
     @OnClose
     public void close(final Session session) {
-        sessionSet.remove(session);
-        if (sessionSet.isEmpty()) {
-            ses.shutdownNow();
+        SESSION_SET.remove(session);
+        if (SESSION_SET.isEmpty()) {
+            SES.shutdownNow();
         }
     }
 
@@ -58,11 +55,6 @@ public class DashboardWebSocket {
         LOG.info("Message from websocket connection: ", message);
     }
 
-    /**
-    * Log error if one occurs
-    *
-    * @author clucius
-    */
     @OnError
     public void onError(final Throwable throwable) {
         LOG.error("Issue with websocket connection: ", throwable);
@@ -82,18 +74,16 @@ public class DashboardWebSocket {
     }
 
     private void startSocketTransmission() {
-        ses.scheduleWithFixedDelay(new Runnable() {
+        SES.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
                 final String message = runServerScript();
                 // System.out.println(message);
-                sessionSet.forEach(session -> {
-                    synchronized (session) {
-                        try {
-                            session.getBasicRemote().sendText(message);
-                        } catch (IOException e) {
-                            LOG.error("Issue sending remote message: ", e);
-                        }
+                SESSION_SET.forEach(session -> {
+                    try {
+                        session.getBasicRemote().sendText(message);
+                    } catch (IOException e) {
+                        LOG.error("Issue sending remote message: ", e);
                     }
                 });
             }
