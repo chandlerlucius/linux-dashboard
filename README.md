@@ -3,6 +3,7 @@
 [![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 [![Github All Releases](https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
+[![Gitter](https://badges.gitter.im/chandlerlucius/linux-dashboard.svg)](https://gitter.im/chandlerlucius/linux-dashboard?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## License 
 
