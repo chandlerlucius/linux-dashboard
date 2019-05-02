@@ -4,26 +4,20 @@
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 [![Github All Releases](https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 
-## License Info 
+## License 
 
 [![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield)
 
-## Coveralls
+## Code 
 
 [![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg)](https://coveralls.io/github/chandlerlucius/linux-dashboard)
-
-## Codacy 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&utm_medium=referral&utm_content=chandlerlucius/linux-dashboard&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade)
 
-## Code Climate 
-
 [![Test Coverage](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/test_coverage)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/maintainability)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/maintainability)
-
-## SonarCloud 
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=coverage)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
