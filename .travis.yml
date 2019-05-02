@@ -6,12 +6,8 @@ addons:
     organization: "chandlerlucius-github"
 
 before_script:
-  - #Install bats for running Bash Automated Testing System
-  - git clone https://github.com/bats-core/bats-core.git
-  - cd bats-core
-  - sudo ./install.sh /usr/local
-  - cd ../
-  - rm -rf bats-core
+  - #Install shellcheck, checkbashisms, and bats
+  - sudo apt-get install shellcheck devscripts bats
   - #Install kcov dependencies, make/install kcov, remove uneeded directories
   - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make
   - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
@@ -25,28 +21,17 @@ before_script:
   - cd ../../
   - rm -rf kcov-master
   - rm -rf target/kcov
-  - #
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-  - LATEST_VERSION="$(curl -Ls https://api.bintray.com/packages/codacy/Binaries/codacy-coverage-reporter/versions/_latest | jq -r .name)"
-  - curl -Ls -o codacy-coverage-reporter "https://dl.bintray.com/codacy/Binaries/${LATEST_VERSION}/codacy-coverage-reporter-linux"
-  - chmod +x codacy-coverage-reporter
 
 script:
   - #Run java unit tests
   - ./mvnw test -B
   - #Collect jacoco java code coverage and report to coveralls
   - ./mvnw jacoco:report coveralls:report
-  - #Run bats on shell scripts
+  - #Run shellcheck, checkbashisms, and bats tests
+  - shellcheck src/main/resources/sh/ServerStats.sh
+  - checkbashisms -pf src/main/resources/sh/ServerStats.sh
   - bats src/test/bash/ServerStats.bats
   - #Run kcov to collect bash code coverage and report to coveralls
-  - kcov --bash-dont-parse-binary-dir --coveralls-id=$TRAVIS_JOB_ID --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
+  - kcov --bash-dont-parse-binary-dir --coveralls-id=$TRAVIS_JOB_ID --include-pattern=. target/kcov bats src/test/bash/
   - #Scan code with sonarcloud
   - sonar-scanner
-
-after_script:
-  - ./codacy-coverage-reporter report -l Java -r target/site/jacoco/jacoco.xml
-  - ./codacy-coverage-reporter report -l Shell -r target/kconv/bats*/cobertura.xml 
-  - ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco
-  - ./cc-test-reporter upload-coverage
