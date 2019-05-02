@@ -2,6 +2,7 @@ package com.utils.dashboard;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,13 +23,13 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ServerEndpoint(value = "/websocket")
+@ServerEndpoint("/websocket")
 public class DashboardWebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(DashboardWebSocket.class);
 
-    Set<Session> sessionSet = new HashSet<>();
-    ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+    private static final Set<Session> sessionSet = new HashSet<>();
+    private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
 
     public DashboardWebSocket() {
         copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
@@ -36,6 +37,7 @@ public class DashboardWebSocket {
     }
 
     public DashboardWebSocket(final boolean withoutArguments) {
+        // This constructor is intentionally empty for testing. Nothing special is needed here.
     }
 
     @OnOpen
@@ -62,21 +64,21 @@ public class DashboardWebSocket {
     * @author clucius
     */
     @OnError
-    public void onError(final Throwable e) {
-        LOG.error("Issue with websocket connection: ", e);
+    public void onError(final Throwable throwable) {
+        LOG.error("Issue with websocket connection: ", throwable);
     }
 
-    public File copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
-        try (InputStream is = this.getClass().getResourceAsStream(inputFilePath)) {
+    public String copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
+        try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
             final String tempDirectory = System.getProperty("java.io.tmpdir");
             final File tempFile = new File(tempDirectory + "/" + outputFileName);
-            Files.copy(is, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             tempFile.setExecutable(true);
-            return tempFile;
-        } catch (Exception e) {
+            return tempFile.getPath();
+        } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
-        return new File("");
+        return "";
     }
 
     private void startSocketTransmission() {
@@ -89,7 +91,7 @@ public class DashboardWebSocket {
                     synchronized (session) {
                         try {
                             session.getBasicRemote().sendText(message);
-                        } catch (Exception e) {
+                        } catch (IOException e) {
                             LOG.error("Issue sending remote message: ", e);
                         }
                     }
@@ -98,8 +100,7 @@ public class DashboardWebSocket {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    private static String runServerScript() {
-        String results = "";
+    static String runServerScript() {
         try {
             // Run server stats script
             final String tempDirectory = System.getProperty("java.io.tmpdir");
@@ -117,13 +118,13 @@ public class DashboardWebSocket {
                 while ((length = inputStream.read(buffer)) != -1) {
                     result.write(buffer, 0, length);
                 }
-                results = result.toString(StandardCharsets.UTF_8.name());
-            } catch (Exception e) {
+                return result.toString(StandardCharsets.UTF_8.name());
+            } catch (IOException e) {
                 LOG.error("Issue getting output from script: ", e);
             }
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
         }
-        return results;
+        return "";
     }
 }
