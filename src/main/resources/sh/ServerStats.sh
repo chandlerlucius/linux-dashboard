@@ -117,10 +117,10 @@ then
     #Run netstat or ss command to get connection info
     NETSTAT=$(netstat >/dev/null 2>&1 | sed 1d; echo $?);
     SS=$(ss >/dev/null 2>&1 | sed 1d; echo $?);
-    if [ $NETSTAT -eq 0 ]
+    if [ "$NETSTAT" -eq 0 ]
     then
         CONNECTIONS=$(netstat -tu --numeric-hosts | awk '/EST/{print $4"|"$5}')
-    elif [ $SS -eq 0 ]
+    elif [ "$SS" -eq 0 ]
     then
         CONNECTIONS=$(ss -tu | awk '/EST/{print $5"|"$6}')
     fi
