@@ -35,8 +35,9 @@ before_script:
 
 script:
   - #Run java unit tests
+  - ./mvnw test -B
   - #Collect jacoco java code coverage and report to coveralls
-  - ./mvnw test -B jacoco:report coveralls:report
+  - ./mvnw jacoco:report coveralls:report
   - #Run bats on shell scripts
   - bats src/test/bash/ServerStats.bats
   - #Run kcov to collect bash code coverage and report to coveralls
