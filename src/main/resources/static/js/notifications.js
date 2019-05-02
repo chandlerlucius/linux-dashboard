@@ -8,7 +8,8 @@ self.addEventListener('message', function (e) {
     var elaspedMinutes = (Math.abs(new Date() - new Date(data.notifiedDate)) / 1000) / 60;
     if(frequency < elaspedMinutes) {
         if (data.email) {
-            // var content = '{"sender":{"email":"clucius08@gmail.com"},"to":[{"email":"clucius08@gmail.com"}],"htmlContent":"<h1>' + text + '</h1><br><br><span>Good luck!</span><br><span>Linux Dashboard</span>","subject":"' + text + '"}';
+            // var content = '{"sender":{"email":"clucius08@gmail.com"},"to":[{"email":"clucius08@gmail.com"}], \
+            //     "htmlContent":"<h1>' + text + '</h1><br><br><span>Good luck!</span><br><span>Linux Dashboard</span>","subject":"' + text + '"}';
             // var xhr = new XMLHttpRequest();
     
             // xhr.withCredentials = true;
