@@ -262,7 +262,7 @@ function parseJsonResults(json) {
                     tabContent.querySelector('.card-search').style.display = '';
                     tabContent.querySelector('.card').classList.remove('small');
                     tabContent.querySelector('.card').classList.add('large');
-                    tabContent.querySelector('.card-detail').classList.add('search-table')
+                    tabContent.querySelector('.card-detail').classList.add('search-table');
 
                     //Update table with searchable data
                     var table = tabContent.querySelector('table');
@@ -326,7 +326,7 @@ function parseJsonResults(json) {
 
                         var seriesData = [];
                         for (var k = total; k > 0; k--) {
-                            seriesData.push(0)
+                            seriesData.push(0);
                         }
 
                         var chart = echarts.init(tabChart, null, {});
@@ -398,7 +398,7 @@ function start(websocketServerLocation) {
     socket.onclose = function () {
         if (!window.timerID) {
             window.timerID = setInterval(function () {
-                start(websocketServerLocation)
+                start(websocketServerLocation);
             }, 5000);
         }
     };
@@ -448,7 +448,7 @@ function drawChart(chart, xAxisData, data) {
                 var colorSpan = color => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
                 var result;
                 params.forEach(item => {
-                    result = '<p>' + colorSpan(item.color) + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>'
+                    result = '<p>' + colorSpan(item.color) + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
                 });
                 return result;
             }
