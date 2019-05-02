@@ -56,17 +56,16 @@ Meaning you can port it to your existing project by doing the following:
 (Handles exposing the /websocket endpoint and the web socket code)
 
 Tech Stack:
-
-  *  Bash
-  *  Javascript
-  *  Java
-  *  HTML5
-  *  CSS3
+* Bash
+* Javascript
+* Java
+* HTML5
+* CSS3
 
 Frameworks:
-  *  Spring / Spring Boot (Embedded tomcat for fast deployment)
-  *  Java WebSocket API (Constant server -> client pushing for continuous results)
-  *  Materialize (Responsive web design framework)
+* Spring / Spring Boot (Embedded tomcat for fast deployment)
+* Java WebSocket API (Constant server -> client pushing for continuous results)
+* Materialize (Responsive web design framework)
 
 Live Example:  
 www.linuxdashboard.com
