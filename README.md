@@ -9,6 +9,10 @@
 [![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield)
 
+## Coveralls
+
+[![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg)](https://coveralls.io/github/chandlerlucius/linux-dashboard)
+
 ## Codacy 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&utm_medium=referral&utm_content=chandlerlucius/linux-dashboard&utm_campaign=Badge_Coverage)
