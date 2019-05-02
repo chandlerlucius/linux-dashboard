@@ -61,16 +61,17 @@ public class WebSocket {
     }
 
     public String copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
+        String retVal = "";
         try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
             final String tempDirectory = System.getProperty("java.io.tmpdir");
             final File tempFile = new File(tempDirectory + "/" + outputFileName);
             Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             tempFile.setExecutable(true);
-            return tempFile.getPath();
+            retVal = tempFile.getPath();
         } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
-        return "";
+        return retVal;
     }
 
     private void startSocketTransmission() {
@@ -91,6 +92,7 @@ public class WebSocket {
     }
 
     private static String runServerScript() {
+        String retVal = "";
         try {
             // Run server stats script
             final String tempDirectory = System.getProperty("java.io.tmpdir");
@@ -108,13 +110,13 @@ public class WebSocket {
                 while ((length = inputStream.read(buffer)) != -1) {
                     result.write(buffer, 0, length);
                 }
-                return result.toString(StandardCharsets.UTF_8.name());
+                retVal = result.toString(StandardCharsets.UTF_8.name());
             } catch (IOException e) {
                 LOG.error("Issue getting output from script: ", e);
             }
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
         }
-        return "";
+        return retVal;
     }
 }
