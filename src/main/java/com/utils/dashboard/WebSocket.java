@@ -90,7 +90,7 @@ public class WebSocket {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    static String runServerScript() {
+    private static String runServerScript() {
         try {
             // Run server stats script
             final String tempDirectory = System.getProperty("java.io.tmpdir");
