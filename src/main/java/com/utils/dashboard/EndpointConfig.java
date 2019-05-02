@@ -15,8 +15,8 @@ public class EndpointConfig {
     }
 
     @Bean
-    public DashboardWebSocket dashboardWebSocket() {
-        return new DashboardWebSocket();
+    public WebSocket webSocket() {
+        return new WebSocket();
     }
 
     @Bean
