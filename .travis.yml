@@ -34,9 +34,15 @@ before_script:
   - chmod +x codacy-coverage-reporter
 
 script:
+  - #Run java unit tests
   - ./mvnw test -B
+  - #Collect jacoco java code coverage and report to coveralls
+  - ./mvnw jacoco:report coveralls:report
+  - #Run bats on shell scripts
   - bats src/test/bash/ServerStats.bats
-  - kcov --bash-dont-parse-binary-dir --coveralls-id=$COVERALLS_TOKEN --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
+  - #Run kcov to collect bash code coverage and report to coveralls
+  - kcov --bash-dont-parse-binary-dir --coveralls-id=${COVERALLS_TOKEN} --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
+  - #Scan code with sonarcloud
   - sonar-scanner
 
 after_script:
