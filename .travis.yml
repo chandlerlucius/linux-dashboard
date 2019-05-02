@@ -36,7 +36,7 @@ before_script:
 script:
   - ./mvnw test -B
   - bats src/test/bash/ServerStats.bats
-  - kcov --bash-dont-parse-binary-dir --coveralls-id=$COVERALLS_ID --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
+  - kcov --bash-dont-parse-binary-dir --coveralls-id=$COVERALLS_TOKEN --include-pattern=src/main/resources/sh target/kcov bats src/test/bash/
   - sonar-scanner
 
 after_script:
