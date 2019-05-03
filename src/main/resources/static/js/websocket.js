@@ -82,14 +82,15 @@ function populateRow(element) {
     }
 };
 
-function escapeHtml(unsafe) {
+function escapeHTML(unsafe) {
     return unsafe
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+        .replace(/'/g, '&apos;');
 };
+module.exports = { escapeHTML };
 
 //Parse json method
 function parseJsonResults(json) {
@@ -294,7 +295,7 @@ function parseJsonResults(json) {
                                 }
                             }
                             if (col !== '[hidden]' && col !== '[client-request]') {
-                                tabSearchTd.innerHTML = escapeHtml(col);
+                                tabSearchTd.innerHTML = escapeHTML(col);
                             }
                         }
 
