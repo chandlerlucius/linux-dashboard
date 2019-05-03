@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/chandlerlucius/linux-dashboard#readme",
   "dependencies": {
+    "coveralls": "^3.0.3",
     "jsdom-worker": "^0.1.0",
     "node-fetch": "^2.5.0"
   },
