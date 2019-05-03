@@ -33,7 +33,7 @@ script:
   - #Collect jest javascript code coverage and report to coveralls
   - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
   - #Remove directories created by node
-  - rm -rf coverage && node && node_modules
+  - rm -rf coverage node node_modules
   - #Run shellcheck, checkbashisms, and bats tests
   - shellcheck src/main/resources/sh/ServerStats.sh
   - checkbashisms -pf src/main/resources/sh/ServerStats.sh
