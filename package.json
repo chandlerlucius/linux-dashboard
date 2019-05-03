@@ -1,0 +1,32 @@
+{
+  "name": "linux-dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest 'src/test/js/' --coverage"
+  },
+  "jest": {
+    "setupFiles": [
+      "jsdom-worker"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chandlerlucius/linux-dashboard.git"
+  },
+  "keywords": [],
+  "author": "Chandler Lucius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chandlerlucius/linux-dashboard/issues"
+  },
+  "homepage": "https://github.com/chandlerlucius/linux-dashboard#readme",
+  "dependencies": {
+    "jsdom-worker": "^0.1.0",
+    "node-fetch": "^2.5.0"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1"
+  }
+}
