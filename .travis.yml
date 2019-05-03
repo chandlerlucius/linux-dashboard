@@ -39,6 +39,6 @@ script:
   - checkbashisms -pf src/main/resources/sh/ServerStats.sh
   - bats src/test/sh/ServerStats.bats
   - #Run kcov to collect bash code coverage and report to coveralls
-  - kcov --bash-dont-parse-binary-dir --path-strip-level=0 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
+  - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
   - #Scan code with sonarcloud
   - sonar-scanner
