@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest 'src/test/js/' --coverage"
+    "test": "jest"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "!src/main/resources/static/js/*.min.js",
+      "src/main/resources/static/js/**"
+    ],
     "setupFiles": [
       "jsdom-worker"
     ]
