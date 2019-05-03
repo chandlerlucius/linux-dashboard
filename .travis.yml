@@ -26,10 +26,13 @@ before_script:
   - rm -rf target/kcov
 
 script:
-  - #Run java unit tests
+  - #Run java & javascript unit tests
   - ./mvnw test -B
   - #Collect jacoco java code coverage and report to coveralls
   - ./mvnw jacoco:report coveralls:report
+  - #Collect jest javascript code coverage and report to coveralls
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - rm -rf ./coverage
   - #Run shellcheck, checkbashisms, and bats tests
   - shellcheck src/main/resources/sh/ServerStats.sh
   - checkbashisms -pf src/main/resources/sh/ServerStats.sh
