@@ -44,6 +44,7 @@ script:
   - sonar-scanner
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: curl --ftp-create-dirs -T target/linux-dashboard-1.0.0.jar sftp://${SFTP_USERNAME}:${SFTP_PASSWORD}@linuxdashboard.com
   on:
