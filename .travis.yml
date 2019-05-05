@@ -49,6 +49,6 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -avz target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~
+  script: rsync -avvz -e "ssh -p 7001" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~
   on:
     branch: master
