@@ -64,3 +64,9 @@ Frameworks:
 
 Live Example:  
 www.linuxdashboard.com
+
+## License
+
+[MIT](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=large)]
