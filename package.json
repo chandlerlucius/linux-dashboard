@@ -1,7 +1,7 @@
 {
   "name": "linux-dashboard",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper",
   "main": "index.js",
   "scripts": {
     "test": "jest"
