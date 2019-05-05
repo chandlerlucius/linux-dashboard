@@ -90,7 +90,6 @@ function escapeHTML(unsafe) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&apos;');
 };
-module.exports = { escapeHTML };
 
 //Parse json method
 function parseJsonResults(json) {
@@ -477,4 +476,8 @@ function drawChart(chart, xAxisData, data) {
             areaStyle: {}
         }]
     });
+}
+
+if (module) {
+    module.exports = { escapeHTML, search };
 }
