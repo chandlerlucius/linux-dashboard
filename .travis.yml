@@ -42,3 +42,9 @@ script:
   - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
   - #Scan code with sonarcloud
   - sonar-scanner
+
+deploy:
+  provider: script
+  script: curl --ftp-create-dirs -T target/linux-dashboard-1.0.0.jar sftp://${SFTP_USERNAME}:${SFTP_PASSWORD}@linuxdashboard.com
+  on:
+    branch: master
