@@ -1,11 +1,10 @@
 # linux-dashboard 
+Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper
 
 [![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 [![Github All Releases](https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
 [![Gitter](https://badges.gitter.im/chandlerlucius/linux-dashboard.svg)](https://gitter.im/chandlerlucius/linux-dashboard?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-## License 
 
 [![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield)
@@ -65,3 +64,9 @@ Frameworks:
 
 Live Example:  
 www.linuxdashboard.com
+
+## License
+
+[MIT](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_large)
