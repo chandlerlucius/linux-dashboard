@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.utils</groupId>
 	<artifactId>linux-dashboard</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>linux-dashboard</name>
 	<description>Bash scripting project to generate linux server analytics with a Java Websocket wrapper</description>
 
