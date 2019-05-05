@@ -65,6 +65,10 @@ Frameworks:
 Live Example:  
 www.linuxdashboard.com
 
+## Support
+
+For help, please us the [chat room](https://gitter.im/chandlerlucius/linux-dashboard).
+
 ## License
 
 [MIT](LICENSE)
