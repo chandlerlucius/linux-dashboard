@@ -28,10 +28,13 @@
     "lint:css1": "csslint src/main/resources/com/utils/dashboard/css/*.css",
     "lint:md2": "remark *.md --quiet",
     "lint:css2": "stylelint src/**/*.css",
-    "pretest": "npm-run-all --continue-on-error lint:*",
-    "test": "jest --coverage"
+    "pretest": "npm-run-all --parallel --continue-on-error lint:*",
+    "test:js": "jest",
+    "test:sh": "bats src/test/sh/ServerStats.bats",
+    "test": "npm-run-all --parallel --continue-on-error test:*"
   },
   "devDependencies": {
+    "bats": "^1.1.0",
     "coveralls": "^3.0.3",
     "csslint": "^1.0.5",
     "eslint": "^5.16.0",
@@ -70,7 +73,6 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "!**/*.min.js",
       "src/main/resources/com/utils/dashboard/js/**"
     ]
   }
