@@ -55,6 +55,6 @@ deploy:
   skip_cleanup: true
   script: 
     rsync -avvz -e "ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~ && 
-    ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com 'pkill -9 -f linux-dashboard & java -jar linux-dashboard-1.0.0.jar --server.port=80'
+    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'pkill -9 -f linux-dashboard; nohup java -jar linux-dashboard-1.0.0.jar > /dev/null 2>&1 &'" 
   on:
     branch: master
