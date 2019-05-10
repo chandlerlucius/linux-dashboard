@@ -1,5 +1,7 @@
-# Keystore
-*.jks
+# Node/Jest Files #
+coverage
+node
+node_modules
 
 # Package Files #
 *.jar
@@ -13,9 +15,6 @@
 # Compiled class files and directories #
 /target/
 *.class
-
-# Allow compiled jar #
-!/target/linux-dashboard*.jar
 
 # Log file #
 *.log
@@ -54,4 +53,3 @@ hs_err_pid*
 
 # Mobile Tools for Java (J2ME) #
 .mtj.tmp/
-
