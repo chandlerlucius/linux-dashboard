@@ -1,5 +1,7 @@
-# linux-dashboard 
-Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper
+# linux-dashboard
+
+Simple Bash scripting project to generate linux
+server analytics with a Java Websocket wrapper
 
 [![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
@@ -9,7 +11,7 @@ Simple Bash scripting project to generate linux server analytics with a Java Web
 [![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield)
 
-## Code 
+## Code
 
 [![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg)](https://coveralls.io/github/chandlerlucius/linux-dashboard)
 
@@ -26,29 +28,27 @@ Simple Bash scripting project to generate linux server analytics with a Java Web
 
 --Work In Progress--
 
-Bash scripting project to generate linux server 
-analytics with a Java Websocket wrapper
-
-This is bash script written to get basic server 
+This is bash script written to get basic server
 analytic data and put it in a json format.
 
-It is encased in a Java wrapper using websockets 
+It is encased in a Java wrapper using websockets
 to provide the html with constantly updating data.
 
-Once downloaded and extracted it can be run like so:  
-./mvnw clean install -DskipTests; 
+Once downloaded and extracted it can be run like so:
+./mvnw clean install -DskipTests;
 java -jar target/linux-dashboard-0.0.1-SNAPSHOT.jar
 
-The most recent jar is also supplied if you just want to run it:  
+The most recent jar is also supplied if you just want to run it:
 java -jar target/linux-dashboard-0.0.1-SNAPSHOT.jar
 
-This project is also in a plug-and-play fashion. 
+This project is also in a plug-and-play fashion.
 Meaning you can port it to your existing project by doing the following:
-1. Copy all file from src/main/resources/static into your resources directory 
-2. Copy src/main/java/com/utils/dashboard/DashboardWebSocket.java 
+
+1. Copy all file from src/main/resources/static into your resources directory
+2. Copy src/main/java/com/utils/dashboard/DashboardWebSocket.java
 (Handles exposing the /websocket endpoint and the web socket code)
 
-Tech Stack: 
+Tech Stack:
 
 * Bash
 * Javascript
@@ -56,13 +56,13 @@ Tech Stack:
 * HTML5
 * CSS3
 
-Frameworks: 
+Frameworks:
 
 * Spring / Spring Boot (Embedded tomcat for fast deployment)
 * Java WebSocket API (Constant server -> client push for continuous results)
 * Materialize (Responsive web design framework)
 
-Live Example:  
+Live Example:
 www.linuxdashboard.com
 
 ## Support
