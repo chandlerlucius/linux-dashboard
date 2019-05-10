@@ -1,11 +1,14 @@
-const websocket = require('../../main/resources/static/js/websocket')
+var rewire = require('rewire');
+var websocket = rewire('../../main/resources/com/utils/dashboard/js/websocket.js');
 
 describe('Escape HTML Function - escapeHTML()', function () {
+    var escapeHTML = websocket.__get__('escapeHTML');
+
     it('should convert all the unsafe HTML characters into HTML entities', function () {
-        expect(websocket.escapeHTML('&<>"\'')).toBe('&amp;&lt;&gt;&quot;&apos;');
+        expect(escapeHTML('&<>"\'')).toBe('&amp;&lt;&gt;&quot;&apos;');
     });
 
     it('should leave all the safe HTML characters the way they are', function () {
-        expect(websocket.escapeHTML('qwertyuiopasdfghjklzxcvbnm')).toBe('qwertyuiopasdfghjklzxcvbnm');
+        expect(escapeHTML('qwertyuiopasdfghjklzxcvbnm')).toBe('qwertyuiopasdfghjklzxcvbnm');
     });
 });
