@@ -72,9 +72,6 @@
     "collectCoverageFrom": [
       "!**/*.min.js",
       "src/main/resources/com/utils/dashboard/js/**"
-    ],
-    "setupFiles": [
-      "jsdom-worker"
     ]
   }
 }
