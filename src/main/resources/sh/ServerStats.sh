@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # PS4='+ $(date "+%s.%N")\011 '
 # exec 3>&2 2>/tmp/bashstart.$$.log
