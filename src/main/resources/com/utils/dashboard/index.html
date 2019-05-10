@@ -13,11 +13,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.min.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.min.js">
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
     </script>
-    <script type="text/javascript" src="/js/echarts.simple.min.js"></script>
-    <script type="text/javascript" src="/js/websocket.js"></script>
+    <script type="text/javascript" src="/js/main.min.js"></script>
 </head>
 
 <body class="black">
@@ -28,7 +30,7 @@
             <nav class="nav-extended teal accent-4">
                 <div class="nav-content">
                     <ul id="tab-title-list" class="tabs tabs-transparent">
-                        <li id="sidenav-trigger">
+                        <li>
                             <a class="waves-effect waves-light btn modal-trigger teal accent-4" href="#menu">
                                 <i class="material-icons">menu</i>
                             </a>
@@ -42,10 +44,12 @@
 
     <main>
 
-        <div id="menu" class="modal modal-fixed-footer bottom-sheet">
+        <div id="menu" class="modal modal-fixed-footer">
             <div>
                 <ul class="tabs tabs-transparent teal accent-4">
-                    <li class="tab col s3"><a href="#notifications">Notifications</a></li>
+                    <li class="tab col s3">
+                        <a href="#notifications">Notifications</a>
+                    </li>
                 </ul>
             </div>
             <div class="modal-content grey darken-4">
@@ -67,7 +71,9 @@
     </div>
 
     <template id="tab-title-template">
-        <li class="tab"><a></a></li>
+        <li class="tab">
+            <a></a>
+        </li>
     </template>
 
     <template id="tab-container-template">
@@ -103,8 +109,12 @@
 
     <template id="tab-detail-template">
         <tr>
-            <td><b></b></td>
-            <td><span></span></td>
+            <td>
+                <b></b>
+            </td>
+            <td>
+                <span></span>
+            </td>
         </tr>
     </template>
 
@@ -114,20 +124,23 @@
             <div class="input-field col s4">
                 <input type="number" class="threshold white-text" min="0" max="100">
                 <label class="threshold">Threshold</label>
-                <span class="helper-text grey-text" data-error="wrong" data-success="right">Between
-                    0 - 100%</span>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">
+                    Between 0 - 100%
+                </span>
             </div>
             <div class="input-field col s4">
                 <input type="number" class="frequency white-text">
                 <label class="frequency">Frequency</label>
-                <span class="helper-text grey-text" data-error="wrong" data-success="right">In
-                    Minutes</span>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">
+                    In Minutes
+                </span>
             </div>
             <div class="input-field col s4">
                 <input type="number" class="snooze white-text">
                 <label class="snooze">Snooze</label>
-                <span class="helper-text grey-text" data-error="wrong" data-success="right">In
-                    Minutes</span>
+                <span class="helper-text grey-text" data-error="wrong" data-success="right">
+                    In Minutes
+                </span>
             </div>
             <p class="col s2">
                 <label>
@@ -164,3 +177,5 @@
     </template>
 
 </body>
+
+</html>

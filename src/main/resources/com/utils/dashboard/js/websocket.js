@@ -1,3 +1,5 @@
+'use strict';
+
 //Handle reconnecting websocket
 var timerID = 0;
 
@@ -8,10 +10,10 @@ var initialized = false;
 var chartMap = new Map();
 
 //Run web worker to handle notifications
-var worker = new Worker('js/notifications.js');
-worker.addEventListener('message', function (e) {
-    localStorage.setItem(e.data.key, new Date());
-}, false);
+// var worker = new Worker('js/notifications.js');
+// worker.addEventListener('message', function (e) {
+//     localStorage.setItem(e.data.key, new Date());
+// }, false);
 
 //Helper methods
 
@@ -214,13 +216,13 @@ function parseJsonResults(json) {
 
                     var exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
                     if (exceededThreshold) {
-                        worker.postMessage({
-                            'key': key, 'title': tabDetailResult.title, 'value': tabDetailResult.value,
-                            'frequency': localStorage.getItem(key + '-frequency'), 'notifiedDate': localStorage.getItem(key + '-notified-date'),
-                            'toast': localStorage.getItem(key + '-toast'), 'email': localStorage.getItem(key + '-email'),
-                            'sms': localStorage.getItem(key + '-sms'), 'chat': localStorage.getItem(key + '-chat'),
-                            'notification': localStorage.getItem(key + '-notification')
-                        });
+                        // worker.postMessage({
+                        //     'key': key, 'title': tabDetailResult.title, 'value': tabDetailResult.value,
+                        //     'frequency': localStorage.getItem(key + '-frequency'), 'notifiedDate': localStorage.getItem(key + '-notified-date'),
+                        //     'toast': localStorage.getItem(key + '-toast'), 'email': localStorage.getItem(key + '-email'),
+                        //     'sms': localStorage.getItem(key + '-sms'), 'chat': localStorage.getItem(key + '-chat'),
+                        //     'notification': localStorage.getItem(key + '-notification')
+                        // });
                     }
 
                     var toastTitleElement = document.querySelector('#' + thresholdKey + '_title');
@@ -361,7 +363,7 @@ function parseJsonResults(json) {
         M.updateTextFields();
 
         //Set event listener on tabs to resize charts
-        document.querySelectorAll('.tab a').forEach(element => {
+        document.querySelectorAll('.tab a').forEach(function (element) {
             element.addEventListener('click', function () {
                 setTimeout(function () {
                     resizeCharts();
@@ -393,6 +395,7 @@ function start(websocketServerLocation) {
             window.clearInterval(window.timerID);
             window.timerID = 0;
         }
+        socket.send("gimme");
     };
 
     socket.onclose = function () {
@@ -407,31 +410,34 @@ function start(websocketServerLocation) {
         console.log(new Date());
         var json = JSON.parse(event.data);
         parseJsonResults(json);
+        socket.send("gimme");
     };
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-    //Start websocket connection 
-    var host = window.location.host;
-    start('ws://' + host + '/websocket');
+if (window) {
+    window.addEventListener('DOMContentLoaded', function () {
+        //Start websocket connection 
+        var host = window.location.host;
+        start('ws://' + host + '/websocket');
 
-    //Handle resizing charts when window is resized
-    window.onresize = function () {
-        resizeCharts();
-    };
+        //Handle resizing charts when window is resized
+        window.onresize = function () {
+            resizeCharts();
+        };
 
-    //Handle menu saving
-    document.querySelector('#menu-save').addEventListener('click', function () {
-        var notificationInputs = document.querySelectorAll('#menu #notifications input');
-        notificationInputs.forEach(function (input) {
-            if (input.type === 'checkbox') {
-                localStorage.setItem(input.id, input.checked);
-            } else {
-                localStorage.setItem(input.id, input.value);
-            }
+        //Handle menu saving
+        document.querySelector('#menu-save').addEventListener('click', function () {
+            var notificationInputs = document.querySelectorAll('#menu #notifications input');
+            notificationInputs.forEach(function (input) {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
         });
     });
-});
+}
 
 function drawChart(chart, xAxisData, data) {
     chart.setOption({
@@ -445,10 +451,10 @@ function drawChart(chart, xAxisData, data) {
         tooltip: {
             trigger: 'axis',
             formatter: function (params) {
-                var colorSpan = color => '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + color + '"></span>';
                 var result;
-                params.forEach(item => {
-                    result = '<p>' + colorSpan(item.color) + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
+                params.forEach(function (item) {
+                    result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:'
+                        + item.color + '"></span>' + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
                 });
                 return result;
             }
@@ -476,8 +482,4 @@ function drawChart(chart, xAxisData, data) {
             areaStyle: {}
         }]
     });
-}
-
-if (module) {
-    module.exports = { escapeHTML, search };
 }

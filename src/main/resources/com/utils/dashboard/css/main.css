@@ -1,0 +1,63 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+b,
+button,
+div,
+input,
+label,
+li,
+p,
+pre,
+select,
+span,
+td,
+textarea {
+  font-family: 'Roboto', sans-serif;
+}
+
+tr:hover {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.search-table {
+  font-size: 0.85em;
+  height: 325px;
+  overflow-y: scroll;
+}
+
+.progress {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 33%;
+}
+
+.card-chart {
+  min-height: 200px;
+  width: 100%;
+}
+
+.navbar-fixed .tabs a {
+  font-weight: bold;
+  height: 100%;
+  margin: 0;
+}
+
+.navbar-fixed .tabs .material-icons {
+  line-height: 200%;
+}
+
+.modal {
+  max-height: 75%;
+}
+
+.modal .modal-footer .btn {
+  margin: 6px;
+}
