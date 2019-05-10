@@ -7,20 +7,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,30 +20,31 @@ import org.slf4j.LoggerFactory;
 public class WebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSocket.class);
-    private static final Set<Session> SESSION_SET = Collections.synchronizedSet(new HashSet<>());
-    private static final ScheduledExecutorService SES = Executors.newSingleThreadScheduledExecutor();
 
     public WebSocket() {
-        copyExecScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
-        startSocketTransmission();
+        copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
     }
 
     @OnOpen
     public void open(final Session session) {
-        SESSION_SET.add(session);
+        LOG.info("Closed websocket connection: ", session.getId());
     }
 
     @OnClose
     public void close(final Session session) {
-        SESSION_SET.remove(session);
-        if (SESSION_SET.isEmpty()) {
-            SES.shutdownNow();
-        }
+        LOG.info("Opened websocket connection: ", session.getId());
     }
 
     @OnMessage
     public void handleMessage(final String message, final Session session) {
-        LOG.info("Message from websocket connection: ", message);
+        if(message.equals("gimme")) {
+            try {
+                final String data = runServerScript();
+                session.getBasicRemote().sendText(data);
+            } catch (IOException e) {
+                LOG.error("Issue sending data to websocket: ", e);
+            }
+        }
     }
 
     @OnError
@@ -59,41 +52,22 @@ public class WebSocket {
         LOG.error("Issue with websocket connection: ", throwable);
     }
 
-    public String copyExecScriptToTempDir(final String inputFilePath, final String outputFileName) {
-        String retVal = "";
+    public String copyScriptToTempDir(final String inputFilePath, final String outputFileName) {
         try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
-            if(inputStream != null) {
+            if (inputStream != null) {
                 final String tempDirectory = System.getProperty("java.io.tmpdir");
                 final File tempFile = new File(tempDirectory + "/" + outputFileName);
                 Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 tempFile.setExecutable(true);
-                retVal = tempFile.getPath();
+                return tempFile.getPath();
             }
         } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
-        return retVal;
-    }
-
-    private void startSocketTransmission() {
-        SES.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                final String message = runServerScript();
-                // System.out.println(message);
-                SESSION_SET.forEach(session -> {
-                    try {
-                        session.getBasicRemote().sendText(message);
-                    } catch (IOException e) {
-                        LOG.error("Issue sending remote message: ", e);
-                    }
-                });
-            }
-        }, 0, 1, TimeUnit.SECONDS);
+        return "";
     }
 
     private static String runServerScript() {
-        String retVal = "";
         try {
             // Run server stats script
             final String tempDirectory = System.getProperty("java.io.tmpdir");
@@ -107,17 +81,18 @@ public class WebSocket {
             try (InputStream inputStream = process.getInputStream()) {
                 final ByteArrayOutputStream result = new ByteArrayOutputStream();
                 final byte[] buffer = new byte[1024];
-                int length;
-                while ((length = inputStream.read(buffer)) != -1) {
+                int length = inputStream.read(buffer);
+                while (length != -1) {
                     result.write(buffer, 0, length);
+                    length = inputStream.read(buffer);
                 }
-                retVal = result.toString(StandardCharsets.UTF_8.name());
+                return result.toString(StandardCharsets.UTF_8.name());
             } catch (IOException e) {
                 LOG.error("Issue getting output from script: ", e);
             }
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
         }
-        return retVal;
+        return "";
     }
 }
