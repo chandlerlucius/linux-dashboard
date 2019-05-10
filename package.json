@@ -1,38 +1,80 @@
 {
   "name": "linux-dashboard",
   "version": "1.0.0",
-  "description": "Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "!src/main/resources/static/js/*.min.js",
-      "src/main/resources/static/js/**"
-    ],
-    "setupFiles": [
-      "jsdom-worker"
-    ]
-  },
+  "author": "Chandler Lucius",
+  "license": "MIT",
+  "description": "Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper",
+  "keywords": [
+    "linux",
+    "dashboard",
+    "linux dashboard",
+    "linux-dashboard"
+  ],
+  "homepage": "https://github.com/chandlerlucius/linux-dashboard#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chandlerlucius/linux-dashboard.git"
   },
-  "keywords": [],
-  "author": "Chandler Lucius",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/chandlerlucius/linux-dashboard/issues"
   },
-  "homepage": "https://github.com/chandlerlucius/linux-dashboard#readme",
-  "dependencies": {
-    "coveralls": "^3.0.3",
-    "jsdom-worker": "^0.1.0",
-    "node-fetch": "^2.5.0"
+  "scripts": {
+    "lint:html": "htmlhint src/**/*.html",
+    "lint:json": "jsonlint -q *.json",
+    "lint:yaml": "yamllint *.yml",
+    "lint:sh": "shellcheck src/main/resources/sh/*.sh",
+    "lint:md1": "markdownlint *.md",
+    "lint:css1": "csslint src/main/resources/com/utils/dashboard/css/*.css",
+    "lint:md2": "remark *.md --quiet",
+    "lint:css2": "stylelint src/**/*.css",
+    "pretest": "npm-run-all --continue-on-error lint:*",
+    "test": "jest --coverage"
   },
   "devDependencies": {
-    "jest": "^24.7.1"
+    "coveralls": "^3.0.3",
+    "csslint": "^1.0.5",
+    "eslint": "^5.16.0",
+    "htmlhint": "^0.11.0",
+    "jest": "^24.8.0",
+    "jshint": "^2.10.2",
+    "jsonlint": "^1.6.3",
+    "markdownlint-cli": "^0.15.0",
+    "npm-run-all": "^4.1.5",
+    "remark-cli": "^6.0.1",
+    "remark-preset-lint-recommended": "^3.0.2",
+    "rewire": "^4.0.1",
+    "shellcheck": "^0.2.3",
+    "stylelint": "^10.0.1",
+    "stylelint-config-recommended": "^2.2.0",
+    "yaml-lint": "^1.2.4"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "browser": true
+    }
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-lint-recommended",
+      [
+        "lint-list-item-indent",
+        "space"
+      ]
+    ]
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "!**/*.min.js",
+      "src/main/resources/com/utils/dashboard/js/**"
+    ],
+    "setupFiles": [
+      "jsdom-worker"
+    ]
   }
 }
