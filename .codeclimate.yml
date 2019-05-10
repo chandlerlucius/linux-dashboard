@@ -25,7 +25,7 @@ plugins:
   stylelint:
     enabled: true  
 exclude_patterns:
-  - "config/""
+  - "config/"
   - "db/"
   - "dist/"
   - "features/"
