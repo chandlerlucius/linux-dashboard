@@ -1,8 +1,8 @@
 {
     "MD033": {
         "allowed_elements": [
-            "h1",
             "a",
+            "img",
             "p",
             "strong"
         ]
