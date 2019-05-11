@@ -1,3 +1,5 @@
+![linux dashboard](https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg)
+
 # linux-dashboard
 
 Simple Bash scripting project to generate linux
