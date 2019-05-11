@@ -13,11 +13,6 @@ before_install:
   - ssh-add id_rsa
 
 before_script:
-  #Add repos and update
-  - sudo add-apt-repository ppa:duggan/bats -y
-  - sudo apt-get update -y
-  #Install shellcheck, checkbashisms, and bats
-  - sudo apt-get install shellcheck devscripts bats -y
   #Install kcov dependencies, make/install kcov, remove uneeded directories
   - sudo apt-get install binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev build-essential cmake make -y
   - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
@@ -36,15 +31,9 @@ script:
   #Run java & javascript unit tests
   - ./mvnw test -B
   #Collect jacoco java code coverage and report to coveralls
-  - ./mvnw jacoco:report coveralls:report
+  - ./mvnw coveralls:report
   #Collect jest javascript code coverage and report to coveralls
   - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
-  #Remove directories created by node
-  - rm -rf coverage node node_modules
-  #Run shellcheck, checkbashisms, and bats tests
-  - shellcheck src/main/resources/sh/ServerStats.sh
-  - checkbashisms -pf src/main/resources/sh/ServerStats.sh
-  - bats src/test/sh/ServerStats.bats
   #Run kcov to collect bash code coverage and report to coveralls
   - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
   #Scan code with sonarcloud
