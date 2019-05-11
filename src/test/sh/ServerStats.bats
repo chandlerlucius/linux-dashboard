@@ -89,5 +89,5 @@
     echo "$output" 
 
     [ "$status" -eq 0 ]
-    [[ "$output" =~ ^up.+?minutes$ ]]
+    [[ "$output" =~ ^up.+?minute$ ]]
 }
