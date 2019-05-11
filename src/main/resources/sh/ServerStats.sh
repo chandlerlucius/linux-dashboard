@@ -94,7 +94,7 @@ then
     MEM_PROCESSES=$(ps axo "%p|%U|%C|" o "pmem" o "|%c|" o "rss" --sort=-pmem | tr '\n' '#' | tr -d ' ' | sed -r 's/(.*)#/\1/')
 
     #Run df command to get all disk info
-    DF=$(df -hT | awk '{print $1"|"$2"|"$3"|"$4"|"$5"|"$6"|"$7}' | tr '\n' '#' | sed 's/\\/\\\\/g')
+    DF=$(df -hT | awk '{print $1"|"$2"|"$3"|"$4"|"$5"|"$6"|"$7}' | tr '\n' '#' | sed 's/\\/\//g')
 
     #Run free command to get mem & swap info
     FREE=$(free | tail -n 2)
