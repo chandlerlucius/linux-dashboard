@@ -28,7 +28,7 @@ before_script:
   - rm -rf target/kcov
 
 script:
-  #Run java & javascript unit tests
+  #Run linting tools, java tests, javascript tests, and shell tests
   - ./mvnw test -B
   #Collect jacoco java code coverage and report to coveralls
   - ./mvnw coveralls:report
