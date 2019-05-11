@@ -1,4 +1,3 @@
-<!-- markdownlint-disable MD033 -->
 <p align="center">
   <a href="linuxdashboard.com"><img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg"/></a>
 </p>
