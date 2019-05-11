@@ -2,10 +2,11 @@
   <a href="linuxdashboard.com"><img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg"/></a>
 </p>
 
-# linux-dashboard
+<p align="center">
+    <strong>Simple Bash scripting project to generate linux server analytics with a Java Websocket wrapper</strong>
+</p>
 
-Simple Bash scripting project to generate linux
-server analytics with a Java Websocket wrapper
+
 
 [![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
 [![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
