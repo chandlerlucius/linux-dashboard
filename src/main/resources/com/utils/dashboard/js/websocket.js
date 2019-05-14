@@ -273,8 +273,8 @@ const parseJsonResults = function (json) {
 
                     const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
                     const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
-                    const toastTitle = 'High ' + tabDetailResult.title;
-                    const toastValue = tabDetailResult.value + '%' + '<br>' + new Date().toLocaleString();
+                    const toastTitle = `High ${tabDetailResult.title}`;
+                    const toastValue = `${tabDetailResult.value}%`;
                     if (toastTitleElement === null && exceededThreshold) {
                         const toastHTML =
                             '<span id="' + thresholdKey + '_title">' + toastTitle + '</span>' +
@@ -294,7 +294,7 @@ const parseJsonResults = function (json) {
                 //Handle tab details
                 if (tabDetailResult.type === 'detail') {
                     //Update table with detail data
-                    const tabDetailId = 'tab-detail-' + i + '-' + j + '-' + k;
+                    const tabDetailId = `tab-detail-${i}-${j}-${k}`;
                     let tabDetail = tabContent.querySelector('#' + tabDetailId);
                     if (tabDetail === null) {
                         const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
@@ -489,4 +489,8 @@ if (window) {
             });
         });
     });
+}
+
+if(typeof exports !== 'undefined') {
+    exports.escapeHTML = escapeHTML;
 }
