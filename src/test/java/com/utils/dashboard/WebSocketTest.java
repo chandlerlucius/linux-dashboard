@@ -4,6 +4,13 @@ import java.io.File;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class is responsible for unit testing WebSocket.java.
+ * 
+ * @author Chandler Lucius
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class WebSocketTest {
 
     @Test
