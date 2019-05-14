@@ -13,6 +13,11 @@ import org.junit.jupiter.api.Test;
  */
 public class WebSocketTest {
 
+    /**
+     * Copy valid script file from webapp to temp directory.
+     * 
+     * @result Script should be accessible in temp directory and executable.
+     */
     @Test
     public void copyExecScriptToTempDir_ValidInputOutputPath_FileExistsAndExecutable() {
         final WebSocket webSocket = new WebSocket();
@@ -24,6 +29,11 @@ public class WebSocketTest {
         Assertions.assertTrue(file.canExecute(), "Expected file to be executable.");
     }
 
+    /**
+     * Copy non-existing script file from webapp to temp directory.
+     * 
+     * @result Method should throw errow and not exist.
+     */
     @Test
     public void copyExecScriptToTempDir_InvalidInputOutputPath_FileDoesNotExist() {
         final WebSocket webSocket = new WebSocket();
