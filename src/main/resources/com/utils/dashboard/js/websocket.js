@@ -18,12 +18,12 @@ const chartMap = new Map();
 //Helper methods
 
 const resizeCharts = function () {
-    chartMap.forEach(function (value, key, map) {
+    chartMap.forEach(function (value) {
         if (value.closest('.row').style.display !== 'none') {
             window.echarts.getInstanceByDom(value).resize();
         }
     });
-}
+};
 
 const search = function (element) {
     const filter = element.value.toUpperCase();
@@ -79,55 +79,55 @@ const populateRow = function (element) {
                 }
             }
         };
-        xhr.open('GET', 'https://ipapi.co/' + ip + '/json/ ', true);
+        xhr.open('GET', `https://ipapi.co/${ip}/json/`, true);
         xhr.send();
     }
 };
 
-const drawChart = function (chart, xAxisData, data) {
+const drawChart = function (chart, xAxisData, seriesData) {
     chart.setOption({
         animation: false,
         grid: {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0
+            bottom: 0,
         },
         tooltip: {
             trigger: 'axis',
-            formatter: function (params) {
+            formatter: function(params) {
                 let result;
                 params.forEach(function (item) {
                     result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:'
                         + item.color + '"></span>' + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
                 });
                 return result;
-            }
+            },
         },
         xAxis: {
             axisLabel: {
                 show: false
             },
             boundaryGap: false,
-            data: xAxisData
+            data: xAxisData,
         },
         yAxis: {
             axisLabel: {
                 show: false
             },
-            max: 100
+            max: 100,
         },
         series: [{
             type: 'line',
-            data: data,
+            data: seriesData,
             itemStyle: {
                 color: '#00bfa5'
             },
             symbolSize: 2,
-            areaStyle: {}
+            areaStyle: {},
         }]
     });
-}
+};
 
 const escapeHTML = function (unsafe) {
     return unsafe
@@ -165,7 +165,7 @@ const parseJsonResults = function (json) {
         const tabValues = tabResult.values;
         for (let j = 0; j < tabValues.length; j++) {
             const groupResult = tabValues[j];
-            const tabContentId = 'tab-content-' + i + '-' + j;
+            const tabContentId = `tab-content-${i}-${j}`;
             let tabContent = tab.querySelector('#' + tabContentId);
             if (tabContent === null) {
                 const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
@@ -182,6 +182,7 @@ const parseJsonResults = function (json) {
                 tabContent.querySelector('.card-search').style.display = '';
                 tabContent.querySelector('.card').classList.remove('small');
                 tabContent.querySelector('.card').classList.add('large');
+            } else {
             }
 
             const groupValues = groupResult.values;
