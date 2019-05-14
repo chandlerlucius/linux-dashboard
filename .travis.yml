@@ -30,10 +30,6 @@ before_script:
 script:
   #Run linting tools, java tests, javascript tests, and shell tests
   - ./mvnw test -B
-  #Collect jacoco java code coverage and report to coveralls
-  - ./mvnw coveralls:report
-  #Collect jest javascript code coverage and report to coveralls
-  - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
   #Run kcov to collect bash code coverage and report to coveralls
   - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
   #Scan code with sonarcloud
