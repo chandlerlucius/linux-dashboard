@@ -16,10 +16,21 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class is responsible for handling the messaging system between the clients and server using
+ * Java Websocket API.
+ * 
+ * @author Chandler Lucius
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @ServerEndpoint("/websocket")
 public class WebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSocket.class);
+    private static final String RUN_SCRIPT = "gimme";
+    private static final String SEP = File.separator;
+    private static final int BUFFER_SIZE = 1024;
 
     public WebSocket() {
         copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
@@ -37,13 +48,18 @@ public class WebSocket {
 
     @OnMessage
     public void handleMessage(final String message, final Session session) {
-        if(message.equals("gimme")) {
-            try {
-                final String data = runServerScript();
-                session.getBasicRemote().sendText(data);
-            } catch (IOException e) {
-                LOG.error("Issue sending data to websocket: ", e);
-            }
+        switch (message) {
+            case RUN_SCRIPT:
+                try {
+                    final String data = runServerScript();
+                    session.getBasicRemote().sendText(data);
+                } catch (IOException e) {
+                    LOG.error("Issue sending data to websocket: ", e);
+                }
+                break;
+            default:
+                LOG.info("Invalid message received from client.");
+                break;
         }
     }
 
@@ -56,9 +72,11 @@ public class WebSocket {
         try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
             if (inputStream != null) {
                 final String tempDirectory = System.getProperty("java.io.tmpdir");
-                final File tempFile = new File(tempDirectory + "/" + outputFileName);
+                final File tempFile = new File(tempDirectory + SEP + outputFileName);
                 Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                tempFile.setExecutable(true);
+                if (!tempFile.setExecutable(true)) {
+                    LOG.error("Failed to make temp file executable.");
+                }
                 return tempFile.getPath();
             }
         } catch (IOException e) {
@@ -80,7 +98,7 @@ public class WebSocket {
             // Get output from script
             try (InputStream inputStream = process.getInputStream()) {
                 final ByteArrayOutputStream result = new ByteArrayOutputStream();
-                final byte[] buffer = new byte[1024];
+                final byte[] buffer = new byte[BUFFER_SIZE];
                 int length = inputStream.read(buffer);
                 while (length != -1) {
                     result.write(buffer, 0, length);
@@ -92,6 +110,7 @@ public class WebSocket {
             }
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
+            Thread.currentThread().interrupt();
         }
         return "";
     }
