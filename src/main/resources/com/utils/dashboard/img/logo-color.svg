@@ -1,0 +1,26 @@
+<svg width="512" height="512" 
+    xmlns="http://www.w3.org/2000/svg" style="font-family: 'Roboto', sans-serif; fill: #00bfa5;">
+    <defs>
+        <style type="text/css">
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                src: url('https://fonts.googleapis.com/css?family=Roboto:300');
+            }
+        </style>
+    </defs>
+    <!-- <defs>
+        <linearGradient id="myGradient" gradientTransform="rotate(45)">
+            <stop offset="25%" stop-color="#00bfa5" />
+            <stop offset="50%" stop-color="#0091ea" />
+            <stop offset="75%" stop-color="#c51162" />
+            <stop offset="100%" stop-color="#ffd600" />
+        </linearGradient>
+    </defs> -->
+    <circle cx="256" cy="256" r="253" stroke="#00bfa5" stroke-width="3" fill="#353439"/>
+    <text text-anchor="middle">
+        <tspan y="50%" x="50%" style="font-size: 70px; color: #00bfa5;">linux dashboard</tspan>
+        <tspan y="60%" x="50%" style="font-size: 40px; color: #00bfa5;">simple, fast server analytics</tspan>
+    </text>
+</svg>
