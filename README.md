@@ -19,7 +19,7 @@
 
 ## Code
 
-[![Coverage Status](https://coveralls.io/repos/github/chandlerlucius/linux-dashboard/badge.svg)](https://coveralls.io/github/chandlerlucius/linux-dashboard)
+[![codecov](https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg)](https://codecov.io/gh/chandlerlucius/linux-dashboard)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/maintainability)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/maintainability)
@@ -80,3 +80,33 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 [MIT](LICENSE)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_large)
+
+## Acknowledgements
+
+* Linting tools
+  * PMD [java]
+  * spotbugs [java]
+  * checkstyles [java]
+  * jshint [javascript]
+  * eslint [javascript]
+  * csslint [css]
+  * stylelint [css]
+  * markdownlint [markdown]
+  * remarklint [markdown]
+  * shellcheck [shell]
+  * htmlhint [html]
+  * jsonlint [json]
+  * yamllint [yaml]
+* Online Tools
+  * TravisCI [continuous integration / deployment]
+  * SonarCloud [code quality]
+  * Codacy [code quality]
+  * CodeCov [code coverage]
+* Testing tools
+  * JUnit 5 [java]
+  * Jest [javascript]
+  * BATS [shell]
+* Github integrations
+  * FOSSA [license checker]
+  * GitGuardian [credential leak detector]
+  * Whitesource Bolt [vunerability finder]
