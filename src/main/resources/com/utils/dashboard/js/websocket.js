@@ -106,14 +106,14 @@ const drawChart = function (chart, xAxisData, seriesData) {
         },
         xAxis: {
             axisLabel: {
-                show: false
+                show: false,
             },
             boundaryGap: false,
             data: xAxisData,
         },
         yAxis: {
             axisLabel: {
-                show: false
+                show: false,
             },
             max: 100,
         },
@@ -121,11 +121,11 @@ const drawChart = function (chart, xAxisData, seriesData) {
             type: 'line',
             data: seriesData,
             itemStyle: {
-                color: '#00bfa5'
+                color: '#00bfa5',
             },
             symbolSize: 2,
             areaStyle: {},
-        }]
+        }],
     });
 };
 
@@ -271,11 +271,10 @@ const parseJsonResults = function (json) {
                         // });
                     }
 
-                    const toastTitleElement = document.querySelector('#' + thresholdKey + '_title');
-                    const toastValueElement = document.querySelector('#' + thresholdKey + '_value');
+                    const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
+                    const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
                     const toastTitle = 'High ' + tabDetailResult.title;
-                    const toastValue = tabDetailResult.value + '%';
-                    + '<br>' + new Date().toLocaleString();
+                    const toastValue = tabDetailResult.value + '%' + '<br>' + new Date().toLocaleString();
                     if (toastTitleElement === null && exceededThreshold) {
                         const toastHTML =
                             '<span id="' + thresholdKey + '_title">' + toastTitle + '</span>' +
@@ -288,6 +287,7 @@ const parseJsonResults = function (json) {
                     } else if (toastTitleElement !== null) {
                         const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
                         toastInstance.dismiss();
+                    } else {
                     }
                 }
 
@@ -339,6 +339,7 @@ const parseJsonResults = function (json) {
                                     populateHidden(tabSearchTd);
                                 } else if (col === '[client-request]') {
                                     populateRow(tabSearchTd);
+                                } else {
                                 }
                             }
                             if (col !== '[hidden]' && col !== '[client-request]') {
@@ -367,19 +368,19 @@ const parseJsonResults = function (json) {
                         tabChart = tabContent.querySelector('.card-chart');
                         tabChart.id = tabChartId;
 
-                        const xAxisData = [];
-                        for (let k = total; k > 0; k--) {
-                            xAxisData.push(k);
+                        const origXAxisData = [];
+                        for (let l = total; l > 0; l--) {
+                            origXAxisData.push(k);
                         }
 
                         const seriesData = [];
-                        for (let k = total; k > 0; k--) {
+                        for (let l = total; l > 0; l--) {
                             seriesData.push(0);
                         }
 
-                        const chart = echarts.init(tabChart, null, {});
+                        const origChart = echarts.init(tabChart, null, {});
                         chartMap.set(i + '_' + j + '_' + k, tabChart);
-                        drawChart(chart, xAxisData, seriesData);
+                        drawChart(origChart, origXAxisData, seriesData);
                     }
 
                     const chart = echarts.getInstanceByDom(tabChart);
@@ -390,12 +391,12 @@ const parseJsonResults = function (json) {
                     seriesData[total - 1] = tabDetailResult.value;
                     chart.setOption({
                         xAxis: {
-                            data: xAxisData
+                            data: xAxisData,
                         },
                         series: [{
                             name: tabDetailResult.title,
-                            data: seriesData
-                        }]
+                            data: seriesData,
+                        }],
                     });
                 }
             }
@@ -441,7 +442,7 @@ const start = function (websocketServerLocation) {
             window.clearInterval(window.timerID);
             window.timerID = 0;
         }
-        socket.send("gimme");
+        socket.send('gimme');
     };
 
     socket.onclose = function () {
@@ -459,17 +460,17 @@ const start = function (websocketServerLocation) {
             parseJsonResults(json);
         }
         catch (err) {
-            console.error("Issue parsing json: " + err);
+            console.error('Issue parsing json: ' + err);
         }
-        socket.send("gimme");
+        socket.send('gimme');
     };
 };
 
 if (window) {
     window.addEventListener('DOMContentLoaded', function () {
-        //Start websocket connection 
+        //Start websocket connection
         const host = window.location.host;
-        start('ws://' + host + '/websocket');
+        start(`ws://${host}/websocket`);
 
         //Handle resizing charts when window is resized
         window.onresize = function () {
