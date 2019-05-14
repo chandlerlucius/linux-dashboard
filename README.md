@@ -80,3 +80,31 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 [MIT](LICENSE)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_large)
+
+## Acknowledgements
+* Linting tools
+  * PMD [java]
+  * checkstyles [java]
+  * jshint [javascript]
+  * eslint [javascript]
+  * shellcheck [shell]
+  * htmlhint [html]
+  * csslint [css]
+  * stylelint [css]
+  * markdownlint [markdown]
+  * remarklint [markdown]
+  * jsonlint [json]
+  * yamllint [yaml]
+* Online Tools
+  * TravisCI [continuous integration / deployment]
+  * SonarCloud [code quality]
+  * Codacy [code quality]
+  * CodeCov [code coverage]
+* Testing tools
+  * JUnit 5 [java]
+  * Jest [javascript]
+  * BATS [shell]
+* Github integrations
+  * FOSSA [license checker]
+  * GitGuardian [credential leak detector]
+  * Whitesource Bolt [vunerability finder]
