@@ -84,15 +84,16 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 ## Acknowledgements
 * Linting tools
   * PMD [java]
+  * spotbugs [java]
   * checkstyles [java]
   * jshint [javascript]
   * eslint [javascript]
-  * shellcheck [shell]
-  * htmlhint [html]
   * csslint [css]
   * stylelint [css]
   * markdownlint [markdown]
   * remarklint [markdown]
+  * shellcheck [shell]
+  * htmlhint [html]
   * jsonlint [json]
   * yamllint [yaml]
 * Online Tools
