@@ -90,11 +90,13 @@
                         <div class="nav-wrapper">
                             <form>
                                 <div class="input-field">
-                                    <input class="search" type="search" onkeyup="search(this);" placeholder="Search">
-                                    <label class="label-icon">
+                                    <input id="search" name="search" class="search" type="search"
+                                        onkeyup="search(this);" placeholder="Search">
+                                    <label for="search" class="label-icon">
                                         <em class="material-icons" onkeypress="">search</em>
                                     </label>
-                                    <em class="material-icons" onclick="clearSearch(this);" onkeypress="clearSearch(this);">close</em>
+                                    <em class="material-icons" onclick="clearSearch(this);"
+                                        onkeypress="clearSearch(this);">close</em>
                                 </div>
                             </form>
                         </div>
@@ -122,7 +124,7 @@
 
     <template id="notification-tab-template">
         <div class="row">
-            <h5 id="notification-title" class="col s12 white-text"></h5>
+            <h4 id="notification-title" class="col s12 white-text"></h4>
             <div class="input-field col s4">
                 <input id="threshold" name="threshold" type="number" class="threshold white-text" min="0" max="100">
                 <label for="threshold" class="threshold">Threshold</label>
