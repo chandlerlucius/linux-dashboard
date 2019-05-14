@@ -38,6 +38,8 @@ script:
   - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
   #Scan code with sonarcloud
   - sonar-scanner
+  #Upload code coverage to codecov
+  - bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
