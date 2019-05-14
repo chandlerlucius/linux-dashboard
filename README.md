@@ -82,6 +82,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_large)
 
 ## Acknowledgements
+
 * Linting tools
   * PMD [java]
   * spotbugs [java]
