@@ -48,18 +48,13 @@ public class WebSocket {
 
     @OnMessage
     public void handleMessage(final String message, final Session session) {
-        switch (message) {
-            case RUN_SCRIPT:
-                try {
-                    final String data = runServerScript();
-                    session.getBasicRemote().sendText(data);
-                } catch (IOException e) {
-                    LOG.error("Issue sending data to websocket: ", e);
-                }
-                break;
-            default:
-                LOG.info("Invalid message received from client.");
-                break;
+        if(RUN_SCRIPT.equals(message)) {
+            try {
+                final String data = runServerScript();
+                session.getBasicRemote().sendText(data);
+            } catch (IOException e) {
+                LOG.error("Issue sending data to websocket: ", e);
+            }
         }
     }
 
