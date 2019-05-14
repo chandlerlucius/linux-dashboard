@@ -1,4 +1,3 @@
-
 /**
  * Source classes used to run the embedded undertow server and websocket communications.
  * <p>
