@@ -89,23 +89,28 @@ public class WebSocket {
             processBuilder.directory(new File(tempDirectory));
             final Process process = processBuilder.start();
             process.waitFor();
-
-            // Get output from script
-            try (InputStream inputStream = process.getInputStream()) {
-                final ByteArrayOutputStream result = new ByteArrayOutputStream();
-                final byte[] buffer = new byte[BUFFER_SIZE];
-                int length = inputStream.read(buffer);
-                while (length != -1) {
-                    result.write(buffer, 0, length);
-                    length = inputStream.read(buffer);
-                }
-                return result.toString(StandardCharsets.UTF_8.name());
-            } catch (IOException e) {
-                LOG.error("Issue getting output from script: ", e);
-            }
+            
+            return getServerScriptResult(process);
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
             Thread.currentThread().interrupt();
+        }
+        return "";
+    }
+
+    private static String getServerScriptResult(Process process) {
+        // Get output from script
+        try (InputStream inputStream = process.getInputStream()) {
+            final ByteArrayOutputStream result = new ByteArrayOutputStream();
+            final byte[] buffer = new byte[BUFFER_SIZE];
+            int length = inputStream.read(buffer);
+            while (length != -1) {
+                result.write(buffer, 0, length);
+                length = inputStream.read(buffer);
+            }
+            return result.toString(StandardCharsets.UTF_8.name());
+        } catch (IOException e) {
+            LOG.error("Issue getting output from script: ", e);
         }
         return "";
     }
