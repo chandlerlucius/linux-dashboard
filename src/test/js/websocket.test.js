@@ -1,8 +1,8 @@
-var rewire = require('rewire');
-var websocket = rewire('../../main/resources/com/utils/dashboard/js/websocket.js');
+const rewire = require('rewire');
+const websocket = rewire('../../main/resources/com/utils/dashboard/js/websocket.js');
 
 describe('Escape HTML Function - escapeHTML()', function () {
-    var escapeHTML = websocket.__get__('escapeHTML');
+    const escapeHTML = websocket.__get__('escapeHTML');
 
     it('should convert all the unsafe HTML characters into HTML entities', function () {
         expect(escapeHTML('&<>"\'')).toBe('&amp;&lt;&gt;&quot;&apos;');
