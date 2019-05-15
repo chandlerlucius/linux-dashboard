@@ -115,51 +115,51 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 </thead>
 <tbody>
     <tr>
-        <td height="20px">
-            <a href="https://pmd.github.io">
-                <img src="https://pmd.github.io/img/pmd_logo.png" alt="PMD" />
+        <td>
+            <a href="https://pmd.github.io" target="_blank" rel="noopener noreferrer">
+                <img src="https://pmd.github.io/img/pmd_logo.png" alt="PMD" height="30px"/>
             </a>
         </td>
         <td>PMD</td>
         <td>java</td>
         <td>
-            <a href="https://github.com/pmd/pmd">https://github.com/pmd/pmd</a>
+            <a href="https://github.com/pmd/pmd" target="_blank" rel="noopener noreferrer">https://github.com/pmd/pmd</a>
         </td>
     </tr>
     <tr>
-        <td height="30px">
-            <a href="https://spotbugs.github.io">
-                <img src="https://spotbugs.github.io/images/logos/spotbugs_icon_only_zoom_256px.png" alt="Spotbugs" />
+        <td>
+            <a href="https://spotbugs.github.io" target="_blank" rel="noopener noreferrer">
+                <img src="https://spotbugs.github.io/images/logos/spotbugs_icon_only_zoom_256px.png" alt="Spotbugs" height="30px"/>
             </a>
         </td>
         <td>Spotbugs</td>
         <td>java</td>
         <td>
-            <a href="https://github.com/spotbugs/spotbugs">https://github.com/spotbugs/spotbugs</a>
+            <a href="https://github.com/spotbugs/spotbugs" target="_blank" rel="noopener noreferrer">https://github.com/spotbugs/spotbugs</a>
         </td>
     </tr>
     <tr>
-        <td height="40px">
-            <a href="http://checkstyle.sourceforge.net/">
-                <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" />
+        <td>
+            <a href="http://checkstyle.sourceforge.net/" target="_blank" rel="noopener noreferrer">
+                <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" height="30px"/>
             </a>
         </td>
         <td>Checkstyle</td>
         <td>java</td>
         <td>
-            <a href="https://github.com/checkstyle/checkstyle">https://github.com/checkstyle/checkstyle</a>
+            <a href="https://github.com/checkstyle/checkstyle" target="_blank" rel="noopener noreferrer">https://github.com/checkstyle/checkstyle</a>
         </td>
     </tr>
     <tr>
-        <td height="50px">
-            <a href="https://jshint.com/">
-                <img src="https://jshint.com/res/jshint-dark.png" alt="JSHint" />
+        <td>
+            <a href="https://jshint.com/" target="_blank" rel="noopener noreferrer">
+                <img src="https://jshint.com/res/jshint-dark.png" alt="JSHint" height="30px"/>
             </a>
         </td>
         <td>JSHint</td>
-        <td>java</td>
+        <td>javascript</td>
         <td>
-            <a href="https://github.com/jshint/jshint">https://github.com/jshint/jshint</a>
+            <a href="https://github.com/jshint/jshint" target="_blank" rel="noopener noreferrer">https://github.com/jshint/jshint</a>
         </td>
     </tr>
 </tbody>
