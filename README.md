@@ -104,65 +104,271 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 ## Acknowledgements
 
 <table>
-<caption>Linting Tools</caption>
-<thead>
-    <tr>
-        <th>Logo/Link</th>
-        <th>Name</th>
-        <th>Language</th>
-        <th>Source</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>
-            <a href="https://pmd.github.io" target="_blank" rel="noopener noreferrer">
-                <img src="https://pmd.github.io/img/pmd_logo.png" alt="PMD" height="30px"/>
-            </a>
-        </td>
-        <td>PMD</td>
-        <td>java</td>
-        <td>
-            <a href="https://github.com/pmd/pmd" target="_blank" rel="noopener noreferrer">https://github.com/pmd/pmd</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://spotbugs.github.io" target="_blank" rel="noopener noreferrer">
-                <img src="https://spotbugs.github.io/images/logos/spotbugs_icon_only_zoom_256px.png" alt="Spotbugs" height="30px"/>
-            </a>
-        </td>
-        <td>Spotbugs</td>
-        <td>java</td>
-        <td>
-            <a href="https://github.com/spotbugs/spotbugs" target="_blank" rel="noopener noreferrer">https://github.com/spotbugs/spotbugs</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="http://checkstyle.sourceforge.net/" target="_blank" rel="noopener noreferrer">
-                <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" height="30px"/>
-            </a>
-        </td>
-        <td>Checkstyle</td>
-        <td>java</td>
-        <td>
-            <a href="https://github.com/checkstyle/checkstyle" target="_blank" rel="noopener noreferrer">https://github.com/checkstyle/checkstyle</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://jshint.com/" target="_blank" rel="noopener noreferrer">
-                <img src="https://jshint.com/res/jshint-dark.png" alt="JSHint" height="30px"/>
-            </a>
-        </td>
-        <td>JSHint</td>
-        <td>javascript</td>
-        <td>
-            <a href="https://github.com/jshint/jshint" target="_blank" rel="noopener noreferrer">https://github.com/jshint/jshint</a>
-        </td>
-    </tr>
-</tbody>
+    <caption>Source Frameworks</caption>
+    <thead>
+        <tr>
+            <th>Logo/Link</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="http://undertow.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="http://undertow.io/images/undertow_icon_16px.png" alt="Undertow" height="30px"/>
+                </a>
+            </td>
+            <td>Undertow</td>
+            <td>Embedded Web Server</td>
+            <td>
+                <a href="https://github.com/undertow-io/undertow" target="_blank" rel="noopener noreferrer">https://github.com/undertow-io/undertow</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://javaee.github.io/tutorial/websocket.html" target="_blank" rel="noopener noreferrer">
+                    <img src="https://javaee.github.io/assets/images/logo.png" alt="Java EE" height="30px"/>
+                </a>
+            </td>
+            <td>Java Websocket API</td>
+            <td>Full-duplex Communication Channel</td>
+            <td>
+                <a href="https://github.com/eclipse-ee4j/websocket-api" target="_blank" rel="noopener noreferrer">https://github.com/eclipse-ee4j/websocket-api</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://materializecss.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://materializecss.com/res/materialize.svg" alt="Materialize" height="30px"/>
+                </a>
+            </td>
+            <td>Materialize</td>
+            <td>Responsive Web Design</td>
+            <td>
+                <a href="https://github.com/Dogfalo/materialize" target="_blank" rel="noopener noreferrer">https://github.com/Dogfalo/materialize</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>Test Frameworks</caption>
+    <thead>
+        <tr>
+            <th>Logo/Link</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://junit.org/junit5/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://junit.org/junit5/assets/img/junit5-logo.png" alt="JUnit 5" height="30px"/>
+                </a>
+            </td>
+            <td>JUnit 5</td>
+            <td>Java Testing</td>
+            <td>
+                <a href="https://github.com/junit-team/junit5" target="_blank" rel="noopener noreferrer">https://github.com/junit-team/junit5</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://jestjs.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://jestjs.io/img/favicon/favicon.ico" alt="Jest" height="30px"/>
+                </a>
+            </td>
+            <td>Jest</td>
+            <td>Javascript Testing</td>
+            <td>
+                <a href="https://github.com/facebook/jest" target="_blank" rel="noopener noreferrer">https://github.com/facebook/jest</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/bats-core" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars2.githubusercontent.com/u/32112113?s=200&v=4" alt="BATS" height="30px"/>
+                </a>
+            </td>
+            <td>BATS</td>
+            <td>Shell Testing</td>
+            <td>
+                <a href="https://github.com/bats-core/bats-core" target="_blank" rel="noopener noreferrer">https://github.com/bats-core/bats-core</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>Linting Tools</caption>
+    <thead>
+        <tr>
+            <th>Logo/Link</th>
+            <th>Name</th>
+            <th>Language</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://pmd.github.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://pmd.github.io/img/pmd_logo.png" alt="PMD" height="30px"/>
+                </a>
+            </td>
+            <td>PMD</td>
+            <td>java</td>
+            <td>
+                <a href="https://github.com/pmd/pmd" target="_blank" rel="noopener noreferrer">https://github.com/pmd/pmd</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://spotbugs.github.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://spotbugs.github.io/images/logos/spotbugs_icon_only_zoom_256px.png" alt="Spotbugs" height="30px"/>
+                </a>
+            </td>
+            <td>Spotbugs</td>
+            <td>java</td>
+            <td>
+                <a href="https://github.com/spotbugs/spotbugs" target="_blank" rel="noopener noreferrer">https://github.com/spotbugs/spotbugs</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://checkstyle.sourceforge.net/" target="_blank" rel="noopener noreferrer">
+                    <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" height="30px"/>
+                </a>
+            </td>
+            <td>Checkstyle</td>
+            <td>java</td>
+            <td>
+                <a href="https://github.com/checkstyle/checkstyle" target="_blank" rel="noopener noreferrer">https://github.com/checkstyle/checkstyle</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://jshint.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://jshint.com/res/jshint-dark.png" alt="JSHint" height="30px"/>
+                </a>
+            </td>
+            <td>JSHint</td>
+            <td>javascript</td>
+            <td>
+                <a href="https://github.com/jshint/jshint" target="_blank" rel="noopener noreferrer">https://github.com/jshint/jshint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://eslint.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://eslint.org/img/logo.svg" alt="ESLint" height="30px"/>
+                </a>
+            </td>
+            <td>ESLint</td>
+            <td>javascript</td>
+            <td>
+                <a href="https://github.com/eslint/eslint" target="_blank" rel="noopener noreferrer">https://github.com/eslint/eslint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://csslint.net/" target="_blank" rel="noopener noreferrer">
+                    <img src="http://csslint.net/favicon.ico" alt="CSSLint" height="30px"/>
+                </a>
+            </td>
+            <td>CSSLint</td>
+            <td>css</td>
+            <td>
+                <a href="https://github.com/CSSLint/csslint" target="_blank" rel="noopener noreferrer">https://github.com/CSSLint/csslint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://stylelint.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://stylelint.io/_/src/components/DefaultHeadMeta/favicon.7f672624abe02127db4972965ea73002.ico" alt="Stylelint" height="30px"/>
+                </a>
+            </td>
+            <td>Stylelint</td>
+            <td>css</td>
+            <td>
+                <a href="https://github.com/stylelint/stylelint" target="_blank" rel="noopener noreferrer">https://github.com/stylelint/stylelint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://dlaa.me/markdownlint/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://dlaa.me/markdownlint.png?crc32=2a731dd4" alt="Markdownlint" height="30px"/>
+                </a>
+            </td>
+            <td>MarkdownLint</td>
+            <td>markdown</td>
+            <td>
+                <a href="https://github.com/DavidAnson/markdownlint" target="_blank" rel="noopener noreferrer">https://github.com/DavidAnson/markdownlint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://remark.js.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/remarkjs/remark/4f6b3d7/logo.svg?sanitize=true" alt="Remark-lint" height="30px"/>
+                </a>
+            </td>
+            <td>MarkdownLint</td>
+            <td>markdown</td>
+            <td>
+                <a href="https://github.com/remarkjs/remark-lint" target="_blank" rel="noopener noreferrer">https://github.com/remarkjs/remark-lint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.shellcheck.net/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.shellcheck.net/favicon.ico" alt="Shellcheck" height="30px"/>
+                </a>
+            </td>
+            <td>Shellcheck</td>
+            <td>shell</td>
+            <td>
+                <a href="https://github.com/koalaman/shellcheck" target="_blank" rel="noopener noreferrer">https://github.com/koalaman/shellcheck</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://htmlhint.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://htmlhint.io/favicon.ico" alt="HTMLHint" height="30px"/>
+                </a>
+            </td>
+            <td>HTMLHint</td>
+            <td>html</td>
+            <td>
+                <a href="https://github.com/htmlhint/HTMLHint" target="_blank" rel="noopener noreferrer">https://github.com/htmlhint/HTMLHint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://jsonlint.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://jsonlint.com/favicon.ico" alt="JSONLint" height="30px"/>
+                </a>
+            </td>
+            <td>JSONLint</td>
+            <td>json</td>
+            <td>
+                <a href="https://github.com/zaach/jsonlint" target="_blank" rel="noopener noreferrer">https://github.com/zaach/jsonlint</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://yamllint.com/" target="_blank" rel="noopener noreferrer">YAMLLint</a>
+            </td>
+            <td>YAMLLint</td>
+            <td>yaml</td>
+            <td>
+                <a href="https://github.com/adrienverge/yamllint" target="_blank" rel="noopener noreferrer">https://github.com/adrienverge/yamllint</a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 * Linting tools
