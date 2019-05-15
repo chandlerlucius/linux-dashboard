@@ -7,8 +7,6 @@
     analytics with a Java Websocket wrapper</strong>
 </p>
 
-# Linux Dashboard
-
 <p align="center">
     <a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
         <img src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" alt="Build Status">
@@ -30,7 +28,7 @@
     </a>
 </p>
 
-## Code
+# Linux Dashboard
 
 [![codecov](https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg)](https://codecov.io/gh/chandlerlucius/linux-dashboard)
 
