@@ -35,8 +35,9 @@
     <a href="https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade">
         <img src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" alt="Code Quality" />
     </a>
-    <a href="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status">
-        <img src="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard" alt="Quality Gate" />
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status
+" alt="Quality Gate" />
     </a>
 </p>
 
@@ -50,6 +51,9 @@
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" alt="Security Rating" />
     </a>
+</p>
+
+<p align="center">
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=vulnerabilities" alt="Vulnerabilities" />
     </a>
