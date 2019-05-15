@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="linuxdashboard.com"><img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg"/></a>
+    <a href="linuxdashboard.com"><img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg"/></a>
 </p>
 
 <p align="center">
@@ -10,33 +10,25 @@
 # Linux Dashboard
 
 <p align="center">
-	<a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
-		<img src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" alt="Build Status">
-	</a>
-	<a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
-		<img src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg" alt="Latest Release" />
-	</a>
-	<a href="https://github.com/chandlerlucius/linux-dashboard/releases">
-		<img src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" alt="Releases" />
-	</a>
-	<a href="https://gitter.im/chandlerlucius/linux-dashboard">
-		<img src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" alt="Gitter Chat Room" />
-	</a>
-	<a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md">
-		<img src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" alt="License" />
-	</a>
-	<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield" alt="FOSSA Status">
-    <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield"/>
-  </a>
+    <a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
+        <img src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" alt="Build Status">
+    </a>
+    <a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
+        <img src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg" alt="Latest Release" />
+    </a>
+    <a href="https://github.com/chandlerlucius/linux-dashboard/releases">
+        <img src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" alt="Releases" />
+    </a>
+    <a href="https://gitter.im/chandlerlucius/linux-dashboard">
+        <img src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" alt="Gitter Chat Room" />
+    </a>
+    <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md">
+        <img src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" alt="License" />
+    </a>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield" alt="FOSSA Status">
+        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield"/>
+    </a>
 </p>
-
-[![Travis CI Build Status](https://img.shields.io/travis/chandlerlucius/linux-dashboard/master.svg?label=travis%20build)](https://travis-ci.org/chandlerlucius/linux-dashboard)
-[![Latest release](https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
-[![Github All Releases](https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg)](https://github.com/chandlerlucius/linux-dashboard/releases/latest)
-[![Gitter](https://badges.gitter.im/chandlerlucius/linux-dashboard.svg)](https://gitter.im/chandlerlucius/linux-dashboard?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-[![License](https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg)](https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield)
 
 ## Code
 
