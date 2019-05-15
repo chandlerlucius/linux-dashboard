@@ -26,16 +26,23 @@ before_script:
   - cd ../../
   - rm -rf kcov-master
   - rm -rf target/kcov
+  #Install FOSSA analyzer
+  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
   #Run linting tools, java tests, javascript tests, and shell tests
   - ./mvnw test -B
+
+after_script:
   #Run kcov to collect bash code coverage and report to coveralls
-  - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ --coveralls-id=$TRAVIS_JOB_ID target/kcov bats src/test/sh/
+  - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ target/kcov bats src/test/sh/
   #Scan code with sonarcloud
   - sonar-scanner
   #Upload code coverage to codecov
   - bash <(curl -s https://codecov.io/bash)
+  #Verify dependency licenses through FOSSA
+  - fossa init
+  - fossa analyze
 
 deploy:
   provider: script
