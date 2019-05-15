@@ -9,46 +9,72 @@
 
 <p align="center">
     <a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
-        <img src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" alt="Build Status">
+        <img 
+        src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" 
+        alt="Build Status">
     </a>
     <a href="https://libraries.io/github/chandlerlucius/linux-dashboard">
-        <img src="https://img.shields.io/librariesio/github/chandlerlucius/linux-dashboard.svg" alt="Dependency Status" />
+        <img 
+        src="https://img.shields.io/librariesio/github/chandlerlucius/linux-dashboard.svg" 
+        alt="Dependency Status" />
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
-        <img src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg" alt="Latest Release" />
+        <img 
+        src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg"
+         alt="Latest Release" />
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases">
-        <img src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" alt="Releases" />
+        <img 
+        src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" 
+        alt="Releases" />
     </a>
     <a href="https://gitter.im/chandlerlucius/linux-dashboard">
-        <img src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" alt="Gitter Chat Room" />
+        <img 
+        src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" 
+        alt="Gitter Chat Room" />
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" alt="License" />
+        <img 
+        src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" 
+        alt="License" />
     </a>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield">
-        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" alt="FOSSA Status" />
+        <img 
+        src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" 
+        alt="FOSSA Status" />
     </a>
 </p>
 
 <p align="center">
     <a href="https://codecov.io/gh/chandlerlucius/linux-dashboard">
-        <img src="https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg" alt="Code Coverage" />
+        <img 
+        src="https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg" 
+        alt="Code Coverage" />
     </a>
     <a href="https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade">
-        <img src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" alt="Code Quality" />
+        <img 
+        src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" 
+        alt="Code Quality" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status" alt="Quality Gate" />
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status" 
+        alt="Quality Gate" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" alt="Maintainability Rating" />
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" 
+        alt="Maintainability Rating" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating" alt="Reliability Rating" />
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating" 
+        alt="Reliability Rating" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" alt="Security Rating" />
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" 
+        alt="Security Rating" />
     </a>
 </p>
 
@@ -82,12 +108,6 @@ Tech Stack:
 * HTML5
 * CSS3
 
-Frameworks:
-
-* [Spring / Spring Boot]() - Embedded tomcat for fast deployment
-* [Java WebSocket API]() - Constant server -> client push for continuous results
-* [Materialize]() - Responsive web design framework
-
 Live Example:
 www.linuxdashboard.com
 
@@ -107,7 +127,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
     <caption>Source Frameworks</caption>
     <thead>
         <tr>
-            <th>Logo/Link</th>
+            <th>Site</th>
             <th>Name</th>
             <th>Type</th>
             <th>Source</th>
@@ -129,7 +149,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://javaee.github.io/tutorial/websocket.html" target="_blank" rel="noopener noreferrer">
-                    <img src="https://javaee.github.io/assets/images/logo.png" alt="Java EE" height="30px"/>
+                    <img src="https://avatars2.githubusercontent.com/u/23086798?s=200&v=4" alt="Java EE" height="30px"/>
                 </a>
             </td>
             <td>Java Websocket API</td>
@@ -157,7 +177,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
     <caption>Test Frameworks</caption>
     <thead>
         <tr>
-            <th>Logo/Link</th>
+            <th>Site</th>
             <th>Name</th>
             <th>Type</th>
             <th>Source</th>
@@ -204,10 +224,72 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 </table>
 
 <table>
+    <caption>Code Lifecycle Tools</caption>
+    <thead>
+        <tr>
+            <th>Site</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://travis-ci.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars0.githubusercontent.com/u/639823?s=200&v=4" alt="Travis CI" height="30px"/>
+                </a>
+            </td>
+            <td>Travis CI</td>
+            <td>Continuous Integration / Deployment</td>
+            <td>
+                <a href="https://github.com/travis-ci" target="_blank" rel="noopener noreferrer">https://github.com/travis-ci</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://codecov.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars0.githubusercontent.com/u/8226205?s=200&v=4" alt="Codecov" height="30px"/>
+                </a>
+            </td>
+            <td>Codecov</td>
+            <td>Code Coverage</td>
+            <td>
+                <a href="https://github.com/codecov" target="_blank" rel="noopener noreferrer">https://github.com/codecov</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://sonarcloud.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://sonarcloud.io/images/sonarcloud-logo.svg" alt="Sonarcloud" height="30px"/>
+                </a>
+            </td>
+            <td>Sonarcloud</td>
+            <td>Code Quality</td>
+            <td>
+                <a href="https://github.com/SonarSource" target="_blank" rel="noopener noreferrer">https://github.com/SonarSource</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://sonarcloud.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars1.githubusercontent.com/u/1834093?s=200&v=4" alt="Codacy" height="30px"/>
+                </a>
+            </td>
+            <td>Sonarcloud</td>
+            <td>Code Quality</td>
+            <td>
+                <a href="https://github.com/codacy" target="_blank" rel="noopener noreferrer">https://github.com/codacy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
     <caption>Linting Tools</caption>
     <thead>
         <tr>
-            <th>Logo/Link</th>
+            <th>Site</th>
             <th>Name</th>
             <th>Language</th>
             <th>Source</th>
@@ -313,10 +395,10 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://remark.js.org/" target="_blank" rel="noopener noreferrer">
-                    <img src="https://raw.githubusercontent.com/remarkjs/remark/4f6b3d7/logo.svg?sanitize=true" alt="Remark-lint" height="30px"/>
+                    <img src="https://raw.githubusercontent.com/remarkjs/remark-lint/02295bc/logo.svg?sanitize=true" alt="Remark-Lint" height="30px"/>
                 </a>
             </td>
-            <td>MarkdownLint</td>
+            <td>Remark-Lint</td>
             <td>markdown</td>
             <td>
                 <a href="https://github.com/remarkjs/remark-lint" target="_blank" rel="noopener noreferrer">https://github.com/remarkjs/remark-lint</a>
@@ -371,29 +453,11 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
     </tbody>
 </table>
 
-* Linting tools
-  * [PMD]() - java
-  * [spotbugs]() - java
-  * [checkstyles]() - java
-  * [jshint]() - javascript
-  * [eslint]() - javascript
-  * [csslint]() - css
-  * [stylelint]() - css
-  * [markdownlint]() - markdown
-  * [remarklint]() - markdown
-  * [shellcheck]() - shell
-  * [htmlhint]() - html
-  * [jsonlint]() - json
-  * [yamllint]() - yaml
 * Online Tools
   * [TravisCI]() - continuous integration / deployment
   * [SonarCloud]() - code quality
   * [Codacy]() - code quality
   * [CodeCov]() - code coverage
-* Testing tools
-  * [JUnit 5]() - java
-  * [Jest]() - javascript
-  * [BATS]() - shell
 * Github integrations
   * [FOSSA]() - license checker
   * [Libraries.io]() - depedency scanner

@@ -4,7 +4,13 @@
             "a",
             "img",
             "p",
-            "strong"
+            "strong",
+            "table",
+            "tbody",
+            "thead",
+            "th",
+            "tr",
+            "td"
         ]
     }
 }
