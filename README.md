@@ -20,30 +20,48 @@
     <a href="https://gitter.im/chandlerlucius/linux-dashboard">
         <img src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" alt="Gitter Chat Room" />
     </a>
-    <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE.md">
+    <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" alt="License" />
     </a>
-    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield" alt="FOSSA Status">
-        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield"/>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield">
+        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" alt="FOSSA Status" />
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://codecov.io/gh/chandlerlucius/linux-dashboard">
+        <img src="https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg" alt="Code Coverage" />
+    </a>
+    <a href="https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade">
+        <img src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" alt="Code Quality" />
+    </a>
+    <a href="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status">
+        <img src="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard" alt="Quality Gate" />
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" alt="Maintainability Rating" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating" alt="Reliability Rating" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" alt="Security Rating" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=vulnerabilities" alt="Vulnerabilities" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=bugs" alt="Bugs" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=code_smells" alt="Code Smells" />
     </a>
 </p>
 
 # Linux Dashboard
-
-[![codecov](https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg)](https://codecov.io/gh/chandlerlucius/linux-dashboard)
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37)](https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade)
-[![Maintainability](https://api.codeclimate.com/v1/badges/378bdce4de9f2a85da7d/maintainability)](https://codeclimate.com/github/chandlerlucius/linux-dashboard/maintainability)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=bugs)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard)
-
---Work In Progress--
 
 This is bash script written to get basic server
 analytic data and put it in a json format.
