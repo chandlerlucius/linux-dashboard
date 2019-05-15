@@ -1,6 +1,6 @@
-<p align="center">
+<h1 align="center">
     <a href="linuxdashboard.com"><img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/resources/com/utils/dashboard/img/logo-dark.svg"/></a>
-</p>
+</h1>
 
 <p align="center">
     <strong>Simple Bash scripting project to generate linux server
@@ -84,9 +84,9 @@ Tech Stack:
 
 Frameworks:
 
-* Spring / Spring Boot (Embedded tomcat for fast deployment)
-* Java WebSocket API (Constant server -> client push for continuous results)
-* Materialize (Responsive web design framework)
+* [Spring / Spring Boot]() - Embedded tomcat for fast deployment
+* [Java WebSocket API]() - Constant server -> client push for continuous results
+* [Materialize]() - Responsive web design framework
 
 Live Example:
 www.linuxdashboard.com
@@ -103,30 +103,93 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 
 ## Acknowledgements
 
+<table>
+<caption>Linting Tools</caption>
+<thead>
+    <tr>
+        <th>Logo/Link</th>
+        <th>Name</th>
+        <th>Language</th>
+        <th>Source</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td height="20px">
+            <a href="https://pmd.github.io">
+                <img src="https://pmd.github.io/img/pmd_logo.png" alt="PMD" />
+            </a>
+        </td>
+        <td>PMD</td>
+        <td>java</td>
+        <td>
+            <a href="https://github.com/pmd/pmd">https://github.com/pmd/pmd</a>
+        </td>
+    </tr>
+    <tr>
+        <td height="30px">
+            <a href="https://spotbugs.github.io">
+                <img src="https://spotbugs.github.io/images/logos/spotbugs_icon_only_zoom_256px.png" alt="Spotbugs" />
+            </a>
+        </td>
+        <td>Spotbugs</td>
+        <td>java</td>
+        <td>
+            <a href="https://github.com/spotbugs/spotbugs">https://github.com/spotbugs/spotbugs</a>
+        </td>
+    </tr>
+    <tr>
+        <td height="40px">
+            <a href="http://checkstyle.sourceforge.net/">
+                <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" />
+            </a>
+        </td>
+        <td>Checkstyle</td>
+        <td>java</td>
+        <td>
+            <a href="https://github.com/checkstyle/checkstyle">https://github.com/checkstyle/checkstyle</a>
+        </td>
+    </tr>
+    <tr>
+        <td height="50px">
+            <a href="https://jshint.com/">
+                <img src="https://jshint.com/res/jshint-dark.png" alt="JSHint" />
+            </a>
+        </td>
+        <td>JSHint</td>
+        <td>java</td>
+        <td>
+            <a href="https://github.com/jshint/jshint">https://github.com/jshint/jshint</a>
+        </td>
+    </tr>
+</tbody>
+</table>
+
 * Linting tools
-  * PMD [java]
-  * spotbugs [java]
-  * checkstyles [java]
-  * jshint [javascript]
-  * eslint [javascript]
-  * csslint [css]
-  * stylelint [css]
-  * markdownlint [markdown]
-  * remarklint [markdown]
-  * shellcheck [shell]
-  * htmlhint [html]
-  * jsonlint [json]
-  * yamllint [yaml]
+  * [PMD]() - java
+  * [spotbugs]() - java
+  * [checkstyles]() - java
+  * [jshint]() - javascript
+  * [eslint]() - javascript
+  * [csslint]() - css
+  * [stylelint]() - css
+  * [markdownlint]() - markdown
+  * [remarklint]() - markdown
+  * [shellcheck]() - shell
+  * [htmlhint]() - html
+  * [jsonlint]() - json
+  * [yamllint]() - yaml
 * Online Tools
-  * TravisCI [continuous integration / deployment]
-  * SonarCloud [code quality]
-  * Codacy [code quality]
-  * CodeCov [code coverage]
+  * [TravisCI]() - continuous integration / deployment
+  * [SonarCloud]() - code quality
+  * [Codacy]() - code quality
+  * [CodeCov]() - code coverage
 * Testing tools
-  * JUnit 5 [java]
-  * Jest [javascript]
-  * BATS [shell]
+  * [JUnit 5]() - java
+  * [Jest]() - javascript
+  * [BATS]() - shell
 * Github integrations
-  * FOSSA [license checker]
-  * GitGuardian [credential leak detector]
-  * Whitesource Bolt [vunerability finder]
+  * [FOSSA]() - license checker
+  * [Libraries.io]() - depedency scanner
+  * [GitGuardian]() - credential leak detector
+  * [Whitesource Bolt]() - vunerability finder
