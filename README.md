@@ -36,12 +36,8 @@
         <img src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" alt="Code Quality" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status
-" alt="Quality Gate" />
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status" alt="Quality Gate" />
     </a>
-</p>
-
-<p align="center">
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" alt="Maintainability Rating" />
     </a>
@@ -50,18 +46,6 @@
     </a>
     <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" alt="Security Rating" />
-    </a>
-</p>
-
-<p align="center">
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=vulnerabilities" alt="Vulnerabilities" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=bugs" alt="Bugs" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=code_smells" alt="Code Smells" />
     </a>
 </p>
 
