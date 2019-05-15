@@ -11,6 +11,9 @@
     <a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
         <img src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" alt="Build Status">
     </a>
+    <a href="https://libraries.io/github/chandlerlucius/linux-dashboard">
+        <img src="https://img.shields.io/librariesio/github/chandlerlucius/linux-dashboard.svg" alt="Dependency Status" />
+    </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
         <img src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg" alt="Latest Release" />
     </a>
