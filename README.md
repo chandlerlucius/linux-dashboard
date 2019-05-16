@@ -136,18 +136,6 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
     <tbody>
         <tr>
             <td>
-                <a href="http://undertow.io/" target="_blank" rel="noopener noreferrer">
-                    <img src="http://undertow.io/images/undertow_icon_16px.png" alt="Undertow" height="30px"/>
-                </a>
-            </td>
-            <td>Undertow</td>
-            <td>Embedded Web Server</td>
-            <td>
-                <a href="https://github.com/undertow-io/undertow" target="_blank" rel="noopener noreferrer">https://github.com/undertow-io/undertow</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://javaee.github.io/tutorial/websocket.html" target="_blank" rel="noopener noreferrer">
                     <img src="https://avatars2.githubusercontent.com/u/23086798?s=200&v=4" alt="Java EE" height="30px"/>
                 </a>
@@ -156,6 +144,18 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
             <td>Full-duplex Communication Channel</td>
             <td>
                 <a href="https://github.com/eclipse-ee4j/websocket-api" target="_blank" rel="noopener noreferrer">https://github.com/eclipse-ee4j/websocket-api</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://undertow.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars3.githubusercontent.com/u/2001898?s=200&v=4" alt="Undertow" height="30px"/>
+                </a>
+            </td>
+            <td>Undertow</td>
+            <td>Embedded Web Server</td>
+            <td>
+                <a href="https://github.com/undertow-io/undertow" target="_blank" rel="noopener noreferrer">https://github.com/undertow-io/undertow</a>
             </td>
         </tr>
         <tr>
@@ -224,6 +224,54 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
 </table>
 
 <table>
+    <caption>Code Coverage</caption>
+    <thead>
+        <tr>
+            <th>Site</th>
+            <th>Name</th>
+            <th>Language</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://www.eclemma.org/jacoco/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.eclemma.org/favicon.ico" alt="Jacoco" height="30px"/>
+                </a>
+            </td>
+            <td>Jacoco</td>
+            <td>java</td>
+            <td>
+                <a href="https://github.com/jacoco/jacoco" target="_blank" rel="noopener noreferrer">https://github.com/jacoco/jacoco</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://jestjs.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://jestjs.io/img/favicon/favicon.ico" alt="Jest" height="30px"/>
+                </a>
+            </td>
+            <td>Jest</td>
+            <td>javascript</td>
+            <td>
+                <a href="https://github.com/facebook/jest" target="_blank" rel="noopener noreferrer">https://github.com/facebook/jest</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://simonkagstrom.github.io/kcov/" target="_blank" rel="noopener noreferrer">kcov</a>
+            </td>
+            <td>kcov</td>
+            <td>shell</td>
+            <td>
+                <a href="https://github.com/SimonKagstrom/kcov" target="_blank" rel="noopener noreferrer">https://github.com/SimonKagstrom/kcov</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
     <caption>Code Lifecycle Tools</caption>
     <thead>
         <tr>
@@ -241,7 +289,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
                 </a>
             </td>
             <td>Travis CI</td>
-            <td>Continuous Integration / Deployment</td>
+            <td>CI / CD</td>
             <td>
                 <a href="https://github.com/travis-ci" target="_blank" rel="noopener noreferrer">https://github.com/travis-ci</a>
             </td>
@@ -261,7 +309,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://sonarcloud.io/" target="_blank" rel="noopener noreferrer">
-                    <img src="https://sonarcloud.io/images/sonarcloud-logo.svg" alt="Sonarcloud" height="30px"/>
+                    <img src="https://sonarcloud.io/favicon.ico" alt="Sonarcloud" height="30px"/>
                 </a>
             </td>
             <td>Sonarcloud</td>
@@ -272,14 +320,88 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         </tr>
         <tr>
             <td>
-                <a href="https://sonarcloud.io/" target="_blank" rel="noopener noreferrer">
+                <a href="https://app.codacy.com/" target="_blank" rel="noopener noreferrer">
                     <img src="https://avatars1.githubusercontent.com/u/1834093?s=200&v=4" alt="Codacy" height="30px"/>
                 </a>
             </td>
-            <td>Sonarcloud</td>
+            <td>Codacy</td>
             <td>Code Quality</td>
             <td>
                 <a href="https://github.com/codacy" target="_blank" rel="noopener noreferrer">https://github.com/codacy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>Github Integrations</caption>
+    <thead>
+        <tr>
+            <th>Site</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://fossa.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars0.githubusercontent.com/u/9543448?s=200&v=4" alt="FOSSA" height="30px"/>
+                </a>
+            </td>
+            <td>FOSSA</td>
+            <td>License Checker</td>
+            <td>
+                <a href="https://github.com/fossas" target="_blank" rel="noopener noreferrer">https://github.com/fossas</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://libraries.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars1.githubusercontent.com/u/11243589?s=200&v=4" alt="Libraries.io" height="30px"/>
+                </a>
+            </td>
+            <td>Libraries.io</td>
+            <td>Dependency Scanner</td>
+            <td>
+                <a href="https://github.com/librariesio/libraries.io" target="_blank" rel="noopener noreferrer">https://github.com/librariesio/libraries.io</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.gitguardian.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars3.githubusercontent.com/u/27360172?s=200&v=4" alt="GitGuardian" height="30px"/>
+                </a>
+            </td>
+            <td>GitGuardian</td>
+            <td>Credential Leak Detector</td>
+            <td>
+                <a href="https://github.com/GitGuardian" target="_blank" rel="noopener noreferrer">https://github.com/GitGuardian</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://bolt.whitesourcesoftware.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars2.githubusercontent.com/u/1539627?s=200&v=4" alt="Whitesource Bolt" height="30px"/>
+                </a>
+            </td>
+            <td>Whitesource Bolt</td>
+            <td>Vunerability Finder</td>
+            <td>
+                <a href="https://github.com/whitesource" target="_blank" rel="noopener noreferrer">https://github.com/whitesource</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://gitter.im/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars2.githubusercontent.com/u/5990364?s=200&v=4" alt="Gitter" height="30px"/>
+                </a>
+            </td>
+            <td>Gitter</td>
+            <td>Support Chat Room</td>
+            <td>
+                <a href="https://github.com/gitterHQ" target="_blank" rel="noopener noreferrer">https://github.com/gitterHQ</a>
             </td>
         </tr>
     </tbody>
@@ -452,14 +574,3 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         </tr>
     </tbody>
 </table>
-
-* Online Tools
-  * [TravisCI]() - continuous integration / deployment
-  * [SonarCloud]() - code quality
-  * [Codacy]() - code quality
-  * [CodeCov]() - code coverage
-* Github integrations
-  * [FOSSA]() - license checker
-  * [Libraries.io]() - depedency scanner
-  * [GitGuardian]() - credential leak detector
-  * [Whitesource Bolt]() - vunerability finder
