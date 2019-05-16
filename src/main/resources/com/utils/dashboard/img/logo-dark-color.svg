@@ -10,7 +10,7 @@
             }
         </style>
     </defs>
-    <circle cx="256" cy="256" r="253" stroke="#00bfa5" stroke-width="3" fill="transparent"/>
+    <circle cx="256" cy="256" r="253" stroke="#00bfa5" stroke-width="3" fill="#353439"/>
     <text text-anchor="middle">
         <tspan y="50%" x="50%" style="font-size: 70px; color: #00bfa5;">linux dashboard</tspan>
         <tspan y="60%" x="50%" style="font-size: 40px; color: #00bfa5;">simple, fast server analytics</tspan>
