@@ -8,6 +8,39 @@
 </p>
 
 <p align="center">
+    <a href="https://codecov.io/gh/chandlerlucius/linux-dashboard">
+        <img 
+        src="https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg" 
+        alt="Code Coverage" />
+    </a>
+    <a href="https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade">
+        <img 
+        src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" 
+        alt="Code Quality" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status" 
+        alt="Quality Gate" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" 
+        alt="Maintainability Rating" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating" 
+        alt="Reliability Rating" />
+    </a>
+    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
+        <img 
+        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" 
+        alt="Security Rating" />
+    </a>
+</p>
+
+<p align="center">
     <a href="https://travis-ci.org/chandlerlucius/linux-dashboard">
         <img 
         src="https://travis-ci.org/chandlerlucius/linux-dashboard.svg" 
@@ -49,40 +82,7 @@
 </p>
 
 <p align="center">
-    <a href="https://codecov.io/gh/chandlerlucius/linux-dashboard">
-        <img 
-        src="https://codecov.io/gh/chandlerlucius/linux-dashboard/branch/master/graph/badge.svg" 
-        alt="Code Coverage" />
-    </a>
-    <a href="https://www.codacy.com/app/chandlerlucius/linux-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chandlerlucius/linux-dashboard&amp;utm_campaign=Badge_Grade">
-        <img 
-        src="https://api.codacy.com/project/badge/Grade/c25d8a8f98ee4993a15a6f23ecf88b37" 
-        alt="Code Quality" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img 
-        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=alert_status" 
-        alt="Quality Gate" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img 
-        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=sqale_rating" 
-        alt="Maintainability Rating" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img 
-        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=reliability_rating" 
-        alt="Reliability Rating" />
-    </a>
-    <a href="https://sonarcloud.io/dashboard?id=com.utils%3Alinux-dashboard">
-        <img 
-        src="https://sonarcloud.io/api/project_badges/measure?project=com.utils%3Alinux-dashboard&metric=security_rating" 
-        alt="Security Rating" />
-    </a>
-</p>
-
-<p align="center">
-    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Docs</a> ∙ <a href="https://linuxdashboard.com">Demo</a>
+    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Docs / Wiki</a> | <a href="https://linuxdashboard.com">Live Demo</a>
 </p>
 
 # Linux Dashboard
