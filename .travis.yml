@@ -33,6 +33,16 @@ script:
   #Run linting tools, java tests, javascript tests, and shell tests
   - ./mvnw test -B
 
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: 
+    rsync -avvz -e "ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~ && 
+    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'pkill -9 -f linux-dashboard'" &&
+    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'nohup java -jar linux-dashboard-1.0.0.jar >/dev/null 2>&1 &'" 
+  on:
+    branch: master
+
 after_script:
   #Run kcov to collect bash code coverage and report to coveralls
   - kcov --bash-dont-parse-binary-dir --path-strip-level=1 --include-pattern=src/ target/kcov bats src/test/sh/
@@ -43,13 +53,4 @@ after_script:
   #Verify dependency licenses through FOSSA
   - fossa init
   - fossa analyze
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: 
-    rsync -avvz -e "ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~ && 
-    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'pkill -9 -f linux-dashboard'" &&
-    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'nohup java -jar linux-dashboard-1.0.0.jar >/dev/null 2>&1 &'" 
-  on:
-    branch: master
+  - fossa test
