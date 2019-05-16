@@ -28,11 +28,9 @@
         src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" 
         alt="Releases" />
     </a>
-    <a href="https://gitter.im/chandlerlucius/linux-dashboard">
-        <img 
-        src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" 
-        alt="Gitter Chat Room" />
-    </a>
+</p>
+
+<p align="center">
     <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE">
         <img 
         src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" 
@@ -42,6 +40,11 @@
         <img 
         src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" 
         alt="FOSSA Status" />
+    </a>
+    <a href="https://gitter.im/chandlerlucius/linux-dashboard">
+        <img 
+        src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" 
+        alt="Gitter Chat Room" />
     </a>
 </p>
 
@@ -78,6 +81,10 @@
     </a>
 </p>
 
+<p align="center">
+    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Docs</a> ∙ <a href="https://linuxdashboard.com">Demo</a>
+</p>
+
 # Linux Dashboard
 
 This is bash script written to get basic server
@@ -107,9 +114,6 @@ Tech Stack:
 * Java
 * HTML5
 * CSS3
-
-Live Example:
-www.linuxdashboard.com
 
 ## Support
 
