@@ -170,6 +170,18 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
                 <a href="https://github.com/Dogfalo/materialize" target="_blank" rel="noopener noreferrer">https://github.com/Dogfalo/materialize</a>
             </td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://maven.apache.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://avatars1.githubusercontent.com/u/47359?s=200&v=4" alt="Maven" height="30px"/>
+                </a>
+            </td>
+            <td>Maven</td>
+            <td>Java Build Tool</td>
+            <td>
+                <a href="https://github.com/apache/maven" target="_blank" rel="noopener noreferrer">https://github.com/apache/maven</a>
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -218,6 +230,18 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
             <td>Shell Testing</td>
             <td>
                 <a href="https://github.com/bats-core/bats-core" target="_blank" rel="noopener noreferrer">https://github.com/bats-core/bats-core</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://nodejs.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://nodejs.org/static/images/logo.svg" alt="Node.js" height="30px"/>
+                </a>
+            </td>
+            <td>Node.js</td>
+            <td>Javascript Test Tool</td>
+            <td>
+                <a href="https://github.com/nodejs/node" target="_blank" rel="noopener noreferrer">https://github.com/nodejs/node</a>
             </td>
         </tr>
     </tbody>
