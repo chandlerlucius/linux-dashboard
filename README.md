@@ -95,13 +95,11 @@ to provide the client machine with constantly updating data.
 
 ## Prerequisites
 
-Java is needed to build/test/install/deploy the project.
+JDK 8 is needed to build/test/install/deploy the project.
 
-## Installation / Deployment
+## Installation
 
-### Installation
-
-#### Download from source
+Install from source
 1. Clone the repo
     ```bash
     git clone https://github.com/chandlerlucius/linux-dashboard
@@ -119,23 +117,54 @@ Java is needed to build/test/install/deploy the project.
     cd target
     ```
 
-#### Download manually
+Install from release
 
 1. Download the jar
     ```bash
     wget https://github.com/chandlerlucius/linux-dashboard/releases/download/v1.0.0-alpha/linux-dashboard-1.0.0.jar
     ```
 
-### Deployment
+## Deployment
 
-#### Deploy in foreground
+Deploy in foreground
 ```bash
+# HTTP
 java -jar linux-dashboard-1.0.0.jar
 ```
 
-#### Deploy in background
+Deploy in background
 ```bash
+# HTTP
 nohup java -jar linux-dashboard-1.0.0.jar &
+```
+
+## Security
+
+Security is _**NOT**_ provided by default. 
+
+Security is _**highly**_ reccomended and can be enabled by adding the following options:
+
+-Dkeystore=$KEYSTORE_FILE -Dkeystore.alias=$KEYSTORE_ALIAS -Dkeystore.password=$KEYSTORE_PASSWORD
+
+Example:
+```bash
+# HTTPS
+java -jar linux-dashboard-1.0.0.jar -Dkeystore=./keystore.jks -Dkeystore.alias=java -Dkeystore.password=changeit
+```
+
+## Considerations
+
+The default port for HTTP is 8080 and HTTPS is 8443. To change the port simply use the following option: 
+
+-Dserver.port=$PORT
+
+Example:
+```bash
+# HTTP
+java -jar linux-dashboard-1.0.0.jar -Dserver.port=8081
+
+# HTTPS
+java -jar linux-dashboard-1.0.0.jar -Dserver.port=8444 -Dkeystore=./keystore.jks -Dkeystore.alias=java -Dkeystore.password=changeit
 ```
 
 ## Running the tests
