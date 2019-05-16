@@ -82,38 +82,69 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Docs / Wiki</a> | <a href="https://linuxdashboard.com">Live Demo</a>
+    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Wiki</a> | <a href="https://linuxdashboard.com">Live Demo</a>
 </p>
 
-# Linux Dashboard
+# Intro
 
-This is bash script written to get basic server
-analytic data and put it in a json format.
+Linux Dashboard is bash script written to get basic server
+analytic data and aggregate it into a json format.
 
 It is encased in a Java wrapper using websockets
-to provide the html with constantly updating data.
+to provide the client machine with constantly updating data.
 
-Once downloaded and extracted it can be run like so:
-./mvnw clean install -DskipTests;
-java -jar target/linux-dashboard-0.0.1-SNAPSHOT.jar
+## Prerequisites
 
-The most recent jar is also supplied if you just want to run it:
-java -jar target/linux-dashboard-0.0.1-SNAPSHOT.jar
+Java is needed to build/test/install/deploy the project.
 
-This project is also in a plug-and-play fashion.
-Meaning you can port it to your existing project by doing the following:
+## Installation / Deployment
 
-1. Copy all file from src/main/resources/static into your resources directory
-2. Copy src/main/java/com/utils/dashboard/DashboardWebSocket.java
-(Handles exposing the /websocket endpoint and the web socket code)
+### Installation
 
-Tech Stack:
+#### Download from source
+1. Clone the repo
+    ```bash
+    git clone https://github.com/chandlerlucius/linux-dashboard
+    ```
+2. Navigate to repo directory
+    ```bash
+    cd linux-dashboard
+    ```
+3. Build project w/o tests
+    ```bash
+    ./mvnw clean install -DskipTests
+    ```
+4. Navigate to target directory
+    ```bash
+    cd target
+    ```
 
-* Bash
-* Javascript
-* Java
-* HTML5
-* CSS3
+#### Download manually
+
+1. Download the jar
+    ```bash
+    wget https://github.com/chandlerlucius/linux-dashboard/releases/download/v1.0.0-alpha/linux-dashboard-1.0.0.jar
+    ```
+
+### Deployment
+
+#### Deploy in foreground
+```bash
+java -jar linux-dashboard-1.0.0.jar
+```
+
+#### Deploy in background
+```bash
+nohup java -jar linux-dashboard-1.0.0.jar &
+```
+
+## Running the tests
+
+### Use maven to run the tests
+```bash
+./mvnw test
+```
+
 
 ## Support
 
