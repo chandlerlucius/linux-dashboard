@@ -53,7 +53,7 @@
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
         <img 
-        src="https://img.shields.io/github/release/chandlerlucius/linux-dashboard.svg"
+        src="https://img.shields.io/github/tag-pre/chandlerlucius/linux-dashboard.svg"
          alt="Latest Release" />
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases">
