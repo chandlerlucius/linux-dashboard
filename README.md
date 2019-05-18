@@ -641,34 +641,6 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         </tr>
         <tr>
             <td>
-                <a href="https://dlaa.me/markdownlint/">
-                    <img src="https://dlaa.me/markdownlint.png?crc32=2a731dd4" alt="Markdownlint" height="30px"/>
-                </a>
-            </td>
-            <td>MarkdownLint</td>
-            <td>markdown</td>
-            <td>
-                <a href="https://github.com/DavidAnson/markdownlint">
-                    https://github.com/DavidAnson/markdownlint
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://remark.js.org/">
-                    <img src="https://raw.githubusercontent.com/remarkjs/remark-lint/02295bc/logo.svg?sanitize=true" alt="Remark-Lint" height="30px"/>
-                </a>
-            </td>
-            <td>Remark-Lint</td>
-            <td>markdown</td>
-            <td>
-                <a href="https://github.com/remarkjs/remark-lint">
-                    https://github.com/remarkjs/remark-lint
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://www.shellcheck.net/">
                     <img src="https://www.shellcheck.net/favicon.ico" alt="Shellcheck" height="30px"/>
                 </a>
@@ -692,6 +664,20 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
             <td>
                 <a href="https://github.com/htmlhint/HTMLHint">
                     https://github.com/htmlhint/HTMLHint
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://remark.js.org/">
+                    <img src="https://raw.githubusercontent.com/remarkjs/remark-lint/02295bc/logo.svg?sanitize=true" alt="Remark-Lint" height="30px"/>
+                </a>
+            </td>
+            <td>Remark-Lint</td>
+            <td>markdown</td>
+            <td>
+                <a href="https://github.com/remarkjs/remark-lint">
+                    https://github.com/remarkjs/remark-lint
                 </a>
             </td>
         </tr>
