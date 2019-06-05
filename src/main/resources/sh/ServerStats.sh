@@ -72,6 +72,11 @@ getUptime() {
     uptime -p
 }
 
+#Disk Free Command
+getDiskFreeInfo() {
+    df -hT | awk '{print $1"|"$2"|"$3"|"$4"|"$5"|"$6"|"$7}' | tr '\n' '#' | sed 's/\\/\//g'
+}
+
 if [ "$1" != "TEST" ] 
 then
     #Run curl command to get IP info
