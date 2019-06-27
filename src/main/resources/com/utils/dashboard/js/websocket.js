@@ -58,7 +58,7 @@ const populateHidden = function (element) {
 const populateRow = function (element) {
     const title = element.closest('.card').querySelector('.card-title').innerHTML;
     const tr = element.closest('tr');
-    if (title === 'Connections') {
+    if (title === _('Connections')) {
         const ip = element.previousSibling.innerHTML;
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -166,10 +166,10 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
                 } else if (col === '[client-request]') {
                     populateRow(tabSearchTd);
                 } else {
-                    populateRow(tabSearchTd);
+                    ;
                 }
             }
-            if (col !== '[hidden]' && col !== '[client-request]') {
+            if (tabSearchTd !== null && col !== '[hidden]' && col !== '[client-request]') {
                 tabSearchTd.innerHTML = escapeHTML(col);
             }
         }
