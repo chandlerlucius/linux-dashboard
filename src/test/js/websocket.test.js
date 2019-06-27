@@ -1,4 +1,4 @@
-const websocket = require('../../main/resources/com/utils/dashboard/js/websocket')
+const websocket = require('../../main/resources/com/utils/dashboard/js/websocket');
 
 describe('Escape HTML Function - escapeHTML()', function () {
     it('should convert all the unsafe HTML characters into HTML entities', function () {
