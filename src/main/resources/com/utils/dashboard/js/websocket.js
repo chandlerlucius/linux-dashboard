@@ -131,6 +131,160 @@ const escapeHTML = function (unsafe) {
         .replace(/'/g, '&apos;');
 };
 
+const createSearchDetails = function(tabContent, tabDetailResult, i, j, k) {
+    //Show search and make card large
+    tabContent.querySelector('.card-search').style.display = '';
+    tabContent.querySelector('.card').classList.remove('small');
+    tabContent.querySelector('.card').classList.add('large');
+    tabContent.querySelector('.card-detail').classList.add('search-table');
+
+    //Update table with searchable data
+    const table = tabContent.querySelector('table');
+    const rows = tabDetailResult.value.split('#');
+    for (let l = 0; l < rows.length - 1; l++) {
+        const row = rows[l];
+        const tabSearchTrId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l;
+        let tabSearchTr = tabContent.querySelector('#' + tabSearchTrId);
+        if (tabSearchTr === null) {
+            tabSearchTr = table.insertRow(l);
+            tabSearchTr.id = tabSearchTrId;
+        }
+        if (l === 0) {
+            tabSearchTr.classList.add('white-text');
+        }
+
+        const cols = row.split('|');
+        for (let m = 0; m < cols.length; m++) {
+            const col = cols[m];
+            const tabSearchTdId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l + '-' + m;
+            let tabSearchTd = tabContent.querySelector('#' + tabSearchTdId);
+            if (tabSearchTd === null) {
+                tabSearchTd = tabSearchTr.insertCell(m);
+                tabSearchTd.id = tabSearchTdId;
+                if (col === '[hidden]') {
+                    populateHidden(tabSearchTd);
+                } else if (col === '[client-request]') {
+                    populateRow(tabSearchTd);
+                } else {
+                }
+            }
+            if (col !== '[hidden]' && col !== '[client-request]') {
+                tabSearchTd.innerHTML = escapeHTML(col);
+            }
+        }
+
+        const rowCount = table.querySelectorAll('tr').length - 1;
+        for (let m = rows.length; m < rowCount; m++) {
+            table.deleteRow(m);
+        }
+    }
+    search(tabContent.querySelector('.search'));
+}
+
+const createChartDetails = function(tabContent, tabDetailResult, i, j, k) {
+    //Show chart and remove height restriction on card
+    tabContent.querySelector('.card-chart').style.display = '';
+    tabContent.querySelector('.card').classList.remove('small');
+    tabContent.querySelector('.card').classList.add('large');
+
+    //Update data within chart
+    const tabChartId = 'tab-chart-' + i + '-' + j + '-' + k;
+    let tabChart = tabContent.querySelector('#' + tabChartId);
+    const total = 30;
+    if (tabChart === null) {
+        tabChart = tabContent.querySelector('.card-chart');
+        tabChart.id = tabChartId;
+
+        const origXAxisData = [];
+        for (let l = total; l > 0; l--) {
+            origXAxisData.push(k);
+        }
+
+        const seriesData = [];
+        for (let l = total; l > 0; l--) {
+            seriesData.push(0);
+        }
+
+        const origChart = echarts.init(tabChart, null, {});
+        chartMap.set(i + '_' + j + '_' + k, tabChart);
+        drawChart(origChart, origXAxisData, seriesData);
+    }
+
+    const chart = echarts.getInstanceByDom(tabChart);
+    const xAxisData = chart.getOption().xAxis[0].data;
+    const seriesData = chart.getOption().series[0].data;
+
+    seriesData.shift();
+    seriesData[total - 1] = tabDetailResult.value;
+    chart.setOption({
+        xAxis: {
+            data: xAxisData,
+        },
+        series: [{
+            name: _(tabDetailResult.title),
+            data: seriesData,
+        }],
+    });
+}
+
+const createDetails = function(groupResult, tabContent, i, j) {
+    const groupValues = groupResult.values;
+    for (let k = 0; k < groupValues.length; k++) {
+        const tabDetailResult = groupValues[k];
+
+        //Handle toasts for thresholds
+        const key = tabDetailResult.title.toLowerCase().replace(/ /g, '_');
+        const thresholdKey = key + '-threshold';
+        let threshold = localStorage.getItem(thresholdKey);
+
+        if (tabDetailResult.threshold !== '' && threshold === null) {
+            threshold = tabDetailResult.threshold;
+            localStorage.setItem(thresholdKey, threshold);
+        }
+        if (threshold !== null) {
+            const exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
+            const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
+            const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
+            const toastTitle = _(`High ${tabDetailResult.title}`);
+            const toastValue = `${tabDetailResult.value}%`;
+            if (toastTitleElement === null && exceededThreshold) {
+                const toastHTML =
+                    '<span id="' + thresholdKey + '_title">' + toastTitle + '</span>' +
+                    '<span id="' + thresholdKey + '_value" class="lime-text accent-2-text">' + toastValue + '</span>' +
+                    '<button class="btn-flat toast-action modal-trigger" href="#menu">Edit</button>';
+                M.toast({ html: toastHTML, displayLength: Infinity });
+            } else if (exceededThreshold) {
+                toastTitleElement.innerHTML = toastTitle;
+                toastValueElement.innerHTML = toastValue;
+            } else if (toastTitleElement !== null) {
+                const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
+                toastInstance.dismiss();
+            } else {
+            }
+        }
+
+        //Handle tab details
+        if (tabDetailResult.type === 'detail') {
+            //Update table with detail data
+            const tabDetailId = `tab-detail-${i}-${j}-${k}`;
+            let tabDetail = tabContent.querySelector('#' + tabDetailId);
+            if (tabDetail === null) {
+                const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
+                tabDetailTemplate.querySelector('tr').id = tabDetailId;
+                tabContent.querySelector('.card-detail table tbody').appendChild(tabDetailTemplate);
+                tabDetail = tabContent.querySelector('#' + tabDetailId);
+            }
+            tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
+            tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
+        } else if (tabDetailResult.type === 'search') {
+            createSearchDetails(tabContent, tabDetailResult, i, j, k);
+        } else if (tabDetailResult.type === 'chart') {
+            createChartDetails(tabContent, tabDetailResult, i, j, k);
+        } else {
+        }
+    }
+}
+
 //Parse json method
 const parseJsonResults = function (json) {
     for (let i = 0; i < json.results.length; i++) {
@@ -177,151 +331,7 @@ const parseJsonResults = function (json) {
                 tabContent.querySelector('.card').classList.add('large');
             } else {
             }
-
-            const groupValues = groupResult.values;
-            for (let k = 0; k < groupValues.length; k++) {
-                const tabDetailResult = groupValues[k];
-
-                //Handle toasts for thresholds
-                const key = tabDetailResult.title.toLowerCase().replace(/ /g, '_');
-                const thresholdKey = key + '-threshold';
-                let threshold = localStorage.getItem(thresholdKey);
-
-                if (tabDetailResult.threshold !== '' && threshold === null) {
-                    threshold = tabDetailResult.threshold;
-                    localStorage.setItem(thresholdKey, threshold);
-                }
-                if (threshold !== null) {
-                    const exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
-                    const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
-                    const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
-                    const toastTitle = _(`High ${tabDetailResult.title}`);
-                    const toastValue = `${tabDetailResult.value}%`;
-                    if (toastTitleElement === null && exceededThreshold) {
-                        const toastHTML =
-                            '<span id="' + thresholdKey + '_title">' + toastTitle + '</span>' +
-                            '<span id="' + thresholdKey + '_value" class="lime-text accent-2-text">' + toastValue + '</span>' +
-                            '<button class="btn-flat toast-action modal-trigger" href="#menu">Edit</button>';
-                        M.toast({ html: toastHTML, displayLength: Infinity });
-                    } else if (exceededThreshold) {
-                        toastTitleElement.innerHTML = toastTitle;
-                        toastValueElement.innerHTML = toastValue;
-                    } else if (toastTitleElement !== null) {
-                        const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
-                        toastInstance.dismiss();
-                    } else {
-                    }
-                }
-
-                //Handle tab details
-                if (tabDetailResult.type === 'detail') {
-                    //Update table with detail data
-                    const tabDetailId = `tab-detail-${i}-${j}-${k}`;
-                    let tabDetail = tabContent.querySelector('#' + tabDetailId);
-                    if (tabDetail === null) {
-                        const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
-                        tabDetailTemplate.querySelector('tr').id = tabDetailId;
-                        tabContent.querySelector('.card-detail table').appendChild(tabDetailTemplate);
-                        tabDetail = tabContent.querySelector('#' + tabDetailId);
-                    }
-                    tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
-                    tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
-
-                } else if (tabDetailResult.type === 'search') {
-                    //Show search and make card large
-                    tabContent.querySelector('.card-search').style.display = '';
-                    tabContent.querySelector('.card').classList.remove('small');
-                    tabContent.querySelector('.card').classList.add('large');
-                    tabContent.querySelector('.card-detail').classList.add('search-table');
-
-                    //Update table with searchable data
-                    const table = tabContent.querySelector('table');
-                    const rows = tabDetailResult.value.split('#');
-                    for (let l = 0; l < rows.length - 1; l++) {
-                        const row = rows[l];
-                        const tabSearchTrId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l;
-                        let tabSearchTr = tabContent.querySelector('#' + tabSearchTrId);
-                        if (tabSearchTr === null) {
-                            tabSearchTr = table.insertRow(l);
-                            tabSearchTr.id = tabSearchTrId;
-                        }
-                        if (l === 0) {
-                            tabSearchTr.classList.add('white-text');
-                        }
-
-                        const cols = row.split('|');
-                        for (let m = 0; m < cols.length; m++) {
-                            const col = cols[m];
-                            const tabSearchTdId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l + '-' + m;
-                            let tabSearchTd = tabContent.querySelector('#' + tabSearchTdId);
-                            if (tabSearchTd === null) {
-                                tabSearchTd = tabSearchTr.insertCell(m);
-                                tabSearchTd.id = tabSearchTdId;
-                                if (col === '[hidden]') {
-                                    populateHidden(tabSearchTd);
-                                } else if (col === '[client-request]') {
-                                    populateRow(tabSearchTd);
-                                } else {
-                                }
-                            }
-                            if (col !== '[hidden]' && col !== '[client-request]') {
-                                tabSearchTd.innerHTML = escapeHTML(col);
-                            }
-                        }
-
-                        const rowCount = table.querySelectorAll('tr').length - 1;
-                        for (let m = rows.length; m < rowCount; m++) {
-                            table.deleteRow(m);
-                        }
-                    }
-                    search(tabContent.querySelector('.search'));
-
-                } else if (tabDetailResult.type === 'chart') {
-                    //Show chart and remove height restriction on card
-                    tabContent.querySelector('.card-chart').style.display = '';
-                    tabContent.querySelector('.card').classList.remove('small');
-                    tabContent.querySelector('.card').classList.add('large');
-
-                    //Update data within chart
-                    const tabChartId = 'tab-chart-' + i + '-' + j + '-' + k;
-                    let tabChart = tabContent.querySelector('#' + tabChartId);
-                    const total = 30;
-                    if (tabChart === null) {
-                        tabChart = tabContent.querySelector('.card-chart');
-                        tabChart.id = tabChartId;
-
-                        const origXAxisData = [];
-                        for (let l = total; l > 0; l--) {
-                            origXAxisData.push(k);
-                        }
-
-                        const seriesData = [];
-                        for (let l = total; l > 0; l--) {
-                            seriesData.push(0);
-                        }
-
-                        const origChart = echarts.init(tabChart, null, {});
-                        chartMap.set(i + '_' + j + '_' + k, tabChart);
-                        drawChart(origChart, origXAxisData, seriesData);
-                    }
-
-                    const chart = echarts.getInstanceByDom(tabChart);
-                    const xAxisData = chart.getOption().xAxis[0].data;
-                    const seriesData = chart.getOption().series[0].data;
-
-                    seriesData.shift();
-                    seriesData[total - 1] = tabDetailResult.value;
-                    chart.setOption({
-                        xAxis: {
-                            data: xAxisData,
-                        },
-                        series: [{
-                            name: _(tabDetailResult.title),
-                            data: seriesData,
-                        }],
-                    });
-                }
-            }
+            createDetails(groupResult, tabContent, i, j);
         }
 
         //Initialize materialize js tabs features every time
