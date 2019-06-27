@@ -53,11 +53,3 @@ tr:hover {
 .navbar-fixed .tabs .material-icons {
   line-height: 200%;
 }
-
-.modal {
-  max-height: 75%;
-}
-
-.modal .modal-footer .btn {
-  margin: 6px;
-}
