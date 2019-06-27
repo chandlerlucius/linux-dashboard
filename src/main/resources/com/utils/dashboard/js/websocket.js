@@ -166,6 +166,7 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
                 } else if (col === '[client-request]') {
                     populateRow(tabSearchTd);
                 } else {
+                    populateRow(tabSearchTd);
                 }
             }
             if (col !== '[hidden]' && col !== '[client-request]') {
@@ -260,6 +261,7 @@ const createDetails = function (groupResult, tabContent, i, j) {
                 const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
                 toastInstance.dismiss();
             } else {
+                ;
             }
         }
 
@@ -330,6 +332,9 @@ const parseJsonResults = function (json) {
                 tabContent.querySelector('.card').classList.remove('small');
                 tabContent.querySelector('.card').classList.add('large');
             } else {
+                tabContent.querySelector('.card-search').style.display = '';
+                tabContent.querySelector('.card').classList.remove('small');
+                tabContent.querySelector('.card').classList.add('large');
             }
             createDetails(groupResult, tabContent, i, j);
         }
