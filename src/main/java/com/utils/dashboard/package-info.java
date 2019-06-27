@@ -1,9 +1,9 @@
 /**
  * Source classes used to run the embedded undertow server and websocket communications.
- * They are comprised of a Servlet Container Initialization class as well as a Java Websocket
- * API endpoint.
  * <p>
- * These classes contain the meat of the dashboard code.
+ * These classes contain the meat of the dashboard code. They are comprised of the Servlet 
+ * Container Initialization code as well as the Java Websocket API endpoint.
+ * </p>
  *
  * @author Chandler Lucius
  * @version 1.0.0
