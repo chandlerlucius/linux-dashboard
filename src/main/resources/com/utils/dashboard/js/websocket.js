@@ -454,7 +454,6 @@ const start = function (websocketServerLocation) {
     };
 
     socket.onmessage = function (event) {
-        console.log(new Date());
         try {
             const json = JSON.parse(event.data);
             parseJsonResults(json);
