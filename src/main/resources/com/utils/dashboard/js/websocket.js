@@ -88,7 +88,7 @@ const drawChart = function (chart, xAxisData, seriesData) {
         },
         tooltip: {
             trigger: 'axis',
-            formatter: function(params) {
+            formatter(params) {
                 let result;
                 params.forEach(function (item) {
                     result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:'
@@ -131,7 +131,7 @@ const escapeHTML = function (unsafe) {
         .replace(/'/g, '&apos;');
 };
 
-const createSearchDetails = function(tabContent, tabDetailResult, i, j, k) {
+const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
     //Show search and make card large
     tabContent.querySelector('.card-search').style.display = '';
     tabContent.querySelector('.card').classList.remove('small');
@@ -179,9 +179,9 @@ const createSearchDetails = function(tabContent, tabDetailResult, i, j, k) {
         }
     }
     search(tabContent.querySelector('.search'));
-}
+};
 
-const createChartDetails = function(tabContent, tabDetailResult, i, j, k) {
+const createChartDetails = function (tabContent, tabDetailResult, i, j, k) {
     //Show chart and remove height restriction on card
     tabContent.querySelector('.card-chart').style.display = '';
     tabContent.querySelector('.card').classList.remove('small');
@@ -225,9 +225,9 @@ const createChartDetails = function(tabContent, tabDetailResult, i, j, k) {
             data: seriesData,
         }],
     });
-}
+};
 
-const createDetails = function(groupResult, tabContent, i, j) {
+const createDetails = function (groupResult, tabContent, i, j) {
     const groupValues = groupResult.values;
     for (let k = 0; k < groupValues.length; k++) {
         const tabDetailResult = groupValues[k];
@@ -283,7 +283,7 @@ const createDetails = function(groupResult, tabContent, i, j) {
         } else {
         }
     }
-}
+};
 
 //Parse json method
 const parseJsonResults = function (json) {
@@ -410,6 +410,6 @@ if (window) {
     });
 }
 
-if(typeof exports !== 'undefined') {
+if (typeof exports !== 'undefined') {
     exports.escapeHTML = escapeHTML;
 }
