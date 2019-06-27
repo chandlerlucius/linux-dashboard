@@ -38,12 +38,12 @@ public class WebSocket {
 
     @OnOpen
     public void open(final Session session) {
-        LOG.info("Closed websocket connection: ", session.getId());
+        LOG.info("Opened websocket connection: ", session.getId());
     }
 
     @OnClose
     public void close(final Session session) {
-        LOG.info("Opened websocket connection: ", session.getId());
+        LOG.info("Closed websocket connection: ", session.getId());
     }
 
     @OnMessage
