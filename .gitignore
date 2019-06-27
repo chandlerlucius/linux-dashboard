@@ -47,6 +47,7 @@ hs_err_pid*
 
 # VS Code #
 .vscode/
+.history/
 
 # BlueJ files #
 *.ctxt
