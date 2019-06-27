@@ -152,7 +152,7 @@ const parseJsonResults = function (json) {
             tab = document.querySelector('#' + tabId);
         }
         const tabTitle = document.querySelector('#' + tabTitleId);
-        tabTitle.innerHTML = tabResult.title;
+        tabTitle.innerHTML = _(tabResult.title);
         tabTitle.href = '#' + tabId;
 
         const tabValues = tabResult.values;
@@ -166,7 +166,7 @@ const parseJsonResults = function (json) {
                 tab.appendChild(tabContentTemplate);
                 tabContent = tab.querySelector('#' + tabContentId);
             }
-            tabContent.querySelector('.card-title').innerHTML = groupResult.title;
+            tabContent.querySelector('.card-title').innerHTML = _(groupResult.title);
 
             if (groupResult.type === 'chart') {
                 tabContent.querySelector('.card-chart').style.display = '';
@@ -195,7 +195,7 @@ const parseJsonResults = function (json) {
                     const exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
                     const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
                     const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
-                    const toastTitle = `High ${tabDetailResult.title}`;
+                    const toastTitle = _(`High ${tabDetailResult.title}`);
                     const toastValue = `${tabDetailResult.value}%`;
                     if (toastTitleElement === null && exceededThreshold) {
                         const toastHTML =
@@ -224,7 +224,7 @@ const parseJsonResults = function (json) {
                         tabContent.querySelector('.card-detail table').appendChild(tabDetailTemplate);
                         tabDetail = tabContent.querySelector('#' + tabDetailId);
                     }
-                    tabDetail.querySelector('strong').innerHTML = tabDetailResult.title;
+                    tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
                     tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
 
                 } else if (tabDetailResult.type === 'search') {
@@ -316,7 +316,7 @@ const parseJsonResults = function (json) {
                             data: xAxisData,
                         },
                         series: [{
-                            name: tabDetailResult.title,
+                            name: _(tabDetailResult.title),
                             data: seriesData,
                         }],
                     });
