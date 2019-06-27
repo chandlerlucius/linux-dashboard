@@ -9,14 +9,7 @@ let initialized = false;
 //Handle resizing charts with window
 const chartMap = new Map();
 
-//Run web worker to handle notifications
-// const worker = new Worker('js/notifications.js');
-// worker.addEventListener('message', function (e) {
-//     localStorage.setItem(e.data.key, new Date());
-// }, false);
-
 //Helper methods
-
 const resizeCharts = function () {
     chartMap.forEach(function (value) {
         if (value.closest('.row').style.display !== 'none') {
@@ -199,78 +192,7 @@ const parseJsonResults = function (json) {
                     localStorage.setItem(thresholdKey, threshold);
                 }
                 if (threshold !== null) {
-                    //Setup notifications tab and values
-                    if (!initialized || document.querySelector('#menu').style.display === 'none') {
-                        const notificationTabId = 'notifications-tab-' + i + '-' + j + '-' + k;
-                        let notificationTab = document.querySelector('#' + notificationTabId);
-                        if (notificationTab === null) {
-                            const notificationTabTemplate = document.querySelector('#notification-tab-template').content.cloneNode(true);
-                            notificationTabTemplate.querySelector('div').id = notificationTabId;
-                            document.querySelector('#notifications form').appendChild(notificationTabTemplate);
-                            notificationTab = document.querySelector('#' + notificationTabId);
-                        }
-
-                        //Set local storage values dealing with notifications
-                        notificationTab.querySelector('#notification-title').innerHTML = tabDetailResult.title;
-
-                        const thresholdTitle = 'threshold';
-                        const thresholdId = key + '-' + thresholdTitle;
-                        const thresholdElement = notificationTab.querySelector('input.' + thresholdTitle);
-                        thresholdElement.id = thresholdId;
-                        thresholdElement.value = threshold;
-                        thresholdElement.parentElement.querySelector('label.' + thresholdTitle).htmlFor = thresholdId;
-
-                        const frequencyTitle = 'frequency';
-                        const frequencyId = key + '-' + frequencyTitle;
-                        let frequencyVal = localStorage.getItem(frequencyId);
-                        if (frequencyVal === null) {
-                            localStorage.setItem(frequencyId, '15');
-                        }
-                        frequencyVal = localStorage.getItem(frequencyId);
-                        const frequencyElement = notificationTab.querySelector('input.' + frequencyTitle);
-                        frequencyElement.id = frequencyId;
-                        frequencyElement.value = frequencyVal;
-                        frequencyElement.parentElement.querySelector('label.' + frequencyTitle).htmlFor = frequencyId;
-
-                        const snoozeTitle = 'snooze';
-                        const snoozeId = key + '-' + snoozeTitle;
-                        let snoozeVal = localStorage.getItem(snoozeId);
-                        if (snoozeVal === null) {
-                            localStorage.setItem(snoozeId, '0');
-                        }
-                        snoozeVal = localStorage.getItem(snoozeId);
-                        const snoozeElement = notificationTab.querySelector('input.' + snoozeTitle);
-                        snoozeElement.id = snoozeId;
-                        snoozeElement.value = snoozeVal;
-                        snoozeElement.parentElement.querySelector('label.' + snoozeTitle).htmlFor = snoozeId;
-
-                        const notifications = ['toast', 'email', 'sms', 'chat', 'notification'];
-                        notifications.forEach(function (title) {
-                            const id = key + '-' + title;
-                            let val = localStorage.getItem(id);
-                            if (val === null) {
-                                localStorage.setItem(id, 'true');
-                            }
-                            val = localStorage.getItem(id);
-                            if (val === 'true') {
-                                const element = notificationTab.querySelector('input.' + title);
-                                element.id = id;
-                                element.checked = 'checked';
-                            }
-                        });
-                    }
-
                     const exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
-                    if (exceededThreshold) {
-                        // worker.postMessage({
-                        //     'key': key, 'title': tabDetailResult.title, 'value': tabDetailResult.value,
-                        //     'frequency': localStorage.getItem(key + '-frequency'), 'notifiedDate': localStorage.getItem(key + '-notified-date'),
-                        //     'toast': localStorage.getItem(key + '-toast'), 'email': localStorage.getItem(key + '-email'),
-                        //     'sms': localStorage.getItem(key + '-sms'), 'chat': localStorage.getItem(key + '-chat'),
-                        //     'notification': localStorage.getItem(key + '-notification')
-                        // });
-                    }
-
                     const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
                     const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
                     const toastTitle = `High ${tabDetailResult.title}`;
@@ -475,18 +397,6 @@ if (window) {
         window.onresize = function () {
             resizeCharts();
         };
-
-        //Handle menu saving
-        document.querySelector('#menu-save').addEventListener('click', function () {
-            const notificationInputs = document.querySelectorAll('#menu #notifications input');
-            notificationInputs.forEach(function (input) {
-                if (input.type === 'checkbox') {
-                    localStorage.setItem(input.id, input.checked);
-                } else {
-                    localStorage.setItem(input.id, input.value);
-                }
-            });
-        });
     });
 }
 
