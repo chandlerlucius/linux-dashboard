@@ -169,7 +169,7 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
                     ;
                 }
             }
-            if (tabSearchTd !== null && col !== '[hidden]' && col !== '[client-request]') {
+            if (tabSearchTd != null && col !== '[hidden]' && col !== '[client-request]') {
                 tabSearchTd.innerHTML = escapeHTML(col);
             }
         }
