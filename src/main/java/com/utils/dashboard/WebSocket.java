@@ -98,7 +98,7 @@ public class WebSocket {
         return "";
     }
 
-    private static String getServerScriptResult(Process process) {
+    private static String getServerScriptResult(final Process process) {
         // Get output from script
         try (InputStream inputStream = process.getInputStream()) {
             final ByteArrayOutputStream result = new ByteArrayOutputStream();
