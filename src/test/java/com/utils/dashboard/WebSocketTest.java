@@ -14,6 +14,10 @@ import org.junit.jupiter.api.Test;
  */
 public class WebSocketTest {
 
+    public WebSocketTest() {
+        //Intentionally blank
+    }
+
     /**
      * Copy valid script file from webapp to temp directory and verify it
      * exists.
