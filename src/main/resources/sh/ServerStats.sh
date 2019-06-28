@@ -117,7 +117,7 @@ then
     GRPS=$(printf "NAME|GID|USERS#" && awk -F ':' '{print $1"|"$3"|"$4}' /etc/group | tr '\n' '#')
 
     #Run last command to get last login info
-    LOGINS=$(printf "USER|IP|LOGIN - LOGOUT|LENGTH" && last -di | grep -v reboot | awk '{ printf $1"|"$3"|"; s = ""; for (i = 4; i <= NF; i++) s = s $i " "; print s }' | sed 's/ (/|/g' | tr -d ')' | sed '$d' | sed '$d' | tr '\n' '#')
+    LOGINS=$(printf "USER|IP|LOGIN - LOGOUT|LENGTH#" && last -di | grep -v reboot | awk '{ printf $1"|"$3"|"; s = ""; for (i = 4; i <= NF; i++) s = s $i " "; print s }' | sed 's/ (/|/g' | tr -d ')' | sed '$d' | sed '$d' | tr '\n' '#')
 
     #Run netstat or ss command to get connection info
     NETSTAT=$(netstat >/dev/null 2>&1 | sed 1d; echo $?);
