@@ -18,16 +18,16 @@ const resizeCharts = function () {
     });
 };
 
-const search = function(element) {
+const search = function (element) {
     const filter = element.value.toUpperCase();
     const table = element.closest('.card').querySelector('table');
     const trs = table.getElementsByTagName('tr');
 
-    for (let i = 1; i < trs.length; i+=1) {
+    for (let i = 1; i < trs.length; i += 1) {
         let found = false;
         const tr = trs[i];
         const tds = tr.getElementsByTagName('td');
-        for (let j = 0; j < tds.length; j+=1) {
+        for (let j = 0; j < tds.length; j += 1) {
             const td = tds[j];
             const text = td.textContent || td.innerText;
             if (text.toUpperCase().indexOf(filter) > -1) {
@@ -68,7 +68,7 @@ const populateRow = function (element) {
                 const json = JSON.parse(xhr.responseText);
                 const array = [json.city, json.region, json.country, json.postal];
                 element.innerHTML = json.org;
-                for (let i = 0; i < 4; i+=1) {
+                for (let i = 0; i < 4; i += 1) {
                     const td = tr.insertCell(i + 3);
                     td.innerHTML = array[i];
                 }
@@ -93,8 +93,8 @@ const drawChart = function (chart, xAxisData, seriesData) {
             formatter(params) {
                 let result;
                 params.forEach(function (item) {
-                    result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:'
-                        + item.color + '"></span>' + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
+                    result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
+                        item.color + '"></span>' + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
                 });
                 return result;
             },
@@ -146,7 +146,7 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
     }
 
     const cols = row.split('|');
-    for (let m = 0; m < cols.length; m+=1) {
+    for (let m = 0; m < cols.length; m += 1) {
         const col = cols[m];
         const tabSearchTdId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l + '-' + m;
         let tabSearchTd = tabContent.querySelector('#' + tabSearchTdId);
@@ -211,12 +211,12 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
     //Update table with searchable data
     const table = tabContent.querySelector('table');
     const rows = tabDetailResult.value.split('#');
-    for (let l = 0; l < rows.length - 1; l+=1) {
+    for (let l = 0; l < rows.length - 1; l += 1) {
         createSearchRow(rows, tabContent, table, i, j, k, l);
     }
 
     const rowCount = table.querySelectorAll('tr').length - 1;
-    for (let l = rows.length; l < rowCount; l+=1) {
+    for (let l = rows.length; l < rowCount; l += 1) {
         table.deleteRow(l);
     }
     search(tabContent.querySelector('.search'));
@@ -270,7 +270,7 @@ const createChartDetails = function (tabContent, tabDetailResult, i, j, k) {
 
 const createDetails = function (groupResult, tabContent, i, j) {
     const groupValues = groupResult.values;
-    for (let k = 0; k < groupValues.length; k+=1) {
+    for (let k = 0; k < groupValues.length; k += 1) {
         const tabDetailResult = groupValues[k];
 
         //Handle toast details
@@ -299,7 +299,7 @@ const createDetails = function (groupResult, tabContent, i, j) {
     }
 };
 
-const init = function() {
+const init = function () {
     //Initialize materialize js features every time
     M.AutoInit();
 
@@ -338,7 +338,7 @@ const init = function() {
     initialized = true;
 };
 
-const createTabs = function(json, i) {
+const createTabs = function (json, i) {
     const tabResult = json.results[i];
     const tabId = 'tab-' + i;
     const tabTitleId = 'tab-title-' + i;
@@ -361,7 +361,7 @@ const createTabs = function(json, i) {
     tabTitle.href = '#' + tabId;
 
     const tabValues = tabResult.values;
-    for (let j = 0; j < tabValues.length; j+=1) {
+    for (let j = 0; j < tabValues.length; j += 1) {
         const groupResult = tabValues[j];
         const tabContentId = `tab-content-${i}-${j}`;
         let tabContent = tab.querySelector('#' + tabContentId);
@@ -389,7 +389,7 @@ const createTabs = function(json, i) {
 
 //Parse json method
 const parseJsonResults = function (json) {
-    for (let i = 0; i < json.results.length; i+=1) {
+    for (let i = 0; i < json.results.length; i += 1) {
         createTabs(json, i);
     }
     init();
@@ -399,16 +399,16 @@ const start = function (websocketServerLocation) {
     const socket = new WebSocket(websocketServerLocation);
 
     socket.onopen = function () {
-        if (window.timerID) {
-            window.clearInterval(window.timerID);
-            window.timerID = 0;
+        if (timerID) {
+            clearInterval(timerID);
+            timerID = 0;
         }
         socket.send('gimme');
     };
 
     socket.onclose = function () {
-        if (!window.timerID) {
-            window.timerID = setInterval(function () {
+        if (!timerID) {
+            timerID = setInterval(function () {
                 start(websocketServerLocation);
             }, 5000);
         }
