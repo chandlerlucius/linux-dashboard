@@ -472,7 +472,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://libraries.io/">
-                    <img src="https://avatars1.githubusercontent.comu/11243589?s=200&v=4" alt="Libraries.io" height="30px"/>
+                    <img src="https://avatars1.githubusercontent.com/u/11243589?s=200&v=4" alt="Libraries.io" height="30px"/>
                 </a>
             </td>
             <td>Libraries.io</td>
