@@ -74,6 +74,12 @@
             <fileset>
               <directory>node</directory>
             </fileset>
+            <fileset>
+              <directory>${project.basedir}</directory>
+              <includes>
+                <include>package-lock.json</include>
+              </includes>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
@@ -157,7 +163,6 @@
           <failOnViolation>false</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
           <rulesets>
-            <!-- A rule set, that comes bundled with PMD -->
             <ruleset>/category/java/bestpractices.xml</ruleset>
             <ruleset>/category/java/codestyle.xml</ruleset>
             <ruleset>/category/java/design.xml</ruleset>
