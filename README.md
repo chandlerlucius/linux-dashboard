@@ -38,7 +38,7 @@
         <img src="https://img.shields.io/librariesio/github/chandlerlucius/linux-dashboard.svg" alt="Dependency Status"/>
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases/latest">
-        <img src="https://img.shields.io/github/tag-pre/chandlerlucius/linux-dashboard.svg" alt="Latest Release"/>
+        <img src="https://badgen.net/github/release/chandlerlucius/linux-dashboard" alt="Latest Release"/>
     </a>
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases">
         <img src="https://img.shields.io/github/downloads/chandlerlucius/linux-dashboard/total.svg" alt="Releases"/>
@@ -47,7 +47,7 @@
 
 <p align="center">
     <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/chandlerlucius/linux-dashboard.svg" alt="License"/>
+        <img src="https://badgen.net/github/license/chandlerlucius/linux-dashboard" alt="License"/>
     </a>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield">
         <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" alt="FOSSA Status"/>
