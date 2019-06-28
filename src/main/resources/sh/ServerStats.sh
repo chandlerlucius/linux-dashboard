@@ -494,7 +494,7 @@ then
     TITLE="IP List"
     TYPE="search"
     THRESHOLD=""
-    VALUE="${CONNECTION_INFO}7131|23.228.172.13|[client-request]#443|72.182.66.65|[hidden]#"
+    VALUE="${CONNECTION_INFO}"
     DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
     #Connection Group
