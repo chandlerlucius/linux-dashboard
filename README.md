@@ -107,9 +107,9 @@ Install from release
 
 1.  Download the jar
 
-```bash
-wget https://github.com/chandlerlucius/linux-dashboard/releases/download/v1.0.0-alpha/linux-dashboard-1.0.0.jar
-```
+    ```bash
+    wget https://github.com/chandlerlucius/linux-dashboard/releases/download/v1.0.0-alpha/linux-dashboard-1.0.0.jar
+    ```
  
 ## Deployment
 
