@@ -2,6 +2,7 @@
 coverage
 node
 node_modules
+package-lock.json
 
 # Package Files #
 *.jar
