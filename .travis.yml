@@ -26,8 +26,6 @@ before_script:
   - cd ../../
   - rm -rf kcov-master
   - rm -rf target/kcov
-  #Install FOSSA analyzer
-  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
   #Run linting tools, java tests, javascript tests, and shell tests
@@ -50,7 +48,3 @@ after_script:
   - sonar-scanner
   #Upload code coverage to codecov
   - bash <(curl -s https://codecov.io/bash)
-  #Verify dependency licenses through FOSSA
-  - fossa init
-  - fossa analyze
-  - fossa test
