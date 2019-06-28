@@ -49,16 +49,14 @@
     <a href="https://github.com/chandlerlucius/linux-dashboard/blob/master/LICENSE">
         <img src="https://badgen.net/github/license/chandlerlucius/linux-dashboard" alt="License"/>
     </a>
-    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield">
-        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield" alt="FOSSA Status"/>
-    </a>
+    <a href="https://app.fossa.com/projects/custom%2B10309%2Fgithub.com%2Fchandlerlucius%2Flinux-dashboard?ref=badge_shield" alt="FOSSA Status">
+        <img src="https://app.fossa.com/api/projects/custom%2B10309%2Fgithub.com%2Fchandlerlucius%2Flinux-dashboard.svg?type=shield"/>       </a>
     <a href="https://gitter.im/chandlerlucius/linux-dashboard">
         <img src="https://badges.gitter.im/chandlerlucius/linux-dashboard.svg" alt="Gitter Chat Room"/>
     </a>
 </p>
 
 <p align="center">
-    <a href="https://github.com/chandlerlucius/linux-dashboard/wiki">Wiki</a> |
     <a href="https://linuxdashboard.com">Live Demo</a> |
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases">Releases</a>
 </p>
@@ -474,7 +472,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://libraries.io/">
-                    <img src="https://avatars1.githubusercontent.comu/11243589?s=200&v=4" alt="Libraries.io" height="30px"/>
+                    <img src="https://avatars1.githubusercontent.com/u/11243589?s=200&v=4" alt="Libraries.io" height="30px"/>
                 </a>
             </td>
             <td>Libraries.io</td>
