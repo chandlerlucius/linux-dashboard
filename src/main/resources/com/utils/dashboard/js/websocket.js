@@ -338,55 +338,59 @@ const init = function() {
     initialized = true;
 };
 
+const createTabs = function(json) {
+    const tabResult = json.results[i];
+    const tabId = 'tab-' + i;
+    const tabTitleId = 'tab-title-' + i;
+    let tab = document.querySelector('#' + tabId);
+    if (tab === null) {
+        const tabTitleTemplate = document.querySelector('#tab-title-template').content.cloneNode(true);
+        tabTitleTemplate.querySelector('a').id = tabTitleId;
+        if (i === 0) {
+            tabTitleTemplate.querySelector('a').class = 'active';
+        }
+        document.querySelector('#tab-title-list').appendChild(tabTitleTemplate);
+
+        const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
+        tabContainerTemplate.querySelector('div').id = tabId;
+        document.querySelector('main').appendChild(tabContainerTemplate);
+        tab = document.querySelector('#' + tabId);
+    }
+    const tabTitle = document.querySelector('#' + tabTitleId);
+    tabTitle.innerHTML = _(tabResult.title);
+    tabTitle.href = '#' + tabId;
+
+    const tabValues = tabResult.values;
+    for (let j = 0; j < tabValues.length; j++) {
+        const groupResult = tabValues[j];
+        const tabContentId = `tab-content-${i}-${j}`;
+        let tabContent = tab.querySelector('#' + tabContentId);
+        if (tabContent === null) {
+            const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
+            tabContentTemplate.querySelector('div').id = tabContentId;
+            tab.appendChild(tabContentTemplate);
+            tabContent = tab.querySelector('#' + tabContentId);
+        }
+        tabContent.querySelector('.card-title').innerHTML = _(groupResult.title);
+
+        if (groupResult.type === 'chart') {
+            tabContent.querySelector('.card-chart').style.display = '';
+            tabContent.querySelector('.card').classList.remove('small');
+        } else if (groupResult.type === 'search') {
+            tabContent.querySelector('.card-search').style.display = '';
+            tabContent.querySelector('.card').classList.remove('small');
+            tabContent.querySelector('.card').classList.add('large');
+        } else {
+            //Skip the group
+        }
+        createDetails(groupResult, tabContent, i, j);
+    }
+};
+
 //Parse json method
 const parseJsonResults = function (json) {
     for (let i = 0; i < json.results.length; i++) {
-        const tabResult = json.results[i];
-        const tabId = 'tab-' + i;
-        const tabTitleId = 'tab-title-' + i;
-        let tab = document.querySelector('#' + tabId);
-        if (tab === null) {
-            const tabTitleTemplate = document.querySelector('#tab-title-template').content.cloneNode(true);
-            tabTitleTemplate.querySelector('a').id = tabTitleId;
-            if (i === 0) {
-                tabTitleTemplate.querySelector('a').class = 'active';
-            }
-            document.querySelector('#tab-title-list').appendChild(tabTitleTemplate);
-
-            const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
-            tabContainerTemplate.querySelector('div').id = tabId;
-            document.querySelector('main').appendChild(tabContainerTemplate);
-            tab = document.querySelector('#' + tabId);
-        }
-        const tabTitle = document.querySelector('#' + tabTitleId);
-        tabTitle.innerHTML = _(tabResult.title);
-        tabTitle.href = '#' + tabId;
-
-        const tabValues = tabResult.values;
-        for (let j = 0; j < tabValues.length; j++) {
-            const groupResult = tabValues[j];
-            const tabContentId = `tab-content-${i}-${j}`;
-            let tabContent = tab.querySelector('#' + tabContentId);
-            if (tabContent === null) {
-                const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
-                tabContentTemplate.querySelector('div').id = tabContentId;
-                tab.appendChild(tabContentTemplate);
-                tabContent = tab.querySelector('#' + tabContentId);
-            }
-            tabContent.querySelector('.card-title').innerHTML = _(groupResult.title);
-
-            if (groupResult.type === 'chart') {
-                tabContent.querySelector('.card-chart').style.display = '';
-                tabContent.querySelector('.card').classList.remove('small');
-            } else if (groupResult.type === 'search') {
-                tabContent.querySelector('.card-search').style.display = '';
-                tabContent.querySelector('.card').classList.remove('small');
-                tabContent.querySelector('.card').classList.add('large');
-            } else {
-                //Skip the group
-            }
-            createDetails(groupResult, tabContent, i, j);
-        }
+        createTabs(json);
     }
     init();
 };
