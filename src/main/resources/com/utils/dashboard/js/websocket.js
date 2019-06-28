@@ -18,7 +18,11 @@ const resizeCharts = function () {
     });
 };
 
-const search = function (element) {
+const searchThis = function () {
+    search(this);
+};
+
+const search = function(element) {
     const filter = element.value.toUpperCase();
     const table = element.closest('.card').querySelector('table');
     const trs = table.getElementsByTagName('tr');
@@ -40,10 +44,10 @@ const search = function (element) {
             tr.style.display = 'none';
         }
     }
-};
+}
 
-const clearSearch = function (element) {
-    const parentElement = element.parentElement;
+const clearSearch = function () {
+    const parentElement = this.parentElement;
     const searchElement = parentElement.querySelector('.search');
     searchElement.value = '';
     search(searchElement);
@@ -154,14 +158,14 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
             } else if (col === '[client-request]') {
                 populateRow(tabSearchTd);
             } else {
-                () => { };
+                //Skip the row 
             }
         }
         if (tabSearchTd != null && col !== '[hidden]' && col !== '[client-request]') {
             tabSearchTd.innerHTML = escapeHTML(col);
         }
     }
-}
+};
 
 const createToastDetails = function (tabDetailResult) {
     //Handle toasts for thresholds
@@ -192,7 +196,7 @@ const createToastDetails = function (tabDetailResult) {
             const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
             toastInstance.dismiss();
         } else {
-            () => { };
+            //Toast not available
         }
     }
 };
@@ -290,7 +294,7 @@ const createDetails = function (groupResult, tabContent, i, j) {
         } else if (tabDetailResult.type === 'chart') {
             createChartDetails(tabContent, tabDetailResult, i, j, k);
         } else {
-            () => { };
+            //Skip the tab 
         }
     }
 };
@@ -340,41 +344,51 @@ const parseJsonResults = function (json) {
                 tabContent.querySelector('.card').classList.remove('small');
                 tabContent.querySelector('.card').classList.add('large');
             } else {
-                () => { };
+                //Skip the group
             }
             createDetails(groupResult, tabContent, i, j);
         }
-
-        //Initialize materialize js tabs features every time
-        const tabs = document.querySelectorAll('.tabs');
-        M.Tabs.init(tabs, {});
-
-        //Updated materialize js text fields every time
-        M.updateTextFields();
-
-        //Set event listener on tabs to resize charts
-        document.querySelectorAll('.tab a').forEach(function (element) {
-            element.addEventListener('click', function () {
-                setTimeout(function () {
-                    resizeCharts();
-                }, 10);
-            });
-        });
-
-        if (!initialized) {
-            //Initialize materialize js sidenavs features once
-            const navs = document.querySelectorAll('.sidenav');
-            M.Sidenav.init(navs, {});
-
-            //Initialize materialize js modals features every time
-            const elems = document.querySelectorAll('.modal');
-            M.Modal.init(elems, {});
-
-            //Hide progress bar
-            document.getElementsByClassName('progress')[0].style.display = 'none';
-        }
-        initialized = true;
     }
+    init();
+};
+
+const init = function() {
+    //Initialize materialize js features every time
+    M.AutoInit();
+
+    //Set event listener on tabs to resize charts
+    document.querySelectorAll('.tab a').forEach(function (element) {
+        element.addEventListener('click', function () {
+            setTimeout(function () {
+                resizeCharts();
+            }, 10);
+        });
+    });
+
+    //Set event listener on clear search button to clear search table
+    document.querySelectorAll('.search').forEach(function (element) {
+        element.addEventListener('keyup', searchThis);
+    });
+
+    //Set event listener on search button to search table
+    document.querySelectorAll('.clear-search').forEach(function (element) {
+        element.addEventListener('click', clearSearch);
+        element.addEventListener('keypress', clearSearch);
+    });
+
+    if (!initialized) {
+        //Initialize materialize js sidenavs features once
+        const navs = document.querySelectorAll('.sidenav');
+        M.Sidenav.init(navs, {});
+
+        //Initialize materialize js modals features every time
+        const elems = document.querySelectorAll('.modal');
+        M.Modal.init(elems, {});
+
+        //Hide progress bar
+        document.getElementsByClassName('progress')[0].style.display = 'none';
+    }
+    initialized = true;
 };
 
 const start = function (websocketServerLocation) {
