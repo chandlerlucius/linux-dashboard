@@ -21,16 +21,18 @@
   },
   "scripts": {
     "lint:html": "htmlhint src/**/*.html",
-    "lint:md": "remark *.md",
+    "lint:md": "remark *.md > /dev/null",
     "lint:json": "jsonlint -q *.json",
     "lint:yaml": "yamllint *.yml",
     "lint:sh": "shellcheck src/main/resources/sh/*.sh",
     "lint:css1": "csslint src/main/resources/com/utils/dashboard/css/*.css",
     "lint:css2": "stylelint src/**/*.css",
-    "pretest": "npm-run-all --parallel --continue-on-error lint:*",
+    "lint:js1": "eslint src/**/*.js",
+    "lint:js2": "jshint src/main/resources/com/utils/dashboard/js/*.js",
+    "pretest": "npm-run-all --continue-on-error lint:*",
     "test:js": "jest",
     "test:sh": "bats src/test/sh/ServerStats.bats",
-    "test": "npm-run-all --parallel --continue-on-error test:*"
+    "test": "npm-run-all --continue-on-error test:*"
   },
   "devDependencies": {
     "bats": "^1.1.0",
@@ -40,7 +42,6 @@
     "jest": "^24.8.0",
     "jshint": "^2.10.2",
     "jsonlint": "^1.6.3",
-    "markdownlint-cli": "^0.17.0",
     "npm-run-all": "^4.1.5",
     "remark-cli": "^6.0.1",
     "remark-preset-lint-markdown-style-guide": "^2.1.3",
@@ -51,8 +52,29 @@
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
     "env": {
-      "browser": true
+      "browser": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "globals": {
+      "_": false,
+      "M": false,
+      "echarts": false
+    }
+  },
+  "jshintConfig": {
+    "browser": true,
+    "esversion": 6,
+    "node": true,
+    "globals": {
+      "_": false,
+      "M": false,
+      "echarts": false
     }
   },
   "remarkConfig": {
