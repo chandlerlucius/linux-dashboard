@@ -1,7 +1,10 @@
 /**
- * Test classes used to test the embedded undertow server and websocket communications. 
+ * Test classes used to verify the embedded undertow server 
+ * and websocket communications.
  * <p>
- * Responsible for unit testing the aboved mentioned features.
+ * These classes are responsible for unit testing the aboved 
+ * mentioned features.
+ * </p>
  *
  * @author Chandler Lucius
  * @version 1.0.0
