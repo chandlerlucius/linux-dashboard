@@ -338,7 +338,7 @@ const init = function() {
     initialized = true;
 };
 
-const createTabs = function(json) {
+const createTabs = function(json, i) {
     const tabResult = json.results[i];
     const tabId = 'tab-' + i;
     const tabTitleId = 'tab-title-' + i;
@@ -390,7 +390,7 @@ const createTabs = function(json) {
 //Parse json method
 const parseJsonResults = function (json) {
     for (let i = 0; i < json.results.length; i+=1) {
-        createTabs(json);
+        createTabs(json, i);
     }
     init();
 };
