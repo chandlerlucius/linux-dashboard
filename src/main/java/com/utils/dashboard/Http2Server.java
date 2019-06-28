@@ -28,7 +28,7 @@ public final class Http2Server {
     private static final Logger LOG = LoggerFactory.getLogger(Http2Server.class);
     private static final int BUFFER_SIZE = 100;
     private static final int PORT = 8080;
-    private static final String IP = "0.0.0.0";
+    private static final String IP_ADDRESS = "0";
 
     private Http2Server() {
     }
@@ -36,7 +36,7 @@ public final class Http2Server {
     public static void main(final String[] args) {
         final PathHandler path = Handlers.path();
         final Builder builder = Undertow.builder();
-        builder.addHttpListener(PORT, IP);
+        builder.addHttpListener(PORT, IP_ADDRESS);
         builder.setHandler(path);
 
         final Undertow server = builder.build();
