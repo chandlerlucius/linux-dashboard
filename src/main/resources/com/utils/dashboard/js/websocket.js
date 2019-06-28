@@ -18,10 +18,6 @@ const resizeCharts = function () {
     });
 };
 
-const searchThis = function () {
-    search(this);
-};
-
 const search = function(element) {
     const filter = element.value.toUpperCase();
     const table = element.closest('.card').querySelector('table');
@@ -44,7 +40,11 @@ const search = function(element) {
             tr.style.display = 'none';
         }
     }
-}
+};
+
+const searchThis = function () {
+    search(this);
+};
 
 const clearSearch = function () {
     const parentElement = this.parentElement;
@@ -158,7 +158,7 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
             } else if (col === '[client-request]') {
                 populateRow(tabSearchTd);
             } else {
-                //Skip the row 
+                //Skip the row
             }
         }
         if (tabSearchTd != null && col !== '[hidden]' && col !== '[client-request]') {
@@ -294,9 +294,48 @@ const createDetails = function (groupResult, tabContent, i, j) {
         } else if (tabDetailResult.type === 'chart') {
             createChartDetails(tabContent, tabDetailResult, i, j, k);
         } else {
-            //Skip the tab 
+            //Skip the tab
         }
     }
+};
+
+const init = function() {
+    //Initialize materialize js features every time
+    M.AutoInit();
+
+    //Set event listener on tabs to resize charts
+    document.querySelectorAll('.tab a').forEach(function (element) {
+        element.addEventListener('click', function () {
+            setTimeout(function () {
+                resizeCharts();
+            }, 10);
+        });
+    });
+
+    //Set event listener on clear search button to clear search table
+    document.querySelectorAll('.search').forEach(function (element) {
+        element.addEventListener('keyup', searchThis);
+    });
+
+    //Set event listener on search button to search table
+    document.querySelectorAll('.clear-search').forEach(function (element) {
+        element.addEventListener('click', clearSearch);
+        element.addEventListener('keypress', clearSearch);
+    });
+
+    if (!initialized) {
+        //Initialize materialize js sidenavs features once
+        const navs = document.querySelectorAll('.sidenav');
+        M.Sidenav.init(navs, {});
+
+        //Initialize materialize js modals features every time
+        const elems = document.querySelectorAll('.modal');
+        M.Modal.init(elems, {});
+
+        //Hide progress bar
+        document.getElementsByClassName('progress')[0].style.display = 'none';
+    }
+    initialized = true;
 };
 
 //Parse json method
@@ -350,45 +389,6 @@ const parseJsonResults = function (json) {
         }
     }
     init();
-};
-
-const init = function() {
-    //Initialize materialize js features every time
-    M.AutoInit();
-
-    //Set event listener on tabs to resize charts
-    document.querySelectorAll('.tab a').forEach(function (element) {
-        element.addEventListener('click', function () {
-            setTimeout(function () {
-                resizeCharts();
-            }, 10);
-        });
-    });
-
-    //Set event listener on clear search button to clear search table
-    document.querySelectorAll('.search').forEach(function (element) {
-        element.addEventListener('keyup', searchThis);
-    });
-
-    //Set event listener on search button to search table
-    document.querySelectorAll('.clear-search').forEach(function (element) {
-        element.addEventListener('click', clearSearch);
-        element.addEventListener('keypress', clearSearch);
-    });
-
-    if (!initialized) {
-        //Initialize materialize js sidenavs features once
-        const navs = document.querySelectorAll('.sidenav');
-        M.Sidenav.init(navs, {});
-
-        //Initialize materialize js modals features every time
-        const elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems, {});
-
-        //Hide progress bar
-        document.getElementsByClassName('progress')[0].style.display = 'none';
-    }
-    initialized = true;
 };
 
 const start = function (websocketServerLocation) {
