@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is responsible for handling the messaging system between the clients and server using
- * Java Websocket API.
+ * This class is responsible for handling the messaging system 
+ * between the clients and server using Java Websocket API.
  * 
  * @author Chandler Lucius
  * @version 1.0.0

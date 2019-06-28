@@ -16,8 +16,8 @@ import io.undertow.servlet.core.ServletContainerImpl;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 
 /**
- * This class is responsible for setting up and starting the embedded undertow server used for the
- * application.
+ * This class is responsible for setting up and starting the embedded 
+ * undertow server used for the application.
  * 
  * @author Chandler Lucius
  * @version 1.0.0
