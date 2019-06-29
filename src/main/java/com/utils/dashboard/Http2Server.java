@@ -54,7 +54,7 @@ public final class Http2Server {
         builder.addHttpListener(HTTP_PORT, IP_ADDRESS);
         builder.setHandler(path);
 
-        String certificatePath = System.getProperty("certificate", "hey");
+        String certificatePath = System.getProperty("certificate", "");
         if (!certificatePath.isEmpty()) {
             try (InputStream inputStream = new FileInputStream(certificatePath)) {
                 System.out.println(certificatePath);
@@ -69,7 +69,7 @@ public final class Http2Server {
                 keyStore.setCertificateEntry("caCert", certificate);
                 trustManagerFactory.init(keyStore);
 
-                SSLContext sslContext = SSLContext.getInstance("TLS");
+                SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
                 sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
 
                 //Add HTTPS listener and enable HTTP2
