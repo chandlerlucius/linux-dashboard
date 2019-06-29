@@ -96,7 +96,7 @@ public final class Http2Server {
         deploymentInfo.addWelcomePage("index.html");
         deploymentInfo.setDeploymentName("linux-dashboard.war");
         deploymentInfo.setResourceManager(
-                new ClassPathResourceManager(classLoader, "com/utils/dashboard/"));
+                new ClassPathResourceManager(classLoader, "webapp"));
         deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME,
                 wsDeploymentInfo);
 
