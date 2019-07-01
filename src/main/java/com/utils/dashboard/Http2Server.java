@@ -45,7 +45,7 @@ public final class Http2Server {
     private static final int BUFFER_SIZE = 100;
     private static final int HTTP_PORT = 8080;
     private static final int HTTPS_PORT = 8443;
-    private static final String IP_ADDRESS = "0";
+    private static final String IP_ADDRESS = "0.0.0.0";
 
     private static final String PROPERTIES_FILE_PROP = "properties.file";
     private static final String HTTP_PORT_PROP = "http.port";
@@ -124,13 +124,12 @@ public final class Http2Server {
                         KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
                 keyManagerFactory.init(keyStore, keystorePassword.toCharArray());
 
-                SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-                sslContext.init(keyManagerFactory.getKeyManagers(), null,
-                        new java.security.SecureRandom());
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(keyManagerFactory.getKeyManagers(), null, null);
 
                 // Add HTTPS listener and enable HTTP2
                 builder.addHttpsListener(httspPort, IP_ADDRESS, sslContext);
-                builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+                // builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
             } catch (IOException | UnrecoverableKeyException | KeyStoreException
                     | NoSuchAlgorithmException | CertificateException | KeyManagementException e) {
                 // LOG.error("Issue retrieving certificate and setting up HTTPS: ", e);
