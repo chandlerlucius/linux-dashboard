@@ -1,17 +1,20 @@
 package com.utils.dashboard;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
+import java.util.Properties;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
 import javax.servlet.ServletException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,39 +47,92 @@ public final class Http2Server {
     private static final int HTTPS_PORT = 8443;
     private static final String IP_ADDRESS = "0";
 
+    private static final String PROPERTIES_FILE_PROP = "properties.file";
+    private static final String HTTP_PORT_PROP = "http.port";
+    private static final String HTTPS_PORT_PROP = "https.port";
+    private static final String KEYSTORE_FILE_PROP = "keystore.file";
+    private static final String KEYSTORE_PASSWORD_PROP = "keystore.password";
+
     private Http2Server() {
     }
 
     public static void main(final String[] args) {
+        // Determine location of jar
+        String propertiesFilePath = "";
+        try {
+            CodeSource codeSource = Http2Server.class.getProtectionDomain().getCodeSource();
+            File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            String jarPath = jarFile.getParentFile().getPath();
+            File propertiesFile = new File(jarPath + "/application.properties");
+            if (propertiesFile.exists()) {
+                propertiesFilePath = propertiesFile.getPath();
+            }
+        } catch (URISyntaxException e) {
+            System.err.println(e);
+        }
+
+        // Load properties from passed in argument file or jar path
+        Properties properties = new Properties();
+        String propertiesPath = System.getProperty(PROPERTIES_FILE_PROP, propertiesFilePath);
+        if (propertiesPath != null && !propertiesPath.isEmpty()) {
+            try (InputStream inputStream = new FileInputStream(propertiesPath)) {
+                properties.load(inputStream);
+            } catch (Exception e) {
+                // LOG.error("Issue retrieving certificate and setting up HTTPS: ", e);
+                System.err.println(e);
+            }
+        } else {
+            try (InputStream inputStream =
+                    Http2Server.class.getResourceAsStream("/application.properties")) {
+                properties.load(inputStream);
+            } catch (Exception e) {
+                // LOG.error("Issue retrieving certificate and setting up HTTPS: ", e);
+                System.err.println(e);
+            }
+        }
+
+        // Try to pull properties from command line arguments and then properties file
+        String httpProp =
+                System.getProperty(HTTP_PORT_PROP, properties.getProperty(HTTP_PORT_PROP));
+        int httpPort =
+                httpProp != null && !httpProp.isEmpty() ? Integer.parseInt(httpProp) : HTTP_PORT;
+
+        String httpsProp =
+                System.getProperty(HTTPS_PORT_PROP, properties.getProperty(HTTPS_PORT_PROP));
+        int httspPort = httpsProp != null && !httpsProp.isEmpty() ? Integer.parseInt(httpsProp)
+                : HTTPS_PORT;
+
+        String keystoreFile =
+                System.getProperty(KEYSTORE_FILE_PROP, properties.getProperty(KEYSTORE_FILE_PROP));
+        String keystorePassword = System.getProperty(KEYSTORE_PASSWORD_PROP,
+                properties.getProperty(KEYSTORE_PASSWORD_PROP));
+
         final PathHandler path = Handlers.path();
         final Builder builder = Undertow.builder();
-        //Add HTTP listener
-        builder.addHttpListener(HTTP_PORT, IP_ADDRESS);
+
+        builder.addHttpListener(httpPort, IP_ADDRESS);
         builder.setHandler(path);
 
-        String certificatePath = System.getProperty("certificate", "");
-        if (!certificatePath.isEmpty()) {
-            try (InputStream inputStream = new FileInputStream(certificatePath)) {
-                System.out.println(certificatePath);
-                CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-                X509Certificate certificate =
-                        (X509Certificate) certificateFactory.generateCertificate(inputStream);
+        if (keystoreFile != null && keystorePassword != null && !keystoreFile.isEmpty()
+                && !keystorePassword.isEmpty()) {
+            try (InputStream inputStream = new FileInputStream(keystoreFile)) {
+                System.out.println(keystoreFile);
+                KeyStore keyStore = KeyStore.getInstance("JKS");
+                keyStore.load(inputStream, keystorePassword.toCharArray());
 
-                TrustManagerFactory trustManagerFactory =
-                        TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                keyStore.load(null);
-                keyStore.setCertificateEntry("caCert", certificate);
-                trustManagerFactory.init(keyStore);
+                KeyManagerFactory keyManagerFactory =
+                        KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                keyManagerFactory.init(keyStore, keystorePassword.toCharArray());
 
                 SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-                sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
+                sslContext.init(keyManagerFactory.getKeyManagers(), null,
+                        new java.security.SecureRandom());
 
-                //Add HTTPS listener and enable HTTP2
-                builder.addHttpsListener(HTTPS_PORT, IP_ADDRESS, sslContext);
+                // Add HTTPS listener and enable HTTP2
+                builder.addHttpsListener(httspPort, IP_ADDRESS, sslContext);
                 builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
-            } catch (IOException | KeyStoreException | NoSuchAlgorithmException
-                    | KeyManagementException | CertificateException e) {
+            } catch (IOException | UnrecoverableKeyException | KeyStoreException
+                    | NoSuchAlgorithmException | CertificateException | KeyManagementException e) {
                 // LOG.error("Issue retrieving certificate and setting up HTTPS: ", e);
                 System.err.println(e);
             }
@@ -95,8 +151,7 @@ public final class Http2Server {
         deploymentInfo.setClassLoader(classLoader);
         deploymentInfo.addWelcomePage("index.html");
         deploymentInfo.setDeploymentName("linux-dashboard.war");
-        deploymentInfo.setResourceManager(
-                new ClassPathResourceManager(classLoader, "webapp"));
+        deploymentInfo.setResourceManager(new ClassPathResourceManager(classLoader, "webapp"));
         deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME,
                 wsDeploymentInfo);
 
