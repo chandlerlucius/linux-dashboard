@@ -1,17 +1,10 @@
 package com.utils.dashboard;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
-import java.security.CodeSource;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Properties;
 import javax.net.ssl.KeyManager;
@@ -26,14 +19,10 @@ import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.Undertow.Builder;
 import io.undertow.UndertowOptions;
-import io.undertow.server.DefaultByteBufferPool;
-import io.undertow.server.HttpHandler;
-import io.undertow.server.HttpServerExchange;
+import io.undertow.server.*;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
-import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
-import io.undertow.servlet.api.ServletContainer;
+import io.undertow.servlet.api.*;
 import io.undertow.servlet.core.ServletContainerImpl;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
@@ -57,8 +46,8 @@ public final class Http2Server {
 
     private static final String HTTP_PORT_PROP = "http.port";
     private static final String HTTPS_PORT_PROP = "https.port";
-    private static final String KEYSTORE_FILE_PROP = "keystore.file";
-    private static final String KEYSTORE_PWD_PROP = "keystore.password";
+    private static final String KEYSTORE_FILE = "keystore.file";
+    private static final String KEYSTORE_PWD = "keystore.password";
 
     private Http2Server() {
     }
@@ -81,64 +70,37 @@ public final class Http2Server {
         // Load properties from application.properties file
         final Properties properties = new Properties();
         if (!propertiesPath.isEmpty()) {
-            try (InputStream inputStream = new FileInputStream(propertiesPath)) {
+            try (InputStream inputStream = Files.newInputStream(Paths.get(propertiesPath))) {
                 properties.load(inputStream);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LOG.error("Issue reading properties file: ", e);
             }
         }
 
         final int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
         final int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
-        final String keystoreFile = properties.getProperty(KEYSTORE_FILE_PROP, "");
-        final String keystorePassword = properties.getProperty(KEYSTORE_PWD_PROP, "");
-
-        if (httpPort == 0 || httpsPort == 0) {
-            LOG.error("Provide a valid http.port or https.port!");
-            System.exit(1);
-        }
+        final String keystoreFile = properties.getProperty(KEYSTORE_FILE, "");
+        final String keystorePassword = properties.getProperty(KEYSTORE_PWD, "");
 
         final PathHandler path = Handlers.path();
         final Builder builder = Undertow.builder();
         builder.setHandler(path);
 
-        if (!keystoreFile.isEmpty() || !keystorePassword.isEmpty()) {
-            try (InputStream inputStream = new FileInputStream(keystoreFile)) {
-                final KeyStore keystore = KeyStore.getInstance("PKCS12");
-                keystore.load(inputStream, keystorePassword.toCharArray());
+        if (!keystoreFile.isEmpty() && !keystorePassword.isEmpty()) {
+            final SSLContext sslContext = generateSslContext(keystoreFile, keystorePassword.toCharArray());
 
-                KeyManager[] keyManagers;
-                final KeyManagerFactory keyManagerFactory =
-                        KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                keyManagerFactory.init(keystore, keystorePassword.toCharArray());
-                keyManagers = keyManagerFactory.getKeyManagers();
+            builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+            builder.addHttpsListener(httpsPort, IP_ADDRESS, sslContext);
 
-                final KeyStore truststore = null;
-                TrustManager[] trustManagers;
-                final TrustManagerFactory trustManagerFactory =
-                        TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init(truststore);
-                trustManagers = trustManagerFactory.getTrustManagers();
-
-                final SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-                sslContext.init(keyManagers, trustManagers, null);
-
-                builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
-                builder.addHttpsListener(httpsPort, IP_ADDRESS, sslContext);
-
-                builder.addHttpListener(httpPort, IP_ADDRESS, new HttpHandler() {
-                    @Override
-                    public void handleRequest(HttpServerExchange exchange) throws Exception {
-                        exchange.getResponseHeaders().add(Headers.LOCATION,
-                                "https://" + exchange.getHostName() + ":" + httpsPort
-                                        + exchange.getRelativePath());
-                        exchange.setStatusCode(StatusCodes.TEMPORARY_REDIRECT);
-                    }
-                });
-            } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException
-                    | IOException | KeyManagementException | UnrecoverableKeyException e) {
-                LOG.error("Issue loading keystore or ssl context.", e);
-            }
+            builder.addHttpListener(httpPort, IP_ADDRESS, new HttpHandler() {
+                @Override
+                public void handleRequest(final HttpServerExchange exchange) throws Exception {
+                    exchange.getResponseHeaders().add(Headers.LOCATION,
+                            "https://" + exchange.getHostName() + ":" + httpsPort
+                                    + exchange.getRelativePath());
+                    exchange.setStatusCode(StatusCodes.TEMPORARY_REDIRECT);
+                }
+            });
         } else {
             builder.addHttpListener(httpPort, IP_ADDRESS);
         }
@@ -170,5 +132,33 @@ public final class Http2Server {
         } catch (ServletException e) {
             LOG.error("Issue starting deploy: ", e);
         }
+    }
+
+    private static SSLContext generateSslContext(final String keystoreFile, final char[] keystorePassword) {
+        SSLContext sslContext = null;
+        try (InputStream inputStream = Files.newInputStream(Paths.get(keystoreFile))) {
+            final KeyStore keystore = KeyStore.getInstance("PKCS12");
+            keystore.load(inputStream, keystorePassword);
+
+            KeyManager[] keyManagers;
+            final KeyManagerFactory keyManagerFactory =
+                    KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keystore, keystorePassword);
+            keyManagers = keyManagerFactory.getKeyManagers();
+
+            KeyStore truststore = null;
+            TrustManager[] trustManagers;
+            final TrustManagerFactory managerFactory =
+                    TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            managerFactory.init(truststore);
+            trustManagers = managerFactory.getTrustManagers();
+
+            sslContext = SSLContext.getInstance("TLSv1.2");
+            sslContext.init(keyManagers, trustManagers, null);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException
+                | KeyManagementException | UnrecoverableKeyException e) {
+            LOG.error("Issue loading keystore or ssl context.", e);
+        }
+        return sslContext;
     }
 }
