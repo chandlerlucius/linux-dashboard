@@ -49,17 +49,12 @@ getPublicIP() {
 
 #Private IP Command
 getPrivateIP() {
-    hostname -i
+    hostname -I | awk '{print $1}'
 }
 
 #Hostname Command
 getHostname() {
     hostname
-}
-
-#Fully Qualified Domain Name Command
-getFQDN() {
-    hostname -f
 }
 
 #Top Command
@@ -79,14 +74,6 @@ getDiskFreeInfo() {
 
 if [ "$1" != "TEST" ] 
 then
-    #Run curl command to get IP info
-    PUBLIC_IP=$(curl -sS -m 1 https://ipinfo.io/ip)
-
-    #Run hostname commands to get network info
-    HOSTNAME=$(hostname)
-    PRIVATE_IP=$(hostname -i)
-    FQDN=$(hostname -f)
-
     #Run top command to get cpu info
     TOP=$(top -b -n2 -d1 -o %CPU | awk '/^top/{i++}i==2')
     CPU=$(echo "$TOP" | sed -n -e 3p)
@@ -124,13 +111,13 @@ then
     SS=$(ss >/dev/null 2>&1 | sed 1d; echo $?);
     if [ "$NETSTAT" -eq 0 ]
     then
-        CONNECTIONS=$(netstat -tu --numeric-hosts | awk '/EST/{print $4"|"$5}')
+        CONNECTIONS=$(netstat -tun | awk '/EST/{print $4"|"$5}')
     elif [ "$SS" -eq 0 ]
     then
-        CONNECTIONS=$(ss -tu | awk '/EST/{print $5"|"$6}')
+        CONNECTIONS=$(ss -tun | awk '/EST/{print $5"|"$6}')
     fi
     CONNECTION_HEADER=$(printf "PORT|IP|ORG|CITY|REGION|COUNTRY|POSTAL#")
-    CONNECTION_INFO=$(printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | sed "s/$PRIVATE_IP://g" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)" | tr '\n' '#')
+    CONNECTION_INFO=$(printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)")
 
 
     ##Build json objects
@@ -454,25 +441,18 @@ then
     VALUE=$(getHostname)
     DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
-    #Computer URL
-    TITLE="URL"
-    TYPE="detail"
-    THRESHOLD=""
-    VALUE="$FQDN"
-    DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
-
     #Computer Public IP
     TITLE="Public IP"
     TYPE="detail"
     THRESHOLD=""
-    VALUE="$PUBLIC_IP"
+    VALUE=$(getPublicIP)
     DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
     #Computer Private IP
     TITLE="Private IP"
     TYPE="detail"
     THRESHOLD=""
-    VALUE="$PRIVATE_IP"
+    VALUE=$(getPrivateIP)
     DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
     #Computer Location
