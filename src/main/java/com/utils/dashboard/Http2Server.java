@@ -11,12 +11,8 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.Properties;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
@@ -62,7 +58,7 @@ public final class Http2Server {
     private static final String HTTP_PORT_PROP = "http.port";
     private static final String HTTPS_PORT_PROP = "https.port";
     private static final String KEYSTORE_FILE_PROP = "keystore.file";
-    private static final String KEYSTORE_PASSWORD_PROP = "keystore.password";
+    private static final String KEYSTORE_PWD_PROP = "keystore.password";
 
     private Http2Server() {
     }
@@ -94,8 +90,8 @@ public final class Http2Server {
 
         int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
         int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
-        String keystoreFile = properties.getProperty(KEYSTORE_FILE_PROP);
-        String keystorePassword = properties.getProperty(KEYSTORE_PASSWORD_PROP);
+        String keystoreFile = properties.getProperty(KEYSTORE_FILE_PROP, "");
+        String keystorePassword = properties.getProperty(KEYSTORE_PWD_PROP, "");
 
         if (httpPort == 0 || httpsPort == 0) {
             LOG.error("Provide a valid http.port or https.port!");
