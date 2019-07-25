@@ -63,14 +63,6 @@
     [[ "$output" =~ ^[0-9a-z-]+$ ]]
 }
 
-@test "Test Fully Qualified Domain Name Command - getFQDN()" {
-    run getFQDN
-    echo "$output" 
-
-    [ "$status" -eq 0 ]
-    [[ "$output" =~ [0-9a-z.-]+ ]]
-}
-
 @test "Test Top Command - getTop()" {
     run getTop
     echo "$output" 
