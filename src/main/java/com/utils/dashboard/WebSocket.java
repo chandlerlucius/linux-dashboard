@@ -42,6 +42,14 @@ public class WebSocket {
         timer.schedule(new RunScript(), 0, 1000);
     }
 
+    public String getData() {
+        return this.data;
+    }
+    
+    public void setData(final String data) {
+      this.data = data;
+    }
+
     @OnOpen
     public void open(final Session session) {
         LOG.info("Opened websocket connection: ", session.getId());
@@ -56,7 +64,7 @@ public class WebSocket {
     public void handleMessage(final String message, final Session session) {
         if (RUN_SCRIPT.equals(message)) {
             try {
-                session.getBasicRemote().sendText(data);
+                session.getBasicRemote().sendText(this.getData());
             } catch (IOException e) {
                 LOG.error("Issue sending data to websocket: ", e);
             }
@@ -86,8 +94,17 @@ public class WebSocket {
     }
 
     public class RunScript extends TimerTask {
+
+        private final Logger LOG = LoggerFactory.getLogger(RunScript.class);
+
+        public RunScript() {
+            // Intentionally left blank
+        }
+
+        @Override
         public void run() {
-            data = runServerScript();
+            final String result = runServerScript();
+            setData(result);
         }
 
         private String runServerScript() {
