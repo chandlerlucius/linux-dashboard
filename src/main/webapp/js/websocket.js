@@ -422,7 +422,9 @@ const start = function (websocketServerLocation) {
         catch (err) {
             console.error('Issue parsing json: ' + err);
         }
-        socket.send('gimme');
+        setTimeout(function() {
+            socket.send('gimme');
+        }, 1000);
     };
 };
 
