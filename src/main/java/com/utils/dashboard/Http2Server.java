@@ -67,10 +67,10 @@ public final class Http2Server {
         // Determine location of running code or jar
         String propertiesPath = "";
         try {
-            CodeSource codeSource = Http2Server.class.getProtectionDomain().getCodeSource();
-            File codeLocation = new File(codeSource.getLocation().toURI().getPath());
-            String codePath = codeLocation.getParentFile().getPath();
-            File propertiesFile = new File(codePath + "/application.properties");
+            final CodeSource codeSource = Http2Server.class.getProtectionDomain().getCodeSource();
+            final File codeLocation = new File(codeSource.getLocation().toURI().getPath());
+            final String codePath = codeLocation.getParentFile().getPath();
+            final File propertiesFile = new File(codePath + "/application.properties");
             if (propertiesFile.exists()) {
                 propertiesPath = propertiesFile.getPath();
             }
@@ -79,7 +79,7 @@ public final class Http2Server {
         }
 
         // Load properties from application.properties file
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         if (!propertiesPath.isEmpty()) {
             try (InputStream inputStream = new FileInputStream(propertiesPath)) {
                 properties.load(inputStream);
@@ -88,10 +88,10 @@ public final class Http2Server {
             }
         }
 
-        int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
-        int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
-        String keystoreFile = properties.getProperty(KEYSTORE_FILE_PROP, "");
-        String keystorePassword = properties.getProperty(KEYSTORE_PWD_PROP, "");
+        final int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
+        final int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
+        final String keystoreFile = properties.getProperty(KEYSTORE_FILE_PROP, "");
+        final String keystorePassword = properties.getProperty(KEYSTORE_PWD_PROP, "");
 
         if (httpPort == 0 || httpsPort == 0) {
             LOG.error("Provide a valid http.port or https.port!");
@@ -104,24 +104,23 @@ public final class Http2Server {
 
         if (!keystoreFile.isEmpty() || !keystorePassword.isEmpty()) {
             try (InputStream inputStream = new FileInputStream(keystoreFile)) {
-                KeyStore keystore = KeyStore.getInstance("PKCS12");
+                final KeyStore keystore = KeyStore.getInstance("PKCS12");
                 keystore.load(inputStream, keystorePassword.toCharArray());
 
                 KeyManager[] keyManagers;
-                KeyManagerFactory keyManagerFactory =
+                final KeyManagerFactory keyManagerFactory =
                         KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
                 keyManagerFactory.init(keystore, keystorePassword.toCharArray());
                 keyManagers = keyManagerFactory.getKeyManagers();
 
-                KeyStore truststore = null;
+                final KeyStore truststore = null;
                 TrustManager[] trustManagers;
-                TrustManagerFactory trustManagerFactory =
+                final TrustManagerFactory trustManagerFactory =
                         TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
                 trustManagerFactory.init(truststore);
                 trustManagers = trustManagerFactory.getTrustManagers();
 
-                SSLContext sslContext;
-                sslContext = SSLContext.getInstance("TLSv1.2");
+                final SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
                 sslContext.init(keyManagers, trustManagers, null);
 
                 builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
