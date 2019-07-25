@@ -430,7 +430,11 @@ if (window) {
     window.addEventListener('DOMContentLoaded', function () {
         //Start websocket connection
         const host = window.location.host;
-        start(`ws://${host}/websocket`);
+        if(window.location.protocol === 'https:') {
+            start(`wss://${host}/websocket`);
+        } else {
+            start(`ws://${host}/websocket`);
+        }
 
         //Handle resizing charts when window is resized
         window.onresize = function () {
