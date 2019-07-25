@@ -45,9 +45,9 @@ public class WebSocket {
     public String getData() {
         return this.data;
     }
-
+    
     public void setData(final String data) {
-        this.data = data;
+      this.data = data;
     }
 
     @OnOpen
@@ -75,16 +75,18 @@ public class WebSocket {
     public void onError(final Throwable throwable) {
         LOG.error("Issue with websocket connection: ", throwable);
     }
-
+    
     public String copyScriptToTempDir(final String inputFilePath, final String outputFileName) {
-        try (final InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
-            final String tempDirectory = System.getProperty("java.io.tmpdir");
-            final File tempFile = new File(tempDirectory + SEP + outputFileName);
-            Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            if (!tempFile.setExecutable(true)) {
-                LOG.error("Failed to make temp file executable.");
+        try (InputStream inputStream = this.getClass().getResourceAsStream(inputFilePath)) {
+            if (inputStream != null) {
+                final String tempDirectory = System.getProperty("java.io.tmpdir");
+                final File tempFile = new File(tempDirectory + SEP + outputFileName);
+                Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                if (!tempFile.setExecutable(true)) {
+                    LOG.error("Failed to make temp file executable.");
+                }
+                return tempFile.getPath();
             }
-            return tempFile.getPath();
         } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
@@ -125,7 +127,7 @@ public class WebSocket {
 
         private String getServerScriptResult(final Process process) {
             // Get output from script
-            try (final InputStream inputStream = process.getInputStream()) {
+            try (InputStream inputStream = process.getInputStream()) {
                 final ByteArrayOutputStream result = new ByteArrayOutputStream();
                 final byte[] buffer = new byte[BUFFER_SIZE];
                 int length = inputStream.read(buffer);
