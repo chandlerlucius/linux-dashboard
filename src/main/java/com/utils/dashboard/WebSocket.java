@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -17,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is responsible for handling the messaging system 
- * between the clients and server using Java Websocket API.
+ * This class is responsible for handling the messaging system between the clients and server using
+ * Java Websocket API.
  * 
  * @author Chandler Lucius
  * @version 1.0.0
@@ -32,8 +34,12 @@ public class WebSocket {
     private static final String SEP = File.separator;
     private static final int BUFFER_SIZE = 1024;
 
+    private String data = "";
+
     public WebSocket() {
         copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        Timer timer = new Timer();
+        timer.schedule(new RunScript(), 0, 1000);
     }
 
     @OnOpen
@@ -48,9 +54,8 @@ public class WebSocket {
 
     @OnMessage
     public void handleMessage(final String message, final Session session) {
-        if(RUN_SCRIPT.equals(message)) {
+        if (RUN_SCRIPT.equals(message)) {
             try {
-                final String data = runServerScript();
                 session.getBasicRemote().sendText(data);
             } catch (IOException e) {
                 LOG.error("Issue sending data to websocket: ", e);
@@ -80,38 +85,44 @@ public class WebSocket {
         return "";
     }
 
-    private static String runServerScript() {
-        try {
-            // Run server stats script
-            final String tempDirectory = System.getProperty("java.io.tmpdir");
-            final File tempFile = new File(tempDirectory + "/ServerStats.sh");
-            final ProcessBuilder processBuilder = new ProcessBuilder("./" + tempFile.getName());
-            processBuilder.directory(new File(tempDirectory));
-            final Process process = processBuilder.start();
-            process.waitFor();
-            
-            return getServerScriptResult(process);
-        } catch (IOException | InterruptedException e) {
-            LOG.error("Issue running script: ", e);
-            Thread.currentThread().interrupt();
+    public class RunScript extends TimerTask {
+        public void run() {
+            data = runServerScript();
         }
-        return "";
-    }
 
-    private static String getServerScriptResult(final Process process) {
-        // Get output from script
-        try (InputStream inputStream = process.getInputStream()) {
-            final ByteArrayOutputStream result = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[BUFFER_SIZE];
-            int length = inputStream.read(buffer);
-            while (length != -1) {
-                result.write(buffer, 0, length);
-                length = inputStream.read(buffer);
+        private String runServerScript() {
+            try {
+                // Run server stats script
+                final String tempDirectory = System.getProperty("java.io.tmpdir");
+                final File tempFile = new File(tempDirectory + "/ServerStats.sh");
+                final ProcessBuilder processBuilder = new ProcessBuilder("./" + tempFile.getName());
+                processBuilder.directory(new File(tempDirectory));
+                final Process process = processBuilder.start();
+                process.waitFor();
+
+                return getServerScriptResult(process);
+            } catch (IOException | InterruptedException e) {
+                LOG.error("Issue running script: ", e);
+                // Thread.currentThread().interrupt();
             }
-            return result.toString(StandardCharsets.UTF_8.name());
-        } catch (IOException e) {
-            LOG.error("Issue getting output from script: ", e);
+            return "";
         }
-        return "";
+
+        private String getServerScriptResult(final Process process) {
+            // Get output from script
+            try (InputStream inputStream = process.getInputStream()) {
+                final ByteArrayOutputStream result = new ByteArrayOutputStream();
+                final byte[] buffer = new byte[BUFFER_SIZE];
+                int length = inputStream.read(buffer);
+                while (length != -1) {
+                    result.write(buffer, 0, length);
+                    length = inputStream.read(buffer);
+                }
+                return result.toString(StandardCharsets.UTF_8.name());
+            } catch (IOException e) {
+                LOG.error("Issue getting output from script: ", e);
+            }
+            return "";
+        }
     }
 }
