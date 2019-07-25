@@ -38,7 +38,7 @@ public class WebSocket {
 
     public WebSocket() {
         copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
         timer.schedule(new RunScript(), 0, 1000);
     }
 
