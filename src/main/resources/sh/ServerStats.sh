@@ -117,7 +117,7 @@ then
         CONNECTIONS=$(ss -tun | awk '/EST/{print $5"|"$6}')
     fi
     CONNECTION_HEADER=$(printf "PORT|IP|ORG|CITY|REGION|COUNTRY|POSTAL#")
-    CONNECTION_INFO=$(printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)")
+    CONNECTION_INFO=$(printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)" | tr '\n' '#')
 
 
     ##Build json objects
