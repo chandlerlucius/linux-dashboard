@@ -118,9 +118,11 @@ public class WebSocket {
                 process.waitFor();
 
                 return getServerScriptResult(process);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 LOG.error("Issue running script: ", e);
-                // Thread.currentThread().interrupt();
+            } catch (InterruptedException e) {
+                LOG.error("Issue running script: ", e);
+                Thread.currentThread().interrupt();
             }
             return "";
         }
