@@ -1,10 +1,17 @@
 package com.utils.dashboard;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.*;
+import java.security.CodeSource;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Properties;
 import javax.net.ssl.KeyManager;
@@ -19,7 +26,9 @@ import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.Undertow.Builder;
 import io.undertow.UndertowOptions;
-import io.undertow.server.*;
+import io.undertow.server.DefaultByteBufferPool;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
 import io.undertow.servlet.api.*;
@@ -47,12 +56,12 @@ public final class Http2Server {
     private static final String HTTP_PORT_PROP = "http.port";
     private static final String HTTPS_PORT_PROP = "https.port";
     private static final String KEYSTORE_FILE = "keystore.file";
-    private static final String KEYSTORE_PWD = "keystore.password";
+    private static final String KEYSTORE_PASS = "keystore.password";
 
     private Http2Server() {
     }
 
-    public static void main(final String[] args) throws FileNotFoundException {
+    public static void main(final String[] args) {
         // Determine location of running code or jar
         String propertiesPath = "";
         try {
@@ -80,7 +89,7 @@ public final class Http2Server {
         final int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
         final int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
         final String keystoreFile = properties.getProperty(KEYSTORE_FILE, "");
-        final String keystorePassword = properties.getProperty(KEYSTORE_PWD, "");
+        final String keystorePassword = properties.getProperty(KEYSTORE_PASS, "");
 
         final PathHandler path = Handlers.path();
         final Builder builder = Undertow.builder();
