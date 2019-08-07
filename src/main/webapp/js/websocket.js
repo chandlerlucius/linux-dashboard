@@ -424,7 +424,7 @@ const start = function (websocketServerLocation) {
         }
         setTimeout(function() {
             socket.send('gimme');
-        }, 1000);
+        }, 500);
     };
 };
 
