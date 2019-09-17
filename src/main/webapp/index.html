@@ -29,7 +29,7 @@
     <header>
 
         <div class="navbar-fixed">
-            <nav class="nav-extended teal accent-4">
+            <nav class="nav-extended teal accent-4" aria-label="Menu">
                 <div class="nav-content">
                     <ul id="tab-title-list" class="tabs tabs-transparent">
                         <li>
@@ -68,7 +68,7 @@
                 <div class="card-content">
                     <span class="card-title white-text"></span>
                     <div class="card-chart" style="display: none;"></div>
-                    <nav class="card-search teal accent-4" style="display: none;">
+                    <nav class="card-search teal accent-4" style="display: none;" aria-label="Search">
                         <div class="nav-wrapper">
                             <form>
                                 <div class="input-field">
@@ -83,7 +83,8 @@
                     </nav>
                     <div class="card-detail">
                         <table class="teal-text text-accent-4">
-                            <caption></caption>
+                            <caption style="display: none;"></caption>
+                            <th style="display: none;"></th>
                             <tbody></tbody>
                         </table>
                     </div>
