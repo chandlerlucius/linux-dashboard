@@ -289,8 +289,8 @@ then
         read -ru 19 MEM_PROCESSES
         read -ru 20 OS_NAME
         read -ru 21 OS_VERSION
-        read -ru 24 OS_ARCH
-        read -ru 25 KERNEL_NAME
+        read -ru 22 OS_ARCH
+        read -ru 23 KERNEL_NAME
         read -ru 24 KERNEL_RELEASE
         read -ru 25 KERNEL_VERSION
         read -ru 26 SERVER_TIME
@@ -311,46 +311,46 @@ then
         read -ru 41 ROOT_DISK_FREE_USAGE
         read -ru 42 DISK_PARTITIONS
 
-        3<&-
-        4<&-
-        5<&-
-        6<&-
-        7<&-
-        8<&-
-        9<&-
-        10<&-
-        11<&-
-        12<&-
-        13<&-
-        14<&-
-        15<&-
-        16<&-
-        17<&-
-        18<&-
-        19<&-
-        20<&-
-        21<&-
-        22<&-
-        23<&-
-        24<&-
-        25<&-
-        26<&-
-        27<&-
-        28<&-
-        29<&-
-        30<&-
-        31<&-
-        32<&-
-        33<&-
-        34<&-
-        # 35<&-
-        36<&-
-        37<&-
-        38<&-
-        39<&-
-        40<&-
-        41<&-
-        42<&-
+        exec 3<&-
+        exec 4<&-
+        exec 5<&-
+        exec 6<&-
+        exec 7<&-
+        exec 8<&-
+        exec 9<&-
+        exec 10<&-
+        exec 11<&-
+        exec 12<&-
+        exec 13<&-
+        exec 14<&-
+        exec 15<&-
+        exec 16<&-
+        exec 17<&-
+        exec 18<&-
+        exec 19<&-
+        exec 20<&-
+        exec 21<&-
+        exec 22<&-
+        exec 23<&-
+        exec 24<&-
+        exec 25<&-
+        exec 26<&-
+        exec 27<&-
+        exec 28<&-
+        exec 29<&-
+        exec 30<&-
+        exec 31<&-
+        exec 32<&-
+        exec 33<&-
+        exec 34<&-
+        #exec 35<&-
+        exec 36<&-
+        exec 37<&-
+        exec 38<&-
+        exec 39<&-
+        exec 40<&-
+        exec 41<&-
+        exec 42<&-
 
         ##Build json objects
         TAB=""
@@ -793,7 +793,7 @@ then
         then
             echo "{ \"results\" : [ $TAB ] }"
         else
-            echo "{ \"results\" : [ $TAB ] }" > "$(dirname $(mktemp -u))/ServerStats.txt"
+            echo "{ \"results\" : [ $TAB ] }" > "/tmp/ServerStats.txt"
         fi
 
         # set +x
