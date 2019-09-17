@@ -272,91 +272,91 @@ then
         exec 43< <(getRootDiskFreeUsage)
         exec 44< <(getDiskPartitions)
 
-        read -u 3 CPU_USAGE
-        read -u 4 CPU_NAME
-        read -u 5 CPU_CORES
-        read -u 6 MEM_USAGE
-        read -u 7 MEM_USED
-        read -u 8 MEM_TOTAL
-        read -u 9 MEM_FREE
-        read -u 10 MEM_FREE_USAGE
-        read -u 11 MEM_CACHE
-        read -u 12 MEM_CACHE_USAGE
-        read -u 13 SWAP_USAGE
-        read -u 14 SWAP_USED
-        read -u 15 SWAP_TOTAL
-        read -u 16 SWAP_FREE
-        read -u 17 SWAP_FREE_USAGE
-        read -u 18 SWAP_CACHE
-        read -u 19 SWAP_CACHE_USAGE
-        read -u 20 CPU_PROCESSES
-        read -u 21 MEM_PROCESSES
-        read -u 22 OS_NAME
-        read -u 23 OS_VERSION
-        read -u 24 OS_ARCH
-        read -u 25 KERNEL_NAME
-        read -u 26 KERNEL_RELEASE
-        read -u 27 KERNEL_VERSION
-        read -u 28 SERVER_TIME
-        read -u 29 UP_TIME
-        read -u 30 USERS
-        read -u 31 GRPS
-        read -u 32 LOGINS
-        read -u 33 HOSTNAME
-        read -u 34 PUBLIC_IP
-        read -u 35 PRIVATE_IP
-        read -u 36 CONNECTIONS
-        # read -u 37 DISK_ACTIVITY_USAGE
-        read -u 38 ROOT_DISK_TYPE
-        read -u 39 ROOT_DISK_TOTAL
-        read -u 40 ROOT_DISK_USED
-        read -u 41 ROOT_DISK_USAGE
-        read -u 42 ROOT_DISK_FREE
-        read -u 43 ROOT_DISK_FREE_USAGE
-        read -u 44 DISK_PARTITIONS
+        read -ru 3 CPU_USAGE
+        read -ru 4 CPU_NAME
+        read -ru 5 CPU_CORES
+        read -ru 6 MEM_USAGE
+        read -ru 7 MEM_USED
+        read -ru 8 MEM_TOTAL
+        read -ru 9 MEM_FREE
+        read -ru 10 MEM_FREE_USAGE
+        read -ru 11 MEM_CACHE
+        read -ru 12 MEM_CACHE_USAGE
+        read -ru 13 SWAP_USAGE
+        read -ru 14 SWAP_USED
+        read -ru 15 SWAP_TOTAL
+        read -ru 16 SWAP_FREE
+        read -ru 17 SWAP_FREE_USAGE
+        read -ru 18 SWAP_CACHE
+        read -ru 19 SWAP_CACHE_USAGE
+        read -ru 20 CPU_PROCESSES
+        read -ru 21 MEM_PROCESSES
+        read -ru 22 OS_NAME
+        read -ru 23 OS_VERSION
+        read -ru 24 OS_ARCH
+        read -ru 25 KERNEL_NAME
+        read -ru 26 KERNEL_RELEASE
+        read -ru 27 KERNEL_VERSION
+        read -ru 28 SERVER_TIME
+        read -ru 29 UP_TIME
+        read -ru 30 USERS
+        read -ru 31 GRPS
+        read -ru 32 LOGINS
+        read -ru 33 HOSTNAME
+        read -ru 34 PUBLIC_IP
+        read -ru 35 PRIVATE_IP
+        read -ru 36 CONNECTIONS
+        # read -ru 37 DISK_ACTIVITY_USAGE
+        read -ru 38 ROOT_DISK_TYPE
+        read -ru 39 ROOT_DISK_TOTAL
+        read -ru 40 ROOT_DISK_USED
+        read -ru 41 ROOT_DISK_USAGE
+        read -ru 42 ROOT_DISK_FREE
+        read -ru 43 ROOT_DISK_FREE_USAGE
+        read -ru 44 DISK_PARTITIONS
 
-        3>&-
-        4>&-
-        5>&-
-        6>&-
-        7>&-
-        8>&-
-        9>&-
-        10>&-
-        11>&-
-        12>&-
-        13>&-
-        14>&-
-        15>&-
-        16>&-
-        17>&-
-        18>&-
-        19>&-
-        20>&-
-        21>&-
-        22>&-
-        23>&-
-        24>&-
-        25>&-
-        26>&-
-        27>&-
-        28>&-
-        29>&-
-        30>&-
-        31>&-
-        32>&-
-        33>&-
-        34>&-
-        35>&-
-        36>&-
-        # 37>&-
-        38>&-
-        39>&-
-        40>&-
-        41>&-
-        42>&-
-        43>&-
-        44>&-
+        3<&-
+        4<&-
+        5<&-
+        6<&-
+        7<&-
+        8<&-
+        9<&-
+        10<&-
+        11<&-
+        12<&-
+        13<&-
+        14<&-
+        15<&-
+        16<&-
+        17<&-
+        18<&-
+        19<&-
+        20<&-
+        21<&-
+        22<&-
+        23<&-
+        24<&-
+        25<&-
+        26<&-
+        27<&-
+        28<&-
+        29<&-
+        30<&-
+        31<&-
+        32<&-
+        33<&-
+        34<&-
+        35<&-
+        36<&-
+        # 37<&-
+        38<&-
+        39<&-
+        40<&-
+        41<&-
+        42<&-
+        43<&-
+        44<&-
 
         ##Build json objects
         TAB=""
