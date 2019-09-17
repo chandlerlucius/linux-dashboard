@@ -15,36 +15,30 @@ import org.junit.jupiter.api.Test;
 public class WebSocketTest {
 
     public WebSocketTest() {
-        //Intentionally blank
+        // Intentionally blank
     }
 
     /**
-     * Copy valid script file from webapp to temp directory and verify it
-     * exists.
+     * Copy valid script file from webapp to temp directory and verify it exists.
      * 
      * @result Script should be accessible in temp directory and executable.
      */
     @Test
     public void copyExecScriptToTempDir_ValidInputOutputPath_FileExists() {
-        final WebSocket webSocket = new WebSocket();
-        final String filePath =
-                webSocket.copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        final String filePath = WebSocket.copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
         final File file = new File(filePath);
-        assertTrue(file.exists(),
-                "Expected file to have been copied to temp directory.");
+        assertTrue(file.exists(), "Expected file to have been copied to temp directory.");
     }
 
     /**
-     * Copy valid script file from webapp to temp directory, verify it 
-     * exists, and make it executable.
+     * Copy valid script file from webapp to temp directory, verify it exists, and
+     * make it executable.
      * 
      * @result Script should be accessible in temp directory and executable.
      */
     @Test
     public void copyExecScriptToTempDir_ValidInputOutputPath_FileExecutable() {
-        final WebSocket webSocket = new WebSocket();
-        final String filePath =
-                webSocket.copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        final String filePath = WebSocket.copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
         final File file = new File(filePath);
         assertTrue(file.canExecute(), "Expected file to be executable.");
     }
@@ -56,11 +50,9 @@ public class WebSocketTest {
      */
     @Test
     public void copyExecScriptToTempDir_InvalidInputOutputPath_FileDoesNotExist() {
-        final WebSocket webSocket = new WebSocket();
-        final String filePath = webSocket.copyScriptToTempDir("/sh/NotValid.sh", "NotValid.sh");
+        final String filePath = WebSocket.copyScriptToTempDir("/sh/NotValid.sh", "NotValid.sh");
         final File file = new File(filePath);
-        assertFalse(file.exists(),
-                "Expected file to not have been copied to temp directory.");
+        assertFalse(file.exists(), "Expected file to not have been copied to temp directory.");
     }
 
 }
