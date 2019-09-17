@@ -244,33 +244,31 @@ then
         exec 15< <(getSwapTotal)
         exec 16< <(getSwapFree)
         exec 17< <(getSwapFreeUsage)
-        exec 18< <(getSwapCache)
-        exec 19< <(getSwapCacheUsage)
-        exec 20< <(getCPUProcesses)
-        exec 21< <(getMEMProcesses)
-        exec 22< <(getOSName)
-        exec 23< <(getOSVersion)
-        exec 24< <(getOSArch)
-        exec 25< <(getKernelName)
-        exec 26< <(getKernelRelease)
-        exec 27< <(getKernelVersion)
-        exec 28< <(getServerTime)
-        exec 29< <(getUpTime)
-        exec 30< <(getUsers)
-        exec 31< <(getGrps)
-        exec 32< <(getLogins)
-        exec 33< <(getHostname)
-        exec 34< <(getPublicIP)
-        exec 35< <(getPrivateIP)
-        exec 36< <(getConnections)
-        # exec 37< <(getDiskActivityUsage)
-        exec 38< <(getRootDiskType)
-        exec 39< <(getRootDiskTotal)
-        exec 40< <(getRootDiskUsed)
-        exec 41< <(getRootDiskUsage)
-        exec 42< <(getRootDiskFree)
-        exec 43< <(getRootDiskFreeUsage)
-        exec 44< <(getDiskPartitions)
+        exec 18< <(getCPUProcesses)
+        exec 19< <(getMEMProcesses)
+        exec 20< <(getOSName)
+        exec 21< <(getOSVersion)
+        exec 22< <(getOSArch)
+        exec 23< <(getKernelName)
+        exec 24< <(getKernelRelease)
+        exec 25< <(getKernelVersion)
+        exec 26< <(getServerTime)
+        exec 27< <(getUpTime)
+        exec 28< <(getUsers)
+        exec 29< <(getGrps)
+        exec 30< <(getLogins)
+        exec 31< <(getHostname)
+        exec 32< <(getPublicIP)
+        exec 33< <(getPrivateIP)
+        exec 34< <(getConnections)
+        # exec 35< <(getDiskActivityUsage)
+        exec 36< <(getRootDiskType)
+        exec 37< <(getRootDiskTotal)
+        exec 38< <(getRootDiskUsed)
+        exec 39< <(getRootDiskUsage)
+        exec 40< <(getRootDiskFree)
+        exec 41< <(getRootDiskFreeUsage)
+        exec 42< <(getDiskPartitions)
 
         read -ru 3 CPU_USAGE
         read -ru 4 CPU_NAME
@@ -287,33 +285,31 @@ then
         read -ru 15 SWAP_TOTAL
         read -ru 16 SWAP_FREE
         read -ru 17 SWAP_FREE_USAGE
-        read -ru 18 SWAP_CACHE
-        read -ru 19 SWAP_CACHE_USAGE
-        read -ru 20 CPU_PROCESSES
-        read -ru 21 MEM_PROCESSES
-        read -ru 22 OS_NAME
-        read -ru 23 OS_VERSION
+        read -ru 18 CPU_PROCESSES
+        read -ru 19 MEM_PROCESSES
+        read -ru 20 OS_NAME
+        read -ru 21 OS_VERSION
         read -ru 24 OS_ARCH
         read -ru 25 KERNEL_NAME
-        read -ru 26 KERNEL_RELEASE
-        read -ru 27 KERNEL_VERSION
-        read -ru 28 SERVER_TIME
-        read -ru 29 UP_TIME
-        read -ru 30 USERS
-        read -ru 31 GRPS
-        read -ru 32 LOGINS
-        read -ru 33 HOSTNAME
-        read -ru 34 PUBLIC_IP
-        read -ru 35 PRIVATE_IP
-        read -ru 36 CONNECTIONS
-        # read -ru 37 DISK_ACTIVITY_USAGE
-        read -ru 38 ROOT_DISK_TYPE
-        read -ru 39 ROOT_DISK_TOTAL
-        read -ru 40 ROOT_DISK_USED
-        read -ru 41 ROOT_DISK_USAGE
-        read -ru 42 ROOT_DISK_FREE
-        read -ru 43 ROOT_DISK_FREE_USAGE
-        read -ru 44 DISK_PARTITIONS
+        read -ru 24 KERNEL_RELEASE
+        read -ru 25 KERNEL_VERSION
+        read -ru 26 SERVER_TIME
+        read -ru 27 UP_TIME
+        read -ru 28 USERS
+        read -ru 29 GRPS
+        read -ru 30 LOGINS
+        read -ru 31 HOSTNAME
+        read -ru 32 PUBLIC_IP
+        read -ru 33 PRIVATE_IP
+        read -ru 34 CONNECTIONS
+        # read -ru 35 DISK_ACTIVITY_USAGE
+        read -ru 36 ROOT_DISK_TYPE
+        read -ru 37 ROOT_DISK_TOTAL
+        read -ru 38 ROOT_DISK_USED
+        read -ru 39 ROOT_DISK_USAGE
+        read -ru 40 ROOT_DISK_FREE
+        read -ru 41 ROOT_DISK_FREE_USAGE
+        read -ru 42 DISK_PARTITIONS
 
         3<&-
         4<&-
@@ -347,16 +343,14 @@ then
         32<&-
         33<&-
         34<&-
-        35<&-
+        # 35<&-
         36<&-
-        # 37<&-
+        37<&-
         38<&-
         39<&-
         40<&-
         41<&-
         42<&-
-        43<&-
-        44<&-
 
         ##Build json objects
         TAB=""
@@ -799,7 +793,7 @@ then
         then
             echo "{ \"results\" : [ $TAB ] }"
         else
-            echo "{ \"results\" : [ $TAB ] }" > $(dirname $(mktemp -u))/ServerStats.txt
+            echo "{ \"results\" : [ $TAB ] }" > "$(dirname $(mktemp -u))/ServerStats.txt"
         fi
 
         # set +x
