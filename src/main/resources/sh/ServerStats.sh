@@ -43,7 +43,7 @@ makeOrAddToValues() {
 }
 
 getCPUUsage() {
-    top -b -n2 -d1 -o %CPU | awk '/^top/{i++}i==2' | sed -n -e 3p | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf "%0.1f", 100 - $1}'
+    top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf "%0.1f", 100 - $1}'
 }
 
 getCPUName() {
@@ -111,7 +111,7 @@ getSwapCacheUsage() {
 }
 
 getCPUProcesses() {
-    top -b -n2 -d1 -o %CPU | awk '/^top/{i++}i==2' | tail -n +7 | awk '{print $1"|"$2"|"$9"|"$10"|"$12"|"$11}' | tr '\n' '#'
+    top -b -n2 -d0.1 -o %CPU | awk '/^top/{i++}i==2' | tail -n +7 | awk '{print $1"|"$2"|"$9"|"$10"|"$12"|"$11}' | tr '\n' '#'
 }
 
 getMEMProcesses() {
@@ -151,11 +151,11 @@ getUpTime() {
 }
 
 getUsers() {
-    printf "USERNAME|UID|GID|FULL NAME|HOME#" && awk -F ':' '{print $1"|"$3"|"$4"|"$5"|"$6}' /etc/passwd | tr '\n' '#'
+    printf "USERNAME|UID|GID|FULL NAME|HOME#" && sort -g -t : -k 3 /etc/passwd | awk -F ':' '{print $1"|"$3"|"$4"|"$5"|"$6}' | tr '\n' '#'
 }
 
-getGroups() {
-    printf "NAME|GID|USERS#" && awk -F ':' '{print $1"|"$3"|"$4}' /etc/group | tr '\n' '#'
+getGrps() {
+    printf "NAME|GID|USERS#" && sort -g -t : -k 3 /etc/group | awk -F ':' '{print $1"|"$3"|"$4}' | tr '\n' '#'
 }
 
 getLogins() {
@@ -167,8 +167,8 @@ getHostname() {
 }
 
 getPublicIP() {
-    # curl -sS -m 1 https://ipinfo.io/ip
-    echo "test"
+    curl -sS -m 1 https://ipinfo.io/ip
+    # echo "test"
 }
 
 getPrivateIP() {
@@ -176,46 +176,46 @@ getPrivateIP() {
 }
 
 getConnections() {
-    # NETSTAT=$(netstat >/dev/null 2>&1 | sed 1d; echo $?);
-    # SS=$(ss >/dev/null 2>&1 | sed 1d; echo $?);
-    # if [ "$NETSTAT" -eq 0 ]
-    # then
-    #     CONNECTIONS=$(netstat -tun | awk '/EST/{print $4"|"$5}')
-    # elif [ "$SS" -eq 0 ]
-    # then
-    #     CONNECTIONS=$(ss -tun | awk '/EST/{print $5"|"$6}')
-    # fi
-    # CONNECTION_HEADER=$(printf "PORT|IP|ORG|CITY|REGION|COUNTRY|POSTAL#")
-    # printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)" | tr '\n' '#'
-    echo "test"
+    NETSTAT=$(netstat >/dev/null 2>&1 | sed 1d; echo $?);
+    SS=$(ss >/dev/null 2>&1 | sed 1d; echo $?);
+    if [ "$NETSTAT" -eq 0 ]
+    then
+        CONNECTIONS=$(netstat -tun | awk '/EST/{print $4"|"$5}')
+    elif [ "$SS" -eq 0 ]
+    then
+        CONNECTIONS=$(ss -tun | awk '/EST/{print $5"|"$6}')
+    fi
+    CONNECTION_HEADER=$(printf "PORT|IP|ORG|CITY|REGION|COUNTRY|POSTAL#")
+    printf "%s" "$CONNECTION_HEADER"; echo "$CONNECTIONS" | grep -v "^127.\\|^:" | grep -Po ".*(?=:)" | tr '\n' '#'
+    # echo "test"
 }
 
-getDiskActivityUsage() {
-    top -b -n2 -d1 -o %CPU | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $9}'
-}
+# getDiskActivityUsage() {
+#     top -b -n2 -d1 -o %CPU | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $9}'
+# }
 
 getRootDiskType() {
     df -PT / | tail -n 1 | awk '{print $2}'
 }
 
 getRootDiskTotal() {
-    df -PT / | awk -v v1=$CONVERT '{printf "%0.1f", $3 / v1}'
+    df -PT / | tail -n 1 | awk -v v1=$CONVERT '{printf "%0.1f", $3 / v1}'
 }
 
 getRootDiskUsed() {
-    df -PT / | awk -v v1=$CONVERT '{printf "%0.1f", $4 / v1}'
+    df -PT / | tail -n 1 | awk -v v1=$CONVERT '{printf "%0.1f", $4 / v1}'
 }
 
 getRootDiskUsage() {
-    df -PT / | awk '{printf "%0.1f", $4 / $3 * 100}'
+    df -PT / | tail -n 1 | awk '{printf "%0.1f", $4 / $3 * 100}'
 }
 
 getRootDiskFree() {
-    df -PT / | awk -v v1=$CONVERT '{printf "%0.1f", $5 / v1}'
+    df -PT / | tail -n 1 | awk -v v1=$CONVERT '{printf "%0.1f", $5 / v1}'
 }
 
 getRootDiskFreeUsage() {
-    df -PT / | awk '{printf "%0.1f", $5 / $3 * 100}'
+    df -PT / | tail -n 1 | awk '{printf "%0.1f", $5 / $3 * 100}'
 }
 
 getDiskPartitions() {
@@ -257,13 +257,13 @@ then
         exec 28< <(getServerTime)
         exec 29< <(getUpTime)
         exec 30< <(getUsers)
-        exec 31< <(getGroups)
+        exec 31< <(getGrps)
         exec 32< <(getLogins)
         exec 33< <(getHostname)
         exec 34< <(getPublicIP)
         exec 35< <(getPrivateIP)
         exec 36< <(getConnections)
-        exec 37< <(getDiskActivityUsage)
+        # exec 37< <(getDiskActivityUsage)
         exec 38< <(getRootDiskType)
         exec 39< <(getRootDiskTotal)
         exec 40< <(getRootDiskUsed)
@@ -300,13 +300,13 @@ then
         read -u 28 SERVER_TIME
         read -u 29 UP_TIME
         read -u 30 USERS
-        read -u 31 GROUPS
+        read -u 31 GRPS
         read -u 32 LOGINS
         read -u 33 HOSTNAME
         read -u 34 PUBLIC_IP
         read -u 35 PRIVATE_IP
         read -u 36 CONNECTIONS
-        read -u 37 DISK_ACTIVITY_USAGE
+        # read -u 37 DISK_ACTIVITY_USAGE
         read -u 38 ROOT_DISK_TYPE
         read -u 39 ROOT_DISK_TOTAL
         read -u 40 ROOT_DISK_USED
@@ -349,7 +349,7 @@ then
         34>&-
         35>&-
         36>&-
-        37>&-
+        # 37>&-
         38>&-
         39>&-
         40>&-
@@ -625,10 +625,10 @@ then
         TITLE="Groups"
         TYPE="search"
         THRESHOLD=""
-        VALUE="$GROUPS"
+        VALUE="$GRPS"
         DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
-        #Groups Group
+        #Grps Group
         TITLE="Groups"
         TYPE="text"
         GROUP=$(makeOrAddToGroup "$TITLE" "$TYPE" "$DATA" "$GROUP")
@@ -718,11 +718,11 @@ then
         DATA=""
 
         #Disk Actvity Chart
-        TITLE="Disk Activity"
-        TYPE="chart"
-        THRESHOLD="85"
-        VALUE="$DISK_ACTIVITY_USAGE"
-        DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
+        # TITLE="Disk Activity"
+        # TYPE="chart"
+        # THRESHOLD="85"
+        # VALUE="$DISK_ACTIVITY_USAGE"
+        # DATA=$(makeOrAddToValues "$TITLE" "$TYPE" "$THRESHOLD" "$VALUE" "$DATA")
 
         #Disk Type
         TITLE="Type"
@@ -795,7 +795,12 @@ then
 
 
         #Put all the group data together
-        echo "{ \"results\" : [ $TAB ] }" > $(dirname $(mktemp -u))/ServerStats.txt
+        if [ "$1" == "SYSOUT" ] 
+        then
+            echo "{ \"results\" : [ $TAB ] }"
+        else
+            echo "{ \"results\" : [ $TAB ] }" > $(dirname $(mktemp -u))/ServerStats.txt
+        fi
 
         # set +x
         # exec 2>&3 3>&-
