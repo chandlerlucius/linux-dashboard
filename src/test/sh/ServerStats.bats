@@ -39,6 +39,14 @@
     [ "$output" = "$DATA,{ \"title\" : \"$TITLE\" , \"type\" : \"$TYPE\" , \"threshold\" : \"$THRESHOLD\" , \"value\" : \"$VALUE\" }" ]
 }
 
+@test "Test CPU Usage Command - getCPUUsage()" {
+    run getCPUUsage
+    echo "$output" 
+
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ ^[0-9]{1,3}[.]{0,1}[0-9]{0,1}$ ]]
+}
+
 @test "Test Public IP Command - getPublicIP()" {
     run getPublicIP
     echo "$output" 
@@ -63,21 +71,21 @@
     [[ "$output" =~ ^[0-9a-z-]+$ ]]
 }
 
-@test "Test Top Command - getTop()" {
-    run getTop
-    echo "$output" 
+# @test "Test Top Command - getTop()" {
+#     run getTop
+#     echo "$output" 
 
-    [ "$status" -eq 0 ]
-    LINE=$(echo "$output" | sed '1q;d')
-    [[ "$LINE" =~ ^top.+?[0-9]+[\ ](user|users),[\ ]+load[\ ]average:[\ ][0-9.]+,[\ ][0-9.]+,[\ ][0-9.]+$ ]]
-    LINE=$(echo "$output" | sed '2q;d')
-    [[ "$LINE" =~ ^Tasks:.+?[0-9]+.+?total,.+?[0-9]+.+?running,.+?[0-9]+.+?sleeping,.+?[0-9]+.+?stopped,.+?[0-9]+.+?zombie$ ]]
-    LINE=$(echo "$output" | sed '3q;d')
-    [[ "$LINE" =~ ^%Cpu\(s\):[\ ]*[0-9.]+[\ ]us,[\ ]*[0-9.]+[\ ]sy,[\ ]*[0-9.]+[\ ]ni,[\ ]*[0-9.]+[\ ]id,[\ ]*[0-9.]+[\ ]wa,[\ ]*[0-9.]+[\ ]hi,[\ ]*[0-9.]+[\ ]si,[\ ]*[0-9.]+[\ ]st$ ]]
-}
+#     [ "$status" -eq 0 ]
+#     LINE=$(echo "$output" | sed '1q;d')
+#     [[ "$LINE" =~ ^top.+?[0-9]+[\ ](user|users),[\ ]+load[\ ]average:[\ ][0-9.]+,[\ ][0-9.]+,[\ ][0-9.]+$ ]]
+#     LINE=$(echo "$output" | sed '2q;d')
+#     [[ "$LINE" =~ ^Tasks:.+?[0-9]+.+?total,.+?[0-9]+.+?running,.+?[0-9]+.+?sleeping,.+?[0-9]+.+?stopped,.+?[0-9]+.+?zombie$ ]]
+#     LINE=$(echo "$output" | sed '3q;d')
+#     [[ "$LINE" =~ ^%Cpu\(s\):[\ ]*[0-9.]+[\ ]us,[\ ]*[0-9.]+[\ ]sy,[\ ]*[0-9.]+[\ ]ni,[\ ]*[0-9.]+[\ ]id,[\ ]*[0-9.]+[\ ]wa,[\ ]*[0-9.]+[\ ]hi,[\ ]*[0-9.]+[\ ]si,[\ ]*[0-9.]+[\ ]st$ ]]
+# }
 
-@test "Test Uptime Command - getUptime()" {
-    run getUptime
+@test "Test Uptime Command - getUpTime()" {
+    run getUpTime
     echo "$output" 
 
     [ "$status" -eq 0 ]
