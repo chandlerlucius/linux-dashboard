@@ -55,6 +55,7 @@ public final class Http2Server {
 
     private static final String HTTP_PORT_PROP = "http.port";
     private static final String HTTPS_PORT_PROP = "https.port";
+    private static final String KEYSTORE_TYPE = "keystore.type";
     private static final String KEYSTORE_FILE = "keystore.file";
     private static final String KEYSTORE_PASS = "keystore.password";
 
@@ -88,6 +89,7 @@ public final class Http2Server {
 
         final int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
         final int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
+        final String keystoreType = properties.getProperty(KEYSTORE_TYPE, "JKS");
         final String keystoreFile = properties.getProperty(KEYSTORE_FILE, "");
         final String keystorePassword = properties.getProperty(KEYSTORE_PASS, "");
 
@@ -96,7 +98,7 @@ public final class Http2Server {
         builder.setHandler(path);
 
         if (!keystoreFile.isEmpty() && !keystorePassword.isEmpty()) {
-            final SSLContext sslContext = generateSslContext(keystoreFile, keystorePassword.toCharArray());
+            final SSLContext sslContext = generateSslContext(keystoreType, keystoreFile, keystorePassword.toCharArray());
 
             builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
             builder.addHttpsListener(httpsPort, IP_ADDRESS, sslContext);
@@ -143,10 +145,10 @@ public final class Http2Server {
         }
     }
 
-    private static SSLContext generateSslContext(final String keystoreFile, final char[] keystorePassword) {
+    private static SSLContext generateSslContext(final String keystoreType, final String keystoreFile, final char[] keystorePassword) {
         SSLContext sslContext = null;
         try (InputStream inputStream = Files.newInputStream(Paths.get(keystoreFile))) {
-            final KeyStore keystore = KeyStore.getInstance("PKCS12");
+            final KeyStore keystore = KeyStore.getInstance(keystoreType);
             keystore.load(inputStream, keystorePassword);
 
             KeyManager[] keyManagers;
