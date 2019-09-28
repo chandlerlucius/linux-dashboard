@@ -755,7 +755,7 @@ then
 
         #Disk Group
         TITLE="Root Disk"
-        TYPE="chart"
+        TYPE="text"
         GROUP=$(makeOrAddToGroup "$TITLE" "$TYPE" "$DATA" "$GROUP")
 
 
