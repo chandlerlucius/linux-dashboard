@@ -34,6 +34,7 @@ public class WebSocket {
 
     static {
         copyScriptToTempDir("/sh/ServerStats.sh", "ServerStats.sh");
+        stopPreviousScripts();
         runServerScript();
     }
 
@@ -78,6 +79,18 @@ public class WebSocket {
             }
         } catch (IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
+        }
+        return "";
+    }
+
+    private static final String stopPreviousScripts() {
+        try {
+            LOG.info("Stop Scripts");
+            final ProcessBuilder processBuilder = new ProcessBuilder("pkill", "-f", "\\/tmp\\/ServerStats.sh");
+            Process process = processBuilder.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            LOG.error("Issue running script: ", e);
         }
         return "";
     }
