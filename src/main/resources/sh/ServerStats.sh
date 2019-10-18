@@ -167,7 +167,7 @@ getHostname() {
 }
 
 getPublicIP() {
-    curl -sS -m 1 https://ipinfo.io/ip
+    curl --max-time 1 --connect-time 1 https://ipapi.co/ip
     # echo "test"
 }
 
