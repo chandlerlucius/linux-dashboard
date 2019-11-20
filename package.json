@@ -37,7 +37,7 @@
   "devDependencies": {
     "bats": "1.1.0",
     "csslint": "1.0.5",
-    "eslint": "6.0.1",
+    "eslint": "6.6.0",
     "htmlhint": "0.11.0",
     "jest": "25.0.0",
     "jshint": "2.10.3",
