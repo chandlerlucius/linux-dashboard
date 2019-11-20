@@ -93,8 +93,9 @@ const drawChart = function (chart, xAxisData, seriesData) {
             formatter(params) {
                 let result;
                 params.forEach(function (item) {
-                    result = '<p>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                        item.color + '"></span>' + ' ' + item.seriesName + ': ' + item.data + '%' + '</p>';
+                    result = `<p>` +
+                        `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:${item.color}">` +
+                        `</span> ${item.seriesName}: ${item.data}% </p>`;
                 });
                 return result;
             },
@@ -135,10 +136,10 @@ const escapeHTML = function (unsafe) {
 
 const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
     const row = rows[l];
-    const tabSearchTrId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l;
-    let tabSearchTr = tabContent.querySelector('#' + tabSearchTrId);
+    const tabSearchTrId = `tab-search-${i}-${j}-${k}-${l}`;
+    let tabSearchTr = tabContent.querySelector(`#${tabSearchTrId}`);
     if (tabSearchTr === null) {
-        tabSearchTr = table.insertRow(l);
+        tabSearchTr = table.getElementsByTagName('tbody')[0].insertRow();
         tabSearchTr.id = tabSearchTrId;
     }
     if (l === 0) {
@@ -148,8 +149,8 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
     const cols = row.split('|');
     for (let m = 0; m < cols.length; m += 1) {
         const col = cols[m];
-        const tabSearchTdId = 'tab-search-' + i + '-' + j + '-' + k + '-' + l + '-' + m;
-        let tabSearchTd = tabContent.querySelector('#' + tabSearchTdId);
+        const tabSearchTdId = `tab-search-${i}-${j}-${k}-${l}-${m}`;
+        let tabSearchTd = tabContent.querySelector(`#${tabSearchTdId}`);
         if (tabSearchTd === null) {
             tabSearchTd = tabSearchTr.insertCell(m);
             tabSearchTd.id = tabSearchTdId;
@@ -170,7 +171,7 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
 const createToastDetails = function (tabDetailResult) {
     //Handle toasts for thresholds
     const key = tabDetailResult.title.toLowerCase().replace(/ /g, '_');
-    const thresholdKey = key + '-threshold';
+    const thresholdKey = `${key}-threshold`;
     let threshold = localStorage.getItem(thresholdKey);
 
     if (tabDetailResult.threshold !== '' && threshold === null) {
@@ -229,8 +230,8 @@ const createChartDetails = function (tabContent, tabDetailResult, i, j, k) {
     tabContent.querySelector('.card').classList.add('large');
 
     //Update data within chart
-    const tabChartId = 'tab-chart-' + i + '-' + j + '-' + k;
-    let tabChart = tabContent.querySelector('#' + tabChartId);
+    const tabChartId = `tab-chart-${i}-${j}-${k}`;
+    let tabChart = tabContent.querySelector(`#${tabChartId}`);
     const total = 30;
     if (tabChart === null) {
         tabChart = tabContent.querySelector('.card-chart');
@@ -247,7 +248,7 @@ const createChartDetails = function (tabContent, tabDetailResult, i, j, k) {
         }
 
         const origChart = echarts.init(tabChart, null, {});
-        chartMap.set(i + '_' + j + '_' + k, tabChart);
+        chartMap.set(`${i}_${j}_${k}`, tabChart);
         drawChart(origChart, origXAxisData, seriesData);
     }
 
@@ -280,12 +281,12 @@ const createDetails = function (groupResult, tabContent, i, j) {
         if (tabDetailResult.type === 'detail') {
             //Update table with detail data
             const tabDetailId = `tab-detail-${i}-${j}-${k}`;
-            let tabDetail = tabContent.querySelector('#' + tabDetailId);
+            let tabDetail = tabContent.querySelector(`#${tabDetailId}`);
             if (tabDetail === null) {
                 const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
                 tabDetailTemplate.querySelector('tr').id = tabDetailId;
                 tabContent.querySelector('.card-detail table tbody').appendChild(tabDetailTemplate);
-                tabDetail = tabContent.querySelector('#' + tabDetailId);
+                tabDetail = tabContent.querySelector(`#${tabDetailId}`);
             }
             tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
             tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
@@ -340,9 +341,9 @@ const init = function () {
 
 const createTabs = function (json, i) {
     const tabResult = json.results[i];
-    const tabId = 'tab-' + i;
-    const tabTitleId = 'tab-title-' + i;
-    let tab = document.querySelector('#' + tabId);
+    const tabId = `tab-${i}`;
+    const tabTitleId = `tab-title-${i}`;
+    let tab = document.querySelector(`#${tabId}`);
     if (tab === null) {
         const tabTitleTemplate = document.querySelector('#tab-title-template').content.cloneNode(true);
         tabTitleTemplate.querySelector('a').id = tabTitleId;
@@ -354,22 +355,22 @@ const createTabs = function (json, i) {
         const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
         tabContainerTemplate.querySelector('div').id = tabId;
         document.querySelector('main').appendChild(tabContainerTemplate);
-        tab = document.querySelector('#' + tabId);
+        tab = document.querySelector(`#${tabId}`);
     }
-    const tabTitle = document.querySelector('#' + tabTitleId);
+    const tabTitle = document.querySelector(`#${tabTitleId}`);
     tabTitle.innerHTML = _(tabResult.title);
-    tabTitle.href = '#' + tabId;
+    tabTitle.href = `#${tabId}`;
 
     const tabValues = tabResult.values;
     for (let j = 0; j < tabValues.length; j += 1) {
         const groupResult = tabValues[j];
         const tabContentId = `tab-content-${i}-${j}`;
-        let tabContent = tab.querySelector('#' + tabContentId);
+        let tabContent = tab.querySelector(`#${tabContentId}`);
         if (tabContent === null) {
             const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
             tabContentTemplate.querySelector('div').id = tabContentId;
             tab.appendChild(tabContentTemplate);
-            tabContent = tab.querySelector('#' + tabContentId);
+            tabContent = tab.querySelector(`#${tabContentId}`);
         }
         tabContent.querySelector('.card-title').innerHTML = _(groupResult.title);
 
@@ -420,7 +421,7 @@ const start = function (websocketServerLocation) {
             parseJsonResults(json);
         }
         catch (err) {
-            console.error('Issue parsing json: ' + err);
+            console.error(`Issue parsing json: ${err}`);
         }
         setTimeout(function() {
             socket.send('gimme');
