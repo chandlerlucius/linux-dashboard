@@ -38,9 +38,9 @@ deploy:
   provider: script
   skip_cleanup: true
   script: 
-    rsync -avvz -e "ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:~ && 
+    rsync -avvz -e "ssh -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5" target/linux-dashboard-1.0.0.jar clucius@linuxdashboard.com:/home/clucius/linux-dashboard/ && 
     ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'pkill -9 -f linux-dashboard'" &&
-    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'nohup java -jar linux-dashboard-1.0.0.jar > catalina.out 2>&1 &'" 
+    ssh -f -p 7001 -o StrictHostKeyChecking=no -o ConnectTimeout=5 clucius@linuxdashboard.com "sh -c 'nohup java -jar /home/clucius/linux-dashboard/linux-dashboard-1.0.0.jar > /home/clucius/linux-dashboard/dashboard.log 2>&1 &'" 
   on:
     branch: master
 
