@@ -1,0 +1,18 @@
+<svg width="512" height="512"
+    xmlns="http://www.w3.org/2000/svg" style="font-family: 'Roboto', sans-serif; fill: #FFFFFF;">
+    <defs>
+        <style type="text/css">
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                src: url('https://fonts.googleapis.com/css?family=Roboto:300');
+            }
+        </style>
+    </defs>
+    <circle cx="256" cy="256" r="253" stroke="#FFFFFF" stroke-width="3" fill="transparent"/>
+    <text text-anchor="middle">
+        <tspan y="50%" x="50%" style="font-size: 70px;">linux dashboard</tspan>
+        <tspan y="60%" x="50%" style="font-size: 40px;">simple, fast server analytics</tspan>
+    </text>
+</svg>
