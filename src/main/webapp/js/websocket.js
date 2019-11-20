@@ -287,7 +287,7 @@ const createDetails = function (groupResult, tabContent, i, j) {
                 tabContent.querySelector('.card-detail table tbody').appendChild(tabDetailTemplate);
                 tabDetail = tabContent.querySelector('#' + tabDetailId);
             }
-            tabDetail.querySelector('b').innerHTML = _(tabDetailResult.title);
+            tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
             tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
         } else if (tabDetailResult.type === 'search') {
             createSearchDetails(tabContent, tabDetailResult, i, j, k);
