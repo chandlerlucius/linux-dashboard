@@ -88,7 +88,10 @@ public class WebSocket {
             LOG.info("Stop Scripts");
             final ProcessBuilder processBuilder = new ProcessBuilder("pkill", "-f", "\\/tmp\\/ServerStats.sh");
             Process process = processBuilder.start();
-            process.waitFor();
+            int result = process.waitFor();
+            if(result != 0) {
+                throw new InterruptedException();
+            }
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
             Thread.currentThread().interrupt();
