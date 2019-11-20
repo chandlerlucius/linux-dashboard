@@ -167,8 +167,8 @@ getHostname() {
 }
 
 getPublicIP() {
-    curl --max-time 1 --connect-time 1 https://ipapi.co/ip
-    # echo "test"
+    # curl --max-time 1 --connect-time 1 https://ipapi.co/ip
+    echo "test"
 }
 
 getPrivateIP() {
