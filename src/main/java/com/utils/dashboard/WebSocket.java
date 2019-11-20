@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 public class WebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSocket.class);
+    private static final String TMP_DIR = System.getProperty("java.io.tmpdir");
     private static final String SEP = File.separator;
     private static final String RUN_SCRIPT = "gimme";
 
@@ -69,8 +70,7 @@ public class WebSocket {
             final String outputFileName) {
         try (InputStream inputStream = WebSocket.class.getResourceAsStream(inputFilePath)) {
             if (inputStream != null) {
-                final String tempDirectory = System.getProperty("java.io.tmpdir");
-                final File tempFile = new File(tempDirectory + SEP + outputFileName);
+                final File tempFile = new File(TMP_DIR + SEP + outputFileName);
                 Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 if (!tempFile.setExecutable(true)) {
                     LOG.error("Failed to make temp file executable.");
@@ -88,10 +88,7 @@ public class WebSocket {
             LOG.info("Stop Scripts");
             final ProcessBuilder processBuilder = new ProcessBuilder("pkill", "-f", "\\/tmp\\/ServerStats.sh");
             Process process = processBuilder.start();
-            int result = process.waitFor();
-            if(result != 0) {
-                throw new InterruptedException();
-            }
+            process.waitFor();
         } catch (IOException | InterruptedException e) {
             LOG.error("Issue running script: ", e);
             Thread.currentThread().interrupt();
@@ -102,10 +99,9 @@ public class WebSocket {
     private static final String runServerScript() {
         try {
             LOG.info("Run Script");
-            final String tempDirectory = System.getProperty("java.io.tmpdir");
-            final File tempFile = new File(tempDirectory + "/ServerStats.sh");
+            final File tempFile = new File(TMP_DIR + "/ServerStats.sh");
             final ProcessBuilder processBuilder = new ProcessBuilder(tempFile.getAbsolutePath());
-            processBuilder.directory(new File(tempDirectory));
+            processBuilder.directory(new File(TMP_DIR));
             processBuilder.start();
         } catch (IOException e) {
             LOG.error("Issue running script: ", e);
@@ -113,11 +109,10 @@ public class WebSocket {
         return "";
     }
 
-    private final String getServerScriptResult() {
+    private static final String getServerScriptResult() {
         String retVal = "";
         try {
-            final String tempDirectory = System.getProperty("java.io.tmpdir");
-            final File tempFile = new File(tempDirectory + "/ServerStats.txt");
+            final File tempFile = new File(TMP_DIR + "/ServerStats.txt");
             retVal = new String(Files.readAllBytes(tempFile.toPath()), StandardCharsets.UTF_8.name());
             // LOG.info(retVal);
         } catch (IOException e) {
