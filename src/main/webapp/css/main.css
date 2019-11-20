@@ -20,6 +20,14 @@ textarea {
   font-family: 'Roboto', sans-serif;
 }
 
+strong {
+  font-weight: bold;
+}
+
+thead {
+  display: none;
+}
+
 tr:hover {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.12);
