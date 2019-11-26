@@ -1,5 +1,5 @@
 <h1 align="center">
-    <a href="linuxdashboard.com">
+    <a href="https://linuxdashboard.com:8443">
         <img alt="Linux Dashboard" width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/src/main/webapp/img/logo-dark.svg" alt="Linux Dashboard"/>
     </a>
 </h1>
@@ -131,34 +131,24 @@ nohup java -jar linux-dashboard-1.0.0.jar &
 Security is **NOT** provided by default.
 
 Security is **HIGHLY** reccomended and can be enabled by
-creating a keystore and adding the following options:
-
--Dkeystore=$KEYSTORE_FILE -Dkeystore.alias=$KEYSTORE_ALIAS
--Dkeystore.password=$KEYSTORE_PASSWORD
-
-Example:
+creating a keystore and adding an application.properties file
+in the same directory as the jar with the below contents:
 
 ```bash
-# HTTPS
-java -Dkeystore=./keystore.jks -Dkeystore.alias=java
--Dkeystore.password=changeit -jar linux-dashboard-1.0.0.jar
+keystore.type=PCKS12
+keystore.file=/home/user/application.resources
+keystore.password=PASSWORD
 ```
 
 ## Considerations
 
 The default port for HTTP is 8080 and HTTPS is 8443.
-To change the port simply use the following option:
-
--Dserver.port=$PORT
-
-Example:
+The ports can be changed by adding an application.properties
+file in the same directory as the jar with the below contents:
 
 ```bash
-# HTTP
-java -Dserver.port=8081 -jar linux-dashboard-1.0.0.jar
-
-# HTTPS
-java -Dserver.port=8444 -Dkeystore=./keystore.jks -Dkeystore.alias=java -Dkeystore.password=changeit -jar linux-dashboard-1.0.0.jar
+http.port=8080
+https.port=8443
 ```
 
 ## Running the tests
@@ -570,8 +560,8 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         </tr>
         <tr>
             <td>
-                <a href="http://checkstyle.sourceforge.net/">
-                    <img src="http://checkstyle.sourceforge.net/images/header-checkstyle-logo.png" alt="Checkstyle" height="30px"/>
+                <a href="https://checkstyle.sourceforge.io/">
+                    <img src="https://checkstyle.sourceforge.io/images/header-checkstyle-logo.png" alt="Checkstyle" height="30px"/>
                 </a>
             </td>
             <td>Checkstyle</td>
@@ -599,7 +589,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://eslint.org/">
-                    <img src="https://eslint.org/img/logo.svg" alt="ESLint" height="30px"/>
+                    <img src="https://eslint.org/assets/img/logo.svg" alt="ESLint" height="30px"/>
                 </a>
             </td>
             <td>ESLint</td>
@@ -627,7 +617,7 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         <tr>
             <td>
                 <a href="https://stylelint.io/">
-                    <img src="https://stylelint.io/_/src/components/DefaultHeadMeta/favicon.7f672624abe02127db4972965ea73002.ico" alt="Stylelint" height="30px"/>
+                    <img src="https://stylelint.io/img/logo.svg" alt="Stylelint" height="30px"/>
                 </a>
             </td>
             <td>Stylelint</td>
@@ -654,8 +644,8 @@ For help, please use the [chat room](https://gitter.im/chandlerlucius/linux-dash
         </tr>
         <tr>
             <td>
-                <a href="https://htmlhint.io/">
-                    <img src="https://htmlhint.io/favicon.ico" alt="HTMLHint" height="30px"/>
+                <a href="https://htmlhint.com/">
+                    <img src="https://htmlhint.com/favicon.ico" alt="HTMLHint" height="30px"/>
                 </a>
             </td>
             <td>HTMLHint</td>
