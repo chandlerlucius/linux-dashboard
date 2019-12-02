@@ -58,7 +58,7 @@
 </p>
 
 <p align="center">
-    <a href="https://linuxdashboard.com">Live Demo</a> |
+    <a href="https://linuxdashboard.com:8443">Live Demo</a> |
     <a href="https://github.com/chandlerlucius/linux-dashboard/releases">Releases</a>
 </p>
 
