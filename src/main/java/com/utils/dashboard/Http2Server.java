@@ -31,15 +31,17 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
-import io.undertow.servlet.api.*;
+import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.ServletContainer;
 import io.undertow.servlet.core.ServletContainerImpl;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 
 /**
- * This class is responsible for setting up and starting the embedded undertow server used for the
- * application.
+ * This class is responsible for setting up and starting the embedded undertow
+ * server used for the application.
  * 
  * @author Chandler Lucius
  * @version 1.0.0
@@ -78,42 +80,47 @@ public final class Http2Server {
         }
 
         // Load properties from application.properties file
-        final Properties properties = new Properties();
+        int httpPort = Integer.parseInt(HTTP_PORT);
+        int httpsPort = Integer.parseInt(HTTPS_PORT);
+        String keystoreType = "JKS";
+        String keystoreFile = "";
+        String keystorePassword = "";
+        Properties properties = new Properties();
         if (!propertiesPath.isEmpty()) {
             try (InputStream inputStream = Files.newInputStream(Paths.get(propertiesPath))) {
                 properties.load(inputStream);
+                httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
+                httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
+                keystoreType = properties.getProperty(KEYSTORE_TYPE, "JKS");
+                keystoreFile = properties.getProperty(KEYSTORE_FILE, "");
+                keystorePassword = properties.getProperty(KEYSTORE_PASS, "");
             } catch (IOException e) {
                 LOG.error("Issue reading properties file: ", e);
             }
         }
 
-        final int httpPort = Integer.parseInt(properties.getProperty(HTTP_PORT_PROP, HTTP_PORT));
-        final int httpsPort = Integer.parseInt(properties.getProperty(HTTPS_PORT_PROP, HTTPS_PORT));
-        final String keystoreType = properties.getProperty(KEYSTORE_TYPE, "JKS");
-        final String keystoreFile = properties.getProperty(KEYSTORE_FILE, "");
-        final String keystorePassword = properties.getProperty(KEYSTORE_PASS, "");
-
         final PathHandler path = Handlers.path();
         final Builder builder = Undertow.builder();
         builder.setHandler(path);
 
-        if (!keystoreFile.isEmpty() && !keystorePassword.isEmpty()) {
-            final SSLContext sslContext = generateSslContext(keystoreType, keystoreFile, keystorePassword.toCharArray());
+        if (keystoreFile.isEmpty() || keystorePassword.isEmpty()) {
+            builder.addHttpListener(httpPort, IP_ADDRESS);
+        } else {
+            final SSLContext sslContext = generateSslContext(keystoreType, keystoreFile,
+                    keystorePassword.toCharArray());
 
             builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
             builder.addHttpsListener(httpsPort, IP_ADDRESS, sslContext);
 
+            final int httpsPortInt = httpsPort;
             builder.addHttpListener(httpPort, IP_ADDRESS, new HttpHandler() {
                 @Override
                 public void handleRequest(final HttpServerExchange exchange) throws Exception {
                     exchange.getResponseHeaders().add(Headers.LOCATION,
-                            "https://" + exchange.getHostName() + ":" + httpsPort
-                                    + exchange.getRelativePath());
+                            "https://" + exchange.getHostName() + ":" + httpsPortInt + exchange.getRelativePath());
                     exchange.setStatusCode(StatusCodes.TEMPORARY_REDIRECT);
                 }
             });
-        } else {
-            builder.addHttpListener(httpPort, IP_ADDRESS);
         }
 
         final Undertow server = builder.build();
@@ -130,8 +137,7 @@ public final class Http2Server {
         deploymentInfo.addWelcomePage("index.html");
         deploymentInfo.setDeploymentName("linux-dashboard.war");
         deploymentInfo.setResourceManager(new ClassPathResourceManager(classLoader, "webapp"));
-        deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME,
-                wsDeploymentInfo);
+        deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME, wsDeploymentInfo);
 
         final ServletContainer container = new ServletContainerImpl();
         container.addDeployment(deploymentInfo);
@@ -145,22 +151,23 @@ public final class Http2Server {
         }
     }
 
-    private static SSLContext generateSslContext(final String keystoreType, final String keystoreFile, final char[] keystorePassword) {
+    private static SSLContext generateSslContext(final String keystoreType, final String keystoreFile,
+            final char[] keystorePassword) {
         SSLContext sslContext = null;
         try (InputStream inputStream = Files.newInputStream(Paths.get(keystoreFile))) {
             final KeyStore keystore = KeyStore.getInstance(keystoreType);
             keystore.load(inputStream, keystorePassword);
 
             KeyManager[] keyManagers;
-            final KeyManagerFactory keyManagerFactory =
-                    KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            final KeyManagerFactory keyManagerFactory = KeyManagerFactory
+                    .getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyManagerFactory.init(keystore, keystorePassword);
             keyManagers = keyManagerFactory.getKeyManagers();
 
-            KeyStore truststore = null;
+            final KeyStore truststore = null;
             TrustManager[] trustManagers;
-            final TrustManagerFactory managerFactory =
-                    TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            final TrustManagerFactory managerFactory = TrustManagerFactory
+                    .getInstance(KeyManagerFactory.getDefaultAlgorithm());
             managerFactory.init(truststore);
             trustManagers = managerFactory.getTrustManagers();
 
