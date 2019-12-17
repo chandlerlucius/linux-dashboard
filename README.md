@@ -63,7 +63,7 @@
 </p>
 
 <h1 align="center">
-    <img width="30%" src="https://github.com/chandlerlucius/linux-dashboard/blob/master/linux-dashboard.gif" alt="Demo" />
+    <img src="https://github.com/chandlerlucius/linux-dashboard/blob/master/linux-dashboard.gif" alt="Demo" />
 </h1>
 
 # Intro
