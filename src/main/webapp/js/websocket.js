@@ -1,7 +1,8 @@
 'use strict';
 
-//Handle reconnecting websocket
-let timerID = 0;
+//Initialize socket timeout
+let socketTimeout;
+let url;
 
 //Handle initiliazation features
 let initialized = false;
@@ -83,10 +84,10 @@ const drawChart = function (chart, xAxisData, seriesData) {
     chart.setOption({
         animation: false,
         grid: {
-            top: 0,
-            left: 0,
+            top: 10,
+            left: 30,
             right: 0,
-            bottom: 0,
+            bottom: 20,
         },
         tooltip: {
             trigger: 'axis',
@@ -101,17 +102,22 @@ const drawChart = function (chart, xAxisData, seriesData) {
             },
         },
         xAxis: {
-            axisLabel: {
-                show: false,
-            },
             boundaryGap: false,
             data: xAxisData,
+            axisLabel: {
+                color: 'white',
+                showMaxLabel: true,
+                showMinLabel: true,
+            },
         },
         yAxis: {
-            axisLabel: {
-                show: false,
-            },
+            min: 0,
             max: 100,
+            axisLabel: {
+                color: 'white',
+                showMaxLabel: true,
+                showMinLabel: true,
+            },
         },
         series: [{
             type: 'line',
@@ -134,9 +140,10 @@ const escapeHTML = function (unsafe) {
         .replace(/'/g, '&apos;');
 };
 
-const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
+const createSearchRow = function (rows, tabContent, table, json) {
     const row = rows[l];
-    const tabSearchTrId = `tab-search-${i}-${j}-${k}-${l}`;
+    const key = json.key;
+    const tabSearchTrId = `tab-search-${key}`;
     let tabSearchTr = tabContent.querySelector(`#${tabSearchTrId}`);
     if (tabSearchTr === null) {
         tabSearchTr = table.getElementsByTagName('tbody')[0].insertRow();
@@ -149,7 +156,7 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
     const cols = row.split('|');
     for (let m = 0; m < cols.length; m += 1) {
         const col = cols[m];
-        const tabSearchTdId = `tab-search-${i}-${j}-${k}-${l}-${m}`;
+        const tabSearchTdId = `tab-search-${key}`;
         let tabSearchTd = tabContent.querySelector(`#${tabSearchTdId}`);
         if (tabSearchTd === null) {
             tabSearchTd = tabSearchTr.insertCell(m);
@@ -168,41 +175,157 @@ const createSearchRow = function (rows, tabContent, table, i, j, k, l) {
     }
 };
 
-const createToastDetails = function (tabDetailResult) {
-    //Handle toasts for thresholds
-    const key = tabDetailResult.title.toLowerCase().replace(/ /g, '_');
-    const thresholdKey = `${key}-threshold`;
-    let threshold = localStorage.getItem(thresholdKey);
+const handleGroups = function (groups, socket) {
+    groups.forEach(function (group) {
+        const id = group.id;
+        const title = group.title;
+        const subgroups = group.subgroups;
 
-    if (tabDetailResult.threshold !== '' && threshold === null) {
-        threshold = tabDetailResult.threshold;
-        localStorage.setItem(thresholdKey, threshold);
-    }
-    if (threshold !== null) {
-        const exceededThreshold = parseFloat(tabDetailResult.value) > parseFloat(threshold);
-        const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
-        const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
-        const toastTitle = _(`High ${tabDetailResult.title}`);
-        const toastValue = `${tabDetailResult.value}%`;
-        if (toastTitleElement === null && exceededThreshold) {
-            const toastHTML =
-                `<span id='${thresholdKey}_title'>${toastTitle}</span>` +
-                `<span id='${thresholdKey}_value' class='lime-text accent-2-text'>${toastValue}</span>` +
-                `<button class='btn-flat toast-action modal-trigger' href='#menu'>Edit</button>`;
-            M.toast({ html: toastHTML, displayLength: Infinity });
-        } else if (exceededThreshold) {
-            toastTitleElement.innerHTML = toastTitle;
-            toastValueElement.innerHTML = toastValue;
-        } else if (toastTitleElement !== null) {
-            const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
-            toastInstance.dismiss();
-        } else {
-            //Toast not available
+        const tabId = `tab-${id}`;
+        const tabTitleId = `tab-title-${id}`;
+        let tab = document.querySelector(`#${tabId}`);
+        if (tab === null) {
+            const tabTitleTemplate = document.querySelector('#tab-title-template').content.cloneNode(true);
+            tabTitleTemplate.querySelector('a').id = tabTitleId;
+            // if (i === 0) {
+            //     tabTitleTemplate.querySelector('a').class = 'active';
+            // }
+            document.querySelector('#tab-title-list').appendChild(tabTitleTemplate);
+
+            const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
+            tabContainerTemplate.querySelector('div').id = tabId;
+            document.querySelector('main').appendChild(tabContainerTemplate);
+            tab = document.querySelector(`#${tabId}`);
         }
+        const tabTitle = document.querySelector(`#${tabTitleId}`);
+        tabTitle.innerHTML = _(title);
+        tabTitle.href = `#${tabId}`;
+
+        handleSubgroups(id, subgroups, socket);
+    });
+};
+
+const handleSubgroups = function (groupId, subgroups, socket) {
+    subgroups.forEach(function (subgroup) {
+        const id = subgroup.id;
+        const title = subgroup.title;
+        const type = subgroup.type;
+        const properties = subgroup.properties;
+
+        const tab = document.querySelector(`#tab-${groupId}`);
+        const tabContentId = `tab-content-${id}`;
+        let tabContent = tab.querySelector(`#${tabContentId}`);
+        if (tabContent === null) {
+            const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
+            tabContentTemplate.querySelector('div').id = tabContentId;
+            tab.appendChild(tabContentTemplate);
+            tabContent = tab.querySelector(`#${tabContentId}`);
+        }
+        tabContent.querySelector('.card-title').innerHTML = _(title);
+
+        if (type === 'chart') {
+            tabContent.querySelector('.card-chart').style.display = '';
+            tabContent.querySelector('.card').classList.remove('small');
+        } else if (type === 'search') {
+            tabContent.querySelector('.card-search').style.display = '';
+            tabContent.querySelector('.card').classList.remove('small');
+            tabContent.querySelector('.card').classList.add('large');
+        } else {
+            //Skip the group
+        }
+
+        handleProperties(id, properties, socket);
+    });
+};
+
+const handleProperties = function (subgroupId, properties, socket) {
+    properties.forEach(function (property) {
+        const id = property.id;
+        const type = property.type;
+        const interval = property.interval;
+
+        const tabContentId = `tab-content-${subgroupId}`;
+        const tabContent = document.querySelector(`#${tabContentId}`);
+
+        //Handle tab details
+        if (type === 'detail') {
+            handleDetailProperty(`${id}_detail`, tabContent);
+        } else if (type === 'chart') {
+            // handleDetailProperty(`${id}_detail`, tabContent);
+            handleChartProperty(`${id}_chart`, tabContent);
+        } else if (type === 'search') {
+            handleSearchProperty(tabContent);
+        } else {
+            //Skip the tab
+        }
+        // socket.send(id);
+    });
+};
+
+const handleDetailProperty = function (id, tabContent) {
+    let count = 0;
+    let tabDetailTableId = `tab-detail-table-0`;
+    let tabDetailTable = tabContent.querySelector(`#${tabDetailTableId}`);
+    if (tabDetailTable != null) {
+        count = Math.floor((tabDetailTable.rows.length - 1) / 4);
+        tabDetailTableId = `tab-detail-table-${count}`;
+        tabDetailTable = tabContent.querySelector(`#${tabDetailTableId}`);
+    }
+    if (tabDetailTable === null) {
+        const tabDetailTableTemplate = document.querySelector('#tab-detail-table-template').content.cloneNode(true);
+        tabDetailTableTemplate.querySelector('table').id = tabDetailTableId;
+        tabContent.querySelector('.card-detail').appendChild(tabDetailTableTemplate);
+        tabDetailTable = tabContent.querySelector(`#${tabDetailTableId}`);
+    }
+    if (count > 0) {
+        for (let i = 0; i <= count; i++) {
+            const tmpId = `tab-detail-table-${i}`;
+            const tmpTable = tabContent.querySelector(`#${tmpId}`);
+            tmpTable.style.width = '50%';
+            tmpTable.style.float = 'left';
+        }
+    }
+
+    const tabDetailId = `tab-detail-${id}`;
+    const tabDetail = tabContent.querySelector(`#${tabDetailId}`);
+    if (tabDetail === null) {
+        const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
+        tabDetailTemplate.querySelector('tr').id = tabDetailId;
+        tabDetailTable.querySelector('tbody').appendChild(tabDetailTemplate);
+    }
+}
+
+const handleChartProperty = function (id, tabContent) {
+    //Show chart and remove height restriction on card
+    tabContent.querySelector('.card-chart').style.display = '';
+    tabContent.querySelector('.card').classList.remove('small');
+    tabContent.querySelector('.card').classList.add('large');
+
+    //Update data within chart
+    const tabChartId = `tab-chart-${id}`;
+    let tabChart = tabContent.querySelector(`#${tabChartId}`);
+    const total = 300;
+    if (tabChart === null) {
+        tabChart = tabContent.querySelector('.card-chart');
+        tabChart.id = tabChartId;
+
+        const origXAxisData = [];
+        for (let l = total; l > 0; l--) {
+            origXAxisData.push(l);
+        }
+
+        const seriesData = [];
+        for (let l = total; l > 0; l--) {
+            seriesData.push(0);
+        }
+
+        const origChart = echarts.init(tabChart, null, {});
+        chartMap.set(`${id}`, tabChart);
+        drawChart(origChart, origXAxisData, seriesData);
     }
 };
 
-const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
+const handleSearchProperty = function (tabContent) {
     //Show search and make card large
     tabContent.querySelector('.card-search').style.display = '';
     tabContent.querySelector('.card').classList.remove('small');
@@ -211,9 +334,9 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
 
     //Update table with searchable data
     const table = tabContent.querySelector('table');
-    const rows = tabDetailResult.value.split('#');
+    const rows = json.value.split('#');
     for (let l = 0; l < rows.length - 1; l += 1) {
-        createSearchRow(rows, tabContent, table, i, j, k, l);
+        createSearchRow(rows, tabContent, table, json);
     }
 
     const rowCount = table.querySelectorAll('tr').length - 1;
@@ -223,79 +346,123 @@ const createSearchDetails = function (tabContent, tabDetailResult, i, j, k) {
     search(tabContent.querySelector('.search'));
 };
 
-const createChartDetails = function (tabContent, tabDetailResult, i, j, k) {
-    //Show chart and remove height restriction on card
-    tabContent.querySelector('.card-chart').style.display = '';
-    tabContent.querySelector('.card').classList.remove('small');
-    tabContent.querySelector('.card').classList.add('large');
+const createDetails = function (json) {
+    const type = json.type;
+
+    //Handle toast details
+    createToastDetails(json);
+
+    //Handle tab details
+    if (type === 'detail') {
+        createDetailDetails(json);
+    } else if (type === 'chart') {
+        // createDetailDetails(json);
+        createChartDetails(json);
+    } else if (type === 'search') {
+        createSearchDetails(json, tabContent);
+    } else {
+        //Skip the tab
+    }
+};
+
+const createDetailDetails = function (json) {
+    const id = `${json.id}_detail`;
+    const title = json.title;
+    const value = json.value;
+
+    const tabDetailId = `tab-detail-${id}`;
+    const tabDetail = document.querySelector(`#${tabDetailId}`);
+    tabDetail.querySelector('strong').innerHTML = _(title);
+    tabDetail.querySelector('span').innerHTML = value;
+};
+
+const createChartDetails = function (json) {
+    const id = `${json.id}_chart`;
+    const title = json.title;
+    const value = json.value;
+    const xAxisData = json.value[0];
+    const seriesData = json.value[1];
 
     //Update data within chart
-    const tabChartId = `tab-chart-${i}-${j}-${k}`;
-    let tabChart = tabContent.querySelector(`#${tabChartId}`);
-    const total = 30;
-    if (tabChart === null) {
-        tabChart = tabContent.querySelector('.card-chart');
-        tabChart.id = tabChartId;
-
-        const origXAxisData = [];
-        for (let l = total; l > 0; l--) {
-            origXAxisData.push(k);
-        }
-
-        const seriesData = [];
-        for (let l = total; l > 0; l--) {
-            seriesData.push(0);
-        }
-
-        const origChart = echarts.init(tabChart, null, {});
-        chartMap.set(`${i}_${j}_${k}`, tabChart);
-        drawChart(origChart, origXAxisData, seriesData);
-    }
+    const tabChartId = `tab-chart-${id}`;
+    const tabChart = document.querySelector(`#${tabChartId}`);
+    const total = 300;
 
     const chart = echarts.getInstanceByDom(tabChart);
-    const xAxisData = chart.getOption().xAxis[0].data;
-    const seriesData = chart.getOption().series[0].data;
+    // const xAxisData = chart.getOption().xAxis[0].data;
+    // const seriesData = chart.getOption().series[0].data;
 
-    seriesData.shift();
-    seriesData[total - 1] = tabDetailResult.value;
+    // seriesData.shift();
+    // seriesData[total - 1] = value;
     chart.setOption({
         xAxis: {
             data: xAxisData,
         },
         series: [{
-            name: _(tabDetailResult.title),
+            name: _(title),
             data: seriesData,
         }],
     });
 };
 
-const createDetails = function (groupResult, tabContent, i, j) {
-    const groupValues = groupResult.values;
-    for (let k = 0; k < groupValues.length; k += 1) {
-        const tabDetailResult = groupValues[k];
+const createSearchDetails = function (json, tabContent) {
+    //Show search and make card large
+    tabContent.querySelector('.card-search').style.display = '';
+    tabContent.querySelector('.card').classList.remove('small');
+    tabContent.querySelector('.card').classList.add('large');
+    tabContent.querySelector('.card-detail').classList.add('search-table');
 
-        //Handle toast details
-        createToastDetails(tabDetailResult);
+    //Update table with searchable data
+    const table = tabContent.querySelector('table');
+    const rows = json.value.split('#');
+    for (let l = 0; l < rows.length - 1; l += 1) {
+        createSearchRow(rows, tabContent, table, json);
+    }
 
-        //Handle tab details
-        if (tabDetailResult.type === 'detail') {
-            //Update table with detail data
-            const tabDetailId = `tab-detail-${i}-${j}-${k}`;
-            let tabDetail = tabContent.querySelector(`#${tabDetailId}`);
-            if (tabDetail === null) {
-                const tabDetailTemplate = document.querySelector('#tab-detail-template').content.cloneNode(true);
-                tabDetailTemplate.querySelector('tr').id = tabDetailId;
-                tabContent.querySelector('.card-detail table tbody').appendChild(tabDetailTemplate);
-                tabDetail = tabContent.querySelector(`#${tabDetailId}`);
-            }
-            tabDetail.querySelector('strong').innerHTML = _(tabDetailResult.title);
-            tabDetail.querySelector('span').innerHTML = tabDetailResult.value;
-        } else if (tabDetailResult.type === 'search') {
-            createSearchDetails(tabContent, tabDetailResult, i, j, k);
-        } else if (tabDetailResult.type === 'chart') {
-            createChartDetails(tabContent, tabDetailResult, i, j, k);
+    const rowCount = table.querySelectorAll('tr').length - 1;
+    for (let l = rows.length; l < rowCount; l += 1) {
+        table.deleteRow(l);
+    }
+    search(tabContent.querySelector('.search'));
+};
+
+const createToastDetails = function (json) {
+    const title = json.title;
+    const value = json.value;
+    const threshold = json.threshold;
+
+    //Handle toasts for thresholds
+    const key = title.toLowerCase().replace(/ /g, '_');
+    const thresholdKey = `${key}-threshold`;
+    let storedThreshold = localStorage.getItem(thresholdKey);
+
+    if (threshold !== '' && threshold === null) {
+        storedThreshold = threshold;
+        localStorage.setItem(thresholdKey, threshold);
+    }
+    if (storedThreshold !== null) {
+        const exceededThreshold = parseFloat(value) > parseFloat(storedThreshold);
+        const toastTitleElement = document.querySelector(`#${thresholdKey}_title`);
+        const toastValueElement = document.querySelector(`#${thresholdKey}_value`);
+        const toastTitle = _(`High ${title}`);
+        const toastValue = `${value}%`;
+        if (toastTitleElement === null && exceededThreshold) {
+            const toastHTML =
+                `<span id='${thresholdKey}_title'>${toastTitle}</span>` +
+                `<span id='${thresholdKey}_value' class='lime-text accent-2-text'>${toastValue}</span>` +
+                `<button class='btn-flat toast-action modal-trigger' href='#menu'>Edit</button>`;
+            M.toast({
+                html: toastHTML,
+                displayLength: Infinity
+            });
+        } else if (exceededThreshold) {
+            toastTitleElement.innerHTML = toastTitle;
+            toastValueElement.innerHTML = toastValue;
+        } else if (toastTitleElement !== null) {
+            const toastInstance = M.Toast.getInstance(toastTitleElement.parentElement);
+            toastInstance.dismiss();
         } else {
-            //Skip the tab
+            //Toast not available
         }
     }
 };
@@ -339,105 +506,58 @@ const init = function () {
     initialized = true;
 };
 
-const createTabs = function (json, i) {
-    const tabResult = json.results[i];
-    const tabId = `tab-${i}`;
-    const tabTitleId = `tab-title-${i}`;
-    let tab = document.querySelector(`#${tabId}`);
-    if (tab === null) {
-        const tabTitleTemplate = document.querySelector('#tab-title-template').content.cloneNode(true);
-        tabTitleTemplate.querySelector('a').id = tabTitleId;
-        if (i === 0) {
-            tabTitleTemplate.querySelector('a').class = 'active';
-        }
-        document.querySelector('#tab-title-list').appendChild(tabTitleTemplate);
-
-        const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
-        tabContainerTemplate.querySelector('div').id = tabId;
-        document.querySelector('main').appendChild(tabContainerTemplate);
-        tab = document.querySelector(`#${tabId}`);
+const clearSocketTimeout = function () {
+    if (socketTimeout) {
+        clearTimeout(socketTimeout);
     }
-    const tabTitle = document.querySelector(`#${tabTitleId}`);
-    tabTitle.innerHTML = _(tabResult.title);
-    tabTitle.href = `#${tabId}`;
+}
 
-    const tabValues = tabResult.values;
-    for (let j = 0; j < tabValues.length; j += 1) {
-        const groupResult = tabValues[j];
-        const tabContentId = `tab-content-${i}-${j}`;
-        let tabContent = tab.querySelector(`#${tabContentId}`);
-        if (tabContent === null) {
-            const tabContentTemplate = document.querySelector('#tab-content-template').content.cloneNode(true);
-            tabContentTemplate.querySelector('div').id = tabContentId;
-            tab.appendChild(tabContentTemplate);
-            tabContent = tab.querySelector(`#${tabContentId}`);
-        }
-        tabContent.querySelector('.card-title').innerHTML = _(groupResult.title);
+const setSocketTimeout = function () {
+    console.log('Socket closed. Attempting reconnect in 5 seconds.');
+    socketTimeout = setTimeout(function () {
+        start();
+    }, 5000);
+}
 
-        if (groupResult.type === 'chart') {
-            tabContent.querySelector('.card-chart').style.display = '';
-            tabContent.querySelector('.card').classList.remove('small');
-        } else if (groupResult.type === 'search') {
-            tabContent.querySelector('.card-search').style.display = '';
-            tabContent.querySelector('.card').classList.remove('small');
-            tabContent.querySelector('.card').classList.add('large');
-        } else {
-            //Skip the group
-        }
-        createDetails(groupResult, tabContent, i, j);
-    }
-};
+const start = function () {
+    try {
+        const socket = new WebSocket(url);
+        socket.onopen = function () {
+            clearSocketTimeout();
+        };
 
-//Parse json method
-const parseJsonResults = function (json) {
-    for (let i = 0; i < json.results.length; i += 1) {
-        createTabs(json, i);
-    }
-    init();
-};
+        socket.onclose = function () {
+            setSocketTimeout();
+        };
 
-const start = function (websocketServerLocation) {
-    const socket = new WebSocket(websocketServerLocation);
+        socket.onerror = function () {
+            socket.close();
+        };
 
-    socket.onopen = function () {
-        if (timerID) {
-            clearInterval(timerID);
-            timerID = 0;
-        }
-        socket.send('gimme');
-    };
-
-    socket.onclose = function () {
-        if (!timerID) {
-            timerID = setInterval(function () {
-                start(websocketServerLocation);
-            }, 5000);
-        }
-    };
-
-    socket.onmessage = function (event) {
-        try {
+        socket.onmessage = function (event) {
             const json = JSON.parse(event.data);
-            parseJsonResults(json);
-        }
-        catch (err) {
-            console.error(`Issue parsing json: ${err}`);
-        }
-        setTimeout(function() {
-            socket.send('gimme');
-        }, 500);
-    };
+            if (json.groups) {
+                handleGroups(json.groups, socket);
+                init();
+            } else {
+                createDetails(json);
+            }
+        };
+    } catch (error) {
+        //Ignore error on purpose
+    }
 };
 
 if (window) {
     window.addEventListener('DOMContentLoaded', function () {
         //Start websocket connection
         const host = window.location.host;
-        if(window.location.protocol === 'https:') {
-            start(`wss://${host}/websocket`);
+        if (window.location.protocol === 'https:') {
+            url = `wss://${host}/websocket`;
         } else {
-            start(`ws://${host}/websocket`);
+            url = `ws://${host}/websocket`;
         }
+        start();
 
         //Handle resizing charts when window is resized
         window.onresize = function () {
