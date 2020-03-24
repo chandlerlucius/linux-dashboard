@@ -1,5 +1,3 @@
-'use strict';
-
 //Initialize socket timeout
 let socketTimeout;
 let url;
@@ -54,31 +52,31 @@ const clearSearch = function () {
     search(searchElement);
 };
 
-const populateHidden = function (element) {
-    element.innerHTML = '<a class="waves-effect waves-light btn-small" onclick="populateRow(this.parentElement);">Click to Populate -></a>';
-};
+// const populateHidden = function (element) {
+//     element.innerHTML = '<a class="waves-effect waves-light btn-small" onclick="populateRow(this.parentElement);">Click to Populate -></a>';
+// };
 
-const populateRow = function (element) {
-    const title = element.closest('.card').querySelector('.card-title').innerHTML;
-    const tr = element.closest('tr');
-    if (title === _('Connections')) {
-        const ip = element.previousSibling.innerHTML;
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                const json = JSON.parse(xhr.responseText);
-                const array = [json.city, json.region, json.country, json.postal];
-                element.innerHTML = json.org;
-                for (let i = 0; i < 4; i += 1) {
-                    const td = tr.insertCell(i + 3);
-                    td.innerHTML = array[i];
-                }
-            }
-        };
-        xhr.open('GET', `https://ipapi.co/${ip}/json/`, true);
-        xhr.send();
-    }
-};
+// const populateRow = function (element) {
+//     const title = element.closest('.card').querySelector('.card-title').innerHTML;
+//     const tr = element.closest('tr');
+//     if (title === _('Connections')) {
+//         const ip = element.previousSibling.innerHTML;
+//         const xhr = new XMLHttpRequest();
+//         xhr.onreadystatechange = function () {
+//             if (this.readyState === 4 && this.status === 200) {
+//                 const json = JSON.parse(xhr.responseText);
+//                 const array = [json.city, json.region, json.country, json.postal];
+//                 element.innerHTML = json.org;
+//                 for (let i = 0; i < 4; i += 1) {
+//                     const td = tr.insertCell(i + 3);
+//                     td.innerHTML = array[i];
+//                 }
+//             }
+//         };
+//         xhr.open('GET', `https://ipapi.co/${ip}/json/`, true);
+//         xhr.send();
+//     }
+// };
 
 const drawChart = function (chart, xAxisData, seriesData) {
     chart.setOption({
@@ -140,42 +138,42 @@ const escapeHTML = function (unsafe) {
         .replace(/'/g, '&apos;');
 };
 
-const createSearchRow = function (rows, tabContent, table, json) {
-    const row = rows[l];
-    const key = json.key;
-    const tabSearchTrId = `tab-search-${key}`;
-    let tabSearchTr = tabContent.querySelector(`#${tabSearchTrId}`);
-    if (tabSearchTr === null) {
-        tabSearchTr = table.getElementsByTagName('tbody')[0].insertRow();
-        tabSearchTr.id = tabSearchTrId;
-    }
-    if (l === 0) {
-        tabSearchTr.classList.add('white-text');
-    }
+// const createSearchRow = function (rows, tabContent, table, json) {
+//     const row = rows[l];
+//     const key = json.key;
+//     const tabSearchTrId = `tab-search-${key}`;
+//     let tabSearchTr = tabContent.querySelector(`#${tabSearchTrId}`);
+//     if (tabSearchTr === null) {
+//         tabSearchTr = table.getElementsByTagName('tbody')[0].insertRow();
+//         tabSearchTr.id = tabSearchTrId;
+//     }
+//     if (l === 0) {
+//         tabSearchTr.classList.add('white-text');
+//     }
 
-    const cols = row.split('|');
-    for (let m = 0; m < cols.length; m += 1) {
-        const col = cols[m];
-        const tabSearchTdId = `tab-search-${key}`;
-        let tabSearchTd = tabContent.querySelector(`#${tabSearchTdId}`);
-        if (tabSearchTd === null) {
-            tabSearchTd = tabSearchTr.insertCell(m);
-            tabSearchTd.id = tabSearchTdId;
-            if (col === '[hidden]') {
-                populateHidden(tabSearchTd);
-            } else if (col === '[client-request]') {
-                populateRow(tabSearchTd);
-            } else {
-                //Skip the row
-            }
-        }
-        if (tabSearchTd != null && col !== '[hidden]' && col !== '[client-request]') {
-            tabSearchTd.innerHTML = escapeHTML(col);
-        }
-    }
-};
+//     const cols = row.split('|');
+//     for (let m = 0; m < cols.length; m += 1) {
+//         const col = cols[m];
+//         const tabSearchTdId = `tab-search-${key}`;
+//         let tabSearchTd = tabContent.querySelector(`#${tabSearchTdId}`);
+//         if (tabSearchTd === null) {
+//             tabSearchTd = tabSearchTr.insertCell(m);
+//             tabSearchTd.id = tabSearchTdId;
+//             if (col === '[hidden]') {
+//                 populateHidden(tabSearchTd);
+//             } else if (col === '[client-request]') {
+//                 populateRow(tabSearchTd);
+//             } else {
+//                 //Skip the row
+//             }
+//         }
+//         if (tabSearchTd != null && col !== '[hidden]' && col !== '[client-request]') {
+//             tabSearchTd.innerHTML = escapeHTML(col);
+//         }
+//     }
+// };
 
-const handleGroups = function (groups, socket) {
+const handleGroups = function (groups) {
     groups.forEach(function (group) {
         const id = group.id;
         const title = group.title;
@@ -201,11 +199,11 @@ const handleGroups = function (groups, socket) {
         tabTitle.innerHTML = _(title);
         tabTitle.href = `#${tabId}`;
 
-        handleSubgroups(id, subgroups, socket);
+        handleSubgroups(id, subgroups);
     });
 };
 
-const handleSubgroups = function (groupId, subgroups, socket) {
+const handleSubgroups = function (groupId, subgroups) {
     subgroups.forEach(function (subgroup) {
         const id = subgroup.id;
         const title = subgroup.title;
@@ -234,15 +232,14 @@ const handleSubgroups = function (groupId, subgroups, socket) {
             //Skip the group
         }
 
-        handleProperties(id, properties, socket);
+        handleProperties(id, properties);
     });
 };
 
-const handleProperties = function (subgroupId, properties, socket) {
+const handleProperties = function (subgroupId, properties) {
     properties.forEach(function (property) {
         const id = property.id;
         const type = property.type;
-        const interval = property.interval;
 
         const tabContentId = `tab-content-${subgroupId}`;
         const tabContent = document.querySelector(`#${tabContentId}`);
@@ -254,7 +251,7 @@ const handleProperties = function (subgroupId, properties, socket) {
             // handleDetailProperty(`${id}_detail`, tabContent);
             handleChartProperty(`${id}_chart`, tabContent);
         } else if (type === 'search') {
-            handleSearchProperty(tabContent);
+            // handleSearchProperty(tabContent);
         } else {
             //Skip the tab
         }
@@ -293,7 +290,7 @@ const handleDetailProperty = function (id, tabContent) {
         tabDetailTemplate.querySelector('tr').id = tabDetailId;
         tabDetailTable.querySelector('tbody').appendChild(tabDetailTemplate);
     }
-}
+};
 
 const handleChartProperty = function (id, tabContent) {
     //Show chart and remove height restriction on card
@@ -325,26 +322,26 @@ const handleChartProperty = function (id, tabContent) {
     }
 };
 
-const handleSearchProperty = function (tabContent) {
-    //Show search and make card large
-    tabContent.querySelector('.card-search').style.display = '';
-    tabContent.querySelector('.card').classList.remove('small');
-    tabContent.querySelector('.card').classList.add('large');
-    tabContent.querySelector('.card-detail').classList.add('search-table');
+// const handleSearchProperty = function (tabContent) {
+//     //Show search and make card large
+//     tabContent.querySelector('.card-search').style.display = '';
+//     tabContent.querySelector('.card').classList.remove('small');
+//     tabContent.querySelector('.card').classList.add('large');
+//     tabContent.querySelector('.card-detail').classList.add('search-table');
 
-    //Update table with searchable data
-    const table = tabContent.querySelector('table');
-    const rows = json.value.split('#');
-    for (let l = 0; l < rows.length - 1; l += 1) {
-        createSearchRow(rows, tabContent, table, json);
-    }
+//     //Update table with searchable data
+//     const table = tabContent.querySelector('table');
+//     const rows = json.value.split('#');
+//     for (let l = 0; l < rows.length - 1; l += 1) {
+//         createSearchRow(rows, tabContent, table, json);
+//     }
 
-    const rowCount = table.querySelectorAll('tr').length - 1;
-    for (let l = rows.length; l < rowCount; l += 1) {
-        table.deleteRow(l);
-    }
-    search(tabContent.querySelector('.search'));
-};
+//     const rowCount = table.querySelectorAll('tr').length - 1;
+//     for (let l = rows.length; l < rowCount; l += 1) {
+//         table.deleteRow(l);
+//     }
+//     search(tabContent.querySelector('.search'));
+// };
 
 const createDetails = function (json) {
     const type = json.type;
@@ -359,7 +356,7 @@ const createDetails = function (json) {
         // createDetailDetails(json);
         createChartDetails(json);
     } else if (type === 'search') {
-        createSearchDetails(json, tabContent);
+        // createSearchDetails(json, tabContent);
     } else {
         //Skip the tab
     }
@@ -379,14 +376,12 @@ const createDetailDetails = function (json) {
 const createChartDetails = function (json) {
     const id = `${json.id}_chart`;
     const title = json.title;
-    const value = json.value;
     const xAxisData = json.value[0];
     const seriesData = json.value[1];
 
     //Update data within chart
     const tabChartId = `tab-chart-${id}`;
     const tabChart = document.querySelector(`#${tabChartId}`);
-    const total = 300;
 
     const chart = echarts.getInstanceByDom(tabChart);
     // const xAxisData = chart.getOption().xAxis[0].data;
@@ -405,26 +400,26 @@ const createChartDetails = function (json) {
     });
 };
 
-const createSearchDetails = function (json, tabContent) {
-    //Show search and make card large
-    tabContent.querySelector('.card-search').style.display = '';
-    tabContent.querySelector('.card').classList.remove('small');
-    tabContent.querySelector('.card').classList.add('large');
-    tabContent.querySelector('.card-detail').classList.add('search-table');
+// const createSearchDetails = function (json, tabContent) {
+//     //Show search and make card large
+//     tabContent.querySelector('.card-search').style.display = '';
+//     tabContent.querySelector('.card').classList.remove('small');
+//     tabContent.querySelector('.card').classList.add('large');
+//     tabContent.querySelector('.card-detail').classList.add('search-table');
 
-    //Update table with searchable data
-    const table = tabContent.querySelector('table');
-    const rows = json.value.split('#');
-    for (let l = 0; l < rows.length - 1; l += 1) {
-        createSearchRow(rows, tabContent, table, json);
-    }
+//     //Update table with searchable data
+//     const table = tabContent.querySelector('table');
+//     const rows = json.value.split('#');
+//     for (let l = 0; l < rows.length - 1; l += 1) {
+//         createSearchRow(rows, tabContent, table, json);
+//     }
 
-    const rowCount = table.querySelectorAll('tr').length - 1;
-    for (let l = rows.length; l < rowCount; l += 1) {
-        table.deleteRow(l);
-    }
-    search(tabContent.querySelector('.search'));
-};
+//     const rowCount = table.querySelectorAll('tr').length - 1;
+//     for (let l = rows.length; l < rowCount; l += 1) {
+//         table.deleteRow(l);
+//     }
+//     search(tabContent.querySelector('.search'));
+// };
 
 const createToastDetails = function (json) {
     const title = json.title;
@@ -510,14 +505,14 @@ const clearSocketTimeout = function () {
     if (socketTimeout) {
         clearTimeout(socketTimeout);
     }
-}
+};
 
 const setSocketTimeout = function () {
     console.log('Socket closed. Attempting reconnect in 5 seconds.');
     socketTimeout = setTimeout(function () {
         start();
     }, 5000);
-}
+};
 
 const start = function () {
     try {

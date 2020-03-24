@@ -4,10 +4,10 @@
 convert_b_to_gb=1048576
 one_second_in_millis=$((1 * 1000))
 ten_minutes_in_millis=$((1 * 1000 * 60 * 10))
-seconds_to_keep=300
+seconds_to_keep=150
 
 #Set function name from script parameter
-function_name="$@"
+function_name="$*"
 
 #Commands and Urls
 #SSL_CHECK_URL="https://api.ssllabs.com/api/v3/analyze?host=$HOST_URL&publish=off&ignoreMismatch=on&all=done"
@@ -114,7 +114,8 @@ cpu_name() {
 
 cpu_usage_file="/tmp/cpu-usage.txt"
 update_cpu_usage() {
-    current_usage=$(printf "$(date '+%Y-%m-%d_%H:%M:%S') "; top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
+    date=$(date '+%Y-%m-%d_%H:%M:%S')
+    current_usage="$date "$(top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
     if [ ! -f "$cpu_usage_file" ] || [ ! -s "$cpu_usage_file" ]
     then
         echo "$current_usage" > "$cpu_usage_file"
@@ -205,32 +206,10 @@ cpu_processors() {
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
-# mem_usage_file="/tmp/mem-usage.txt"
-# update_mem_usage() {
-#     current_usage=$(printf "$(date '+%H%M%S%3N') "; free | tail -2 | grep -i "mem" | awk '{printf "%0.1f", $3 / $2 * 100}')
-#     if [ ! -f "$mem_usage_file" ] || [ ! -s "$mem_usage_file" ]
-#     then
-#         echo "$current_usage" > "$mem_usage_file"
-#     fi
-#     sed -i "1i$current_usage" "$mem_usage_file"
-#     sed -i "$seconds_to_keep"',$d' "$mem_usage_file"
-# }
-
-# mem_usage() {
-#     update_mem_usage
-#     id="$function_name"
-#     title="Usage"
-#     type="chart"
-#     threshold="85"
-#     interval=$one_second_in_millis
-#     value=$(printf "["; sort < "$mem_usage_file" | awk '{print $1}' | sed -e "s/\(..\)\(..\)\(..\)\(...\)/\"\1:\2:\3\"/" | tr '\n' ',' | sed 's/.$//'; printf "],");
-#     value+=$(printf "["; sort < "$mem_usage_file" | awk '{print $2}' | tr '\n' ',' | sed 's/.$//'; printf "]")
-#     create_json_non_string_value "$id" "$title" "$type" "$threshold" "$interval" "[ $value ]"
-# }
-
 mem_usage_file="/tmp/mem-usage.txt"
 update_mem_usage() {
-    current_usage=$(printf "$(date '+%Y-%m-%d_%H:%M:%S') "; free | tail -2 | grep -i "mem" | awk '{printf "%0.1f", $3 / $2 * 100}')
+    date=$(date '+%Y-%m-%d_%H:%M:%S')
+    current_usage="$date "$(free | tail -2 | grep -i "mem" | awk '{printf "%0.1f", $3 / $2 * 100}')
     if [ ! -f "$mem_usage_file" ] || [ ! -s "$mem_usage_file" ]
     then
         echo "$current_usage" > "$mem_usage_file"
@@ -291,32 +270,10 @@ mem_cache() {
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
-# disk_usage_file="/tmp/disk-usage.txt"
-# update_disk_usage() {
-#     current_usage=$(printf "$(date '+%H%M%S%3N') "; diff=0; total_1=0; total_2=0; start_millis=$(date +%s%3N); while read line; do current=$(echo "$line" | awk '{print $13}'); total_1=$((total_1 + current)); done < /proc/diskstats; sleep 0.5; while read line; do current=$(echo "$line" | awk '{print $13}'); total_2=$((total_2 + current)); done < /proc/diskstats; end_millis=$(date +%s%3N); diff=$((total_2 - total_1)); elapsed_millis=$((end_millis - start_millis)); echo "$diff / $elapsed_millis * 100" | bc -l)
-#     if [ ! -f "$disk_usage_file" ] || [ ! -s "$disk_usage_file" ]
-#     then
-#         echo "$current_usage" > "$disk_usage_file"
-#     fi
-#     sed -i "1i$current_usage" "$disk_usage_file"
-#     sed -i "$seconds_to_keep"',$d' "$disk_usage_file"
-# }
-
-# disk_usage() {
-#     update_disk_usage
-#     id="$function_name"
-#     title="Usage"
-#     type="chart"
-#     threshold="85"
-#     interval=$one_second_in_millis
-#     value=$(printf "["; sort < "$disk_usage_file" | awk '{print $1}' | sed -e "s/\(..\)\(..\)\(..\)\(...\)/\"\1:\2:\3\"/" | tr '\n' ',' | sed 's/.$//'; printf "],");
-#     value+=$(printf "["; sort < "$disk_usage_file" | awk '{print $2}' | tr '\n' ',' | sed 's/.$//'; printf "]")
-#     create_json_non_string_value "$id" "$title" "$type" "$threshold" "$interval" "[ $value ]"
-# }
-
 disk_usage_file="/tmp/disk-usage.txt"
 update_disk_usage() {
-    current_usage=$(printf "$(date '+%Y-%m-%d_%H:%M:%S') "; diff=0; total_1=0; total_2=0; start_millis=$(date +%s%3N); while read line; do current=$(echo "$line" | awk '{print $13}'); total_1=$((total_1 + current)); done < /proc/diskstats; sleep 0.5; while read line; do current=$(echo "$line" | awk '{print $13}'); total_2=$((total_2 + current)); done < /proc/diskstats; end_millis=$(date +%s%3N); diff=$((total_2 - total_1)); elapsed_millis=$((end_millis - start_millis)); echo "$diff / $elapsed_millis * 100" | bc -l)
+    date=$(date '+%Y-%m-%d_%H:%M:%S')
+    current_usage="$date "$(diff=0; total_1=0; total_2=0; start_millis=$(date +%s%3N); while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_1=$((total_1 + current)); done < /proc/diskstats; sleep 0.5; while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_2=$((total_2 + current)); done < /proc/diskstats; end_millis=$(date +%s%3N); diff=$((total_2 - total_1)); elapsed_millis=$((end_millis - start_millis)); echo "$diff / $elapsed_millis * 100" | bc -l)
     if [ ! -f "$disk_usage_file" ] || [ ! -s "$disk_usage_file" ]
     then
         echo "$current_usage" > "$disk_usage_file"
@@ -373,7 +330,7 @@ disk_mount() {
     type="detail"
     threshold=""
     interval=$ten_minutes_in_millis
-    value=$(echo "/")
+    value="/"
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
@@ -403,7 +360,9 @@ disk_model() {
     type="detail"
     threshold=""
     interval=$ten_minutes_in_millis
-    value=$(echo "$(lsblk -lp -o "NAME,VENDOR" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g') - $(lsblk -lp -o "NAME,MODEL" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g')")
+    name=$(lsblk -lp -o "NAME,VENDOR" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g')
+    vendor=$(lsblk -lp -o "NAME,MODEL" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g')
+    value="$name - $vendor"
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
@@ -413,7 +372,7 @@ cpu_load() {
     type="detail"
     threshold=""
     interval=$one_second_in_millis
-    value=$(echo "$(lsblk -lp -o "NAME,VENDOR" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g') - $(lsblk -lp -o "NAME,MODEL" | grep -P "(^/dev/[s|v]da) " | sed 's/\/dev\/[s|v]da//g')")
+    value="cpu_load"
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
@@ -429,7 +388,8 @@ cpu_load() {
 
 swap_usage_file="/tmp/swap-usage.txt"
 update_swap_usage() {
-    current_usage=$(printf "$(date '+%Y-%m-%d_%H:%M:%S') "; free | tail -n 2 | grep -i "swap" | awk '{printf "%0.1f", $3 / $2 * 100}')
+    date=$(date '+%Y-%m-%d_%H:%M:%S')
+    current_usage="$date "$(free | tail -2 | grep -i "mem" | awk '{printf "%0.1f", $3 / $2 * 100}')
     if [ ! -f "$swap_usage_file" ] || [ ! -s "$swap_usage_file" ]
     then
         echo "$current_usage" > "$swap_usage_file"
@@ -566,8 +526,12 @@ up_time() {
     type="detail"
     threshold=""
     interval=$one_second_in_millis
-    value=$(uptime -p)
+    value=$(up_time_raw)
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
+}
+
+up_time_raw() {
+    uptime -p
 }
 
 getCPUProcesses() {
@@ -623,7 +587,7 @@ getDiskPartitions() {
 }
 
 help() {
-    grep "^.*()" $0 | grep -v "help"
+    grep "^.*()" "$0" | grep -v "help"
 }
 
 if [ "_$1" = "_" ]
