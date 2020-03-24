@@ -44,6 +44,7 @@ public class WebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebSocket.class);
     private static final String TMP_DIR = System.getProperty("java.io.tmpdir");
+    private static final int BUFFER_LENGTH = 1024;
     private static final String SEP = File.separator;
     private static final Set<Session> SESSION_SET = new HashSet<>();
     private static final Map<String, Integer> PROPERTY_MAP = new ConcurrentHashMap<>();
@@ -72,7 +73,7 @@ public class WebSocket {
                     }
                 }
             }
-        } catch (JsonProcessingException e) {
+        } catch (final JsonProcessingException e) {
             LOG.error("Issue parsing JSON: ", e);
         }
         startScript();
@@ -147,7 +148,7 @@ public class WebSocket {
             // LOG.info("End - " + message + " | Elapsed seconds : " + ((double) elapsedTime
             // / 1_000_000_000.0));
             session.getBasicRemote().sendText(result);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Issue sending data to websocket: ", e);
         }
     }
@@ -167,7 +168,7 @@ public class WebSocket {
                 }
                 return tempFile.getPath();
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Issue copying file to temp directory: ", e);
         }
         return "";
@@ -185,20 +186,23 @@ public class WebSocket {
 
             process = processBuilder.start();
             process.waitFor();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             LOG.error("Issue running script: ", e);
+        } catch (InterruptedException e) {
+            LOG.error("Issue running script: ", e);
+            Thread.currentThread().interrupt();
         }
 
         if (process != null) {
             try (InputStream inputStream = process.getInputStream();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-                final byte[] buffer = new byte[1024];
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                final byte[] buffer = new byte[BUFFER_LENGTH];
                 int length;
                 while ((length = inputStream.read(buffer)) != -1) {
                     baos.write(buffer, 0, length);
                 }
                 retVal = baos.toString(StandardCharsets.UTF_8.name());
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 LOG.error("Issue retrieving script output: ", e);
             }
         }
