@@ -1,5 +1,3 @@
-'use strict';
-
 //Initialize socket timeout
 let socketTimeout;
 let url;
