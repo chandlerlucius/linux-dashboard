@@ -532,7 +532,7 @@ const start = function () {
         socket.onmessage = function (event) {
             const json = JSON.parse(event.data);
             if (json.groups) {
-                handleGroups(json.groups, socket);
+                handleGroups(json.groups);
                 init();
             } else {
                 createDetails(json);
