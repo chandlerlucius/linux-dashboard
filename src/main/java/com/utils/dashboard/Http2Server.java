@@ -85,7 +85,7 @@ public final class Http2Server {
         String keystoreType = "JKS";
         String keystoreFile = "";
         String keystorePassword = "";
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         if (!propertiesPath.isEmpty()) {
             try (InputStream inputStream = Files.newInputStream(Paths.get(propertiesPath))) {
                 properties.load(inputStream);
