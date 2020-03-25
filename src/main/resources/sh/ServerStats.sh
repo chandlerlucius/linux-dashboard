@@ -4,7 +4,7 @@
 convert_b_to_gb=1048576
 one_second_in_millis=$((1 * 1000))
 ten_minutes_in_millis=$((1 * 1000 * 60 * 10))
-seconds_to_keep=150
+seconds_to_keep=60
 
 #Set function name from script parameter
 function_name="$*"
@@ -114,14 +114,23 @@ cpu_name() {
 
 cpu_usage_file="/tmp/cpu-usage.txt"
 update_cpu_usage() {
-    date=$(date '+%Y-%m-%d_%H:%M:%S')
-    current_usage="$date "$(top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
-    if [ ! -f "$cpu_usage_file" ] || [ ! -s "$cpu_usage_file" ]
+    seconds=$(date '+%s')
+    date=$(date '+%H:%M:%S')
+    current_usage="$seconds $date "$(top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
+    if [ ! -f "$cpu_usage_file" ]
     then
+        echo "$current_usage" > "/tmp/bad_${seconds}.txt"
         echo "$current_usage" > "$cpu_usage_file"
+    else 
+        echo "$current_usage" >> "$cpu_usage_file"
+        data_to_keep=$(sort -u -k1,1 "$cpu_usage_file" | tail -${seconds_to_keep})
+        if [ $(echo "$data_to_keep" | wc -l) -ge $seconds_to_keep ]
+        then
+            echo "$data_to_keep" > "$cpu_usage_file"
+        else 
+            echo "$data_to_keep" > "/tmp/no_${seconds}.txt"
+        fi
     fi
-    sed -i "1i$current_usage" "$cpu_usage_file"
-    sed -i "$seconds_to_keep"',$d' "$cpu_usage_file"
 }
 
 cpu_usage() {
@@ -131,8 +140,8 @@ cpu_usage() {
     type="chart"
     threshold="85"
     interval=$one_second_in_millis
-    value1=$(printf "["; sort < "$cpu_usage_file" | awk '{print $1}' | sed -e "s/.*_\(.*\)/\"\1\"/" | tr '\n' ',' | sed 's/.$//'; printf "]");
-    value2=$(printf "["; sort < "$cpu_usage_file" | awk '{print $2}' | tr '\n' ',' | sed 's/.$//'; printf "]")
+    value1=$(printf "["; awk '{print $2}' "$cpu_usage_file" | sed -e "s/\(.*\)/\"\1\"/" | tr '\n' ',' | sed 's/.$//'; printf "]");
+    value2=$(printf "["; awk '{print $3}' "$cpu_usage_file" | tr '\n' ',' | sed 's/.$//'; printf "]")
     create_json_non_string_value "$id" "$title" "$type" "$threshold" "$interval" "[ $value1 , $value2 ]"
 }
 
@@ -376,20 +385,10 @@ cpu_load() {
     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
 }
 
-# swap_usage() {
-#     id="$function_name"
-#     title="Usage"
-#     type="chart"
-#     threshold="85"
-#     interval=$one_second_in_millis
-#     value=$(free | tail -n 2 | grep -i "swap" | awk '{printf "%0.1f%%", $3 / $2 * 100}')
-#     create_json "$id" "$title" "$type" "$threshold" "$interval" "$value"
-# }
-
 swap_usage_file="/tmp/swap-usage.txt"
 update_swap_usage() {
     date=$(date '+%Y-%m-%d_%H:%M:%S')
-    current_usage="$date "$(free | tail -2 | grep -i "mem" | awk '{printf "%0.1f", $3 / $2 * 100}')
+    current_usage="$date "$(free | tail -2 | grep -i "swap" | awk '{printf "%0.1f", $3 / $2 * 100}')
     if [ ! -f "$swap_usage_file" ] || [ ! -s "$swap_usage_file" ]
     then
         echo "$current_usage" > "$swap_usage_file"
