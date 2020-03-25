@@ -86,7 +86,7 @@ const drawChart = function (chart, xAxisData, seriesData) {
             left: 0,
             right: 0,
             bottom: 20,
-            containLabel: true
+            containLabel: true,
         },
         tooltip: {
             trigger: 'axis',
@@ -107,15 +107,15 @@ const drawChart = function (chart, xAxisData, seriesData) {
                 color: 'white',
                 align: 'left',
                 interval: function(index) {
-                    return index == 0 || index == 60 ? true : false;
-                }
+                    return index === 0 || index === 60 ? true : false;
+                },
             },
         },
         yAxis: {
             min: 0,
             max: 100,
             axisLabel: {
-                show: false
+                show: false,
             },
         },
         series: [{
@@ -194,7 +194,6 @@ const handleGroups = function (groups) {
             const tabContainerTemplate = document.querySelector('#tab-container-template').content.cloneNode(true);
             tabContainerTemplate.querySelector('div').id = tabId;
             document.querySelector('main').appendChild(tabContainerTemplate);
-            tab = document.querySelector(`#${tabId}`);
         }
         const tabTitle = document.querySelector(`#${tabTitleId}`);
         tabTitle.innerHTML = _(title);

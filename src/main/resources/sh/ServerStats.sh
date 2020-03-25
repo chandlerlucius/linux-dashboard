@@ -124,7 +124,8 @@ update_cpu_usage() {
     else 
         echo "$current_usage" >> "$cpu_usage_file"
         data_to_keep=$(sort -u -k1,1 "$cpu_usage_file" | tail -${seconds_to_keep})
-        if [ $(echo "$data_to_keep" | wc -l) -ge $seconds_to_keep ]
+        data_lines=$(echo "$data_to_keep" | wc -l)
+        if [ "$data_lines" -ge $seconds_to_keep ]
         then
             echo "$data_to_keep" > "$cpu_usage_file"
         else 
