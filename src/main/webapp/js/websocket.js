@@ -82,10 +82,11 @@ const drawChart = function (chart, xAxisData, seriesData) {
     chart.setOption({
         animation: false,
         grid: {
-            top: 10,
-            left: 30,
+            top: 0,
+            left: 0,
             right: 0,
             bottom: 20,
+            containLabel: true
         },
         tooltip: {
             trigger: 'axis',
@@ -104,17 +105,17 @@ const drawChart = function (chart, xAxisData, seriesData) {
             data: xAxisData,
             axisLabel: {
                 color: 'white',
-                showMaxLabel: true,
-                showMinLabel: true,
+                align: 'left',
+                interval: function(index) {
+                    return index == 0 || index == 60 ? true : false;
+                }
             },
         },
         yAxis: {
             min: 0,
             max: 100,
             axisLabel: {
-                color: 'white',
-                showMaxLabel: true,
-                showMinLabel: true,
+                show: false
             },
         },
         series: [{
