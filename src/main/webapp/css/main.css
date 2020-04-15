@@ -29,6 +29,14 @@ tr:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
+tr {
+  font-size: small;
+}
+
+tr td:first-child {
+  white-space: nowrap;
+}
+
 .hidden {
   display: none;
 }
