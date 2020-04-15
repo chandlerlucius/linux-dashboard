@@ -515,7 +515,6 @@ const setSocketTimeout = function () {
 };
 
 const start = function () {
-    try {
         const socket = new WebSocket(url);
         socket.onopen = function () {
             clearSocketTimeout();
@@ -530,17 +529,18 @@ const start = function () {
         };
 
         socket.onmessage = function (event) {
-            const json = JSON.parse(event.data);
-            if (json.groups) {
-                handleGroups(json.groups);
-                init();
-            } else {
-                createDetails(json);
+            try {
+                const json = JSON.parse(event.data);
+                if (json.groups) {
+                    handleGroups(json.groups);
+                    init();
+                } else {
+                    createDetails(json);
+                }
+            } catch (error) {
+                console.log(event.data);
             }
         };
-    } catch (error) {
-        //Ignore error on purpose
-    }
 };
 
 if (window) {
