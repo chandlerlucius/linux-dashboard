@@ -3,6 +3,7 @@
 #Define all basic variables
 convert_b_to_gb=1048576
 one_second_in_millis=$((1 * 1000))
+two_seconds_in_millis=$((2 * 1000))
 ten_minutes_in_millis=$((1 * 1000 * 60 * 10))
 seconds_to_keep=60
 
@@ -23,7 +24,7 @@ groups() {
          "    \"subgroups\" : [ " \
          "        { \"id\" : \"cpu\" , \"title\" : \"CPU\" , \"type\" : \"chart\" , \"subtitle\" : \"$cpu_name\" , " \
          "        \"properties\" : [ " \
-         "            { \"id\" : \"cpu_usage\" , \"type\" : \"chart\" , \"interval\" : $one_second_in_millis } , " \
+         "            { \"id\" : \"cpu_usage\" , \"type\" : \"chart\" , \"interval\" : $two_seconds_in_millis } , " \
          "            { \"id\" : \"cpu_processes\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"cpu_threads\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"cpu_speed\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
@@ -33,7 +34,7 @@ groups() {
          "        ] } , " \
          "        { \"id\" : \"memory\" , \"title\" : \"Memory\" , \"type\" : \"chart\" , " \
          "        \"properties\" : [ " \
-         "            { \"id\" : \"mem_usage\" , \"type\" : \"chart\" , \"interval\" : $one_second_in_millis } , " \
+         "            { \"id\" : \"mem_usage\" , \"type\" : \"chart\" , \"interval\" : $two_seconds_in_millis } , " \
          "            { \"id\" : \"mem_total\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"mem_used\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"mem_free\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
@@ -41,7 +42,7 @@ groups() {
          "        ] } , " \
          "        { \"id\" : \"disk\" , \"title\" : \"Disk\" , \"type\" : \"chart\" , " \
          "        \"properties\" : [ " \
-         "            { \"id\" : \"disk_usage\" , \"type\" : \"chart\" , \"interval\" : $one_second_in_millis } , " \
+         "            { \"id\" : \"disk_usage\" , \"type\" : \"chart\" , \"interval\" : $two_seconds_in_millis } , " \
          "            { \"id\" : \"disk_total\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"disk_used\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"disk_free\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
@@ -52,7 +53,7 @@ groups() {
          "        ] } , " \
          "        { \"id\" : \"swap\" , \"title\" : \"Swap\" , \"type\" : \"chart\" , " \
          "        \"properties\" : [ " \
-         "            { \"id\" : \"swap_usage\" , \"type\" : \"chart\" , \"interval\" : $one_second_in_millis  } , " \
+         "            { \"id\" : \"swap_usage\" , \"type\" : \"chart\" , \"interval\" : $two_seconds_in_millis  } , " \
          "            { \"id\" : \"swap_total\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"swap_used\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
          "            { \"id\" : \"swap_free\" , \"type\" : \"detail\" , \"interval\" : $one_second_in_millis  } , " \
@@ -116,7 +117,7 @@ cpu_usage_file="/tmp/cpu-usage.txt"
 update_cpu_usage() {
     seconds=$(date '+%s')
     date=$(date '+%H:%M:%S')
-    current_usage="$seconds $date "$(top -b -n2 -p1 -d0.1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
+    current_usage="$seconds $date "$(top -b -n2 -p1 -d1 | grep "Cpu(s)" | tail -1 | awk -F ':' '{print $2}' | sed 's/[,%]/ /g' | awk '{print $7}' | awk '{printf " %0.1f", 100 - $1}')
     if [ ! -f "$cpu_usage_file" ]
     then
         echo "$current_usage" > "/tmp/bad_${seconds}.txt"
@@ -283,7 +284,7 @@ mem_cache() {
 disk_usage_file="/tmp/disk-usage.txt"
 update_disk_usage() {
     date=$(date '+%Y-%m-%d_%H:%M:%S')
-    current_usage="$date "$(diff=0; total_1=0; total_2=0; start_millis=$(date +%s%3N); while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_1=$((total_1 + current)); done < /proc/diskstats; sleep 0.5; while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_2=$((total_2 + current)); done < /proc/diskstats; end_millis=$(date +%s%3N); diff=$((total_2 - total_1)); elapsed_millis=$((end_millis - start_millis)); echo "$diff / $elapsed_millis * 100" | bc -l)
+    current_usage="$date "$(diff=0; total_1=0; total_2=0; start_millis=$(date +%s%3N); while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_1=$((total_1 + current)); done < /proc/diskstats; sleep 1.0; while read -r line; do current=$(echo "$line" | awk '{print $13}'); total_2=$((total_2 + current)); done < /proc/diskstats; end_millis=$(date +%s%3N); diff=$((total_2 - total_1)); elapsed_millis=$((end_millis - start_millis)); awk -v x=$diff -v y=$elapsed_millis 'BEGIN { printf "%0.2f", x / y * 100}';)
     if [ ! -f "$disk_usage_file" ] || [ ! -s "$disk_usage_file" ]
     then
         echo "$current_usage" > "$disk_usage_file"
