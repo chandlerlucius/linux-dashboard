@@ -24,13 +24,13 @@ strong {
   font-weight: bold;
 }
 
+tr {
+  font-size: small;
+}
+
 tr:hover {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.12);
-}
-
-tr {
-  font-size: small;
 }
 
 tr td:first-child {
